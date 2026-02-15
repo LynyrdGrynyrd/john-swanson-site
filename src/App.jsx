@@ -395,11 +395,11 @@ export default function PersonalSite() {
                 I've spent 10+ years doing one thing well: taking a customer's problem, translating
                 it into a technical challenge my team can solve, and then making sure the solution
                 actually ships. I work across the table from sales, manufacturing, and executives
-                — and I'm as fluent in the lab as I am in the boardroom. The value I bring is connecting those worlds.
+                and I'm as fluent in the lab as I am in the boardroom. The value I bring is connecting those worlds.
               </p>
               <p style={{ marginTop: 16 }}>
-                My background is in polymer science — engineered thermoplastics,
-                sustainable polymers, composites, and specialty formulations — but the pattern is always the same:
+                My background is in polymer science (engineered thermoplastics,
+                sustainable polymers, composites, and specialty formulations), but the pattern is always the same:
                 understand the real need, formulate the solution, build the case, and drive it to
                 commercialization.
               </p>
@@ -408,12 +408,12 @@ export default function PersonalSite() {
               <p>
                 I love building teams. I've been told my strength is acquiring great talent, removing
                 blockers, and getting people what they need to do their best work. I care about
-                structure — stage-gates, clear ownership, documented processes — because good systems
+                structure: stage-gates, clear ownership, documented processes. Good systems
                 let good scientists focus on science instead of fighting the organization.
               </p>
               <p style={{ marginTop: 16 }}>
                 I've loved science since I was a kid building model rockets and trebuchets in middle
-                school. That curiosity hasn't changed — I still love asking questions, understanding
+                school. That curiosity hasn't changed. I still love asking questions, understanding
                 how things work, and figuring out how to make them better. I just get to do it at
                 a bigger scale now.
               </p>
@@ -435,17 +435,17 @@ export default function PersonalSite() {
               {
                 num: "01",
                 heading: "Leave it better than you found it",
-                text: "Product lines, labs, teams, processes — my measure of success is whether things are meaningfully better because I was involved. I hate waste. I love solving problems. If something's broken, I'm probably already sketching a fix.",
+                text: "Product lines, labs, teams, processes. My measure of success is whether things are meaningfully better because I was involved. I hate waste. I love solving problems. If something's broken, I'm probably already sketching a fix.",
               },
               {
                 num: "02",
                 heading: "Translate, don't gatekeep",
-                text: "The best R&D leaders are bilingual — they speak science and they speak business. I sit between the lab and the P&L and make both sides feel understood. Customer requirements become technical specifications. Data becomes a story executives can act on.",
+                text: "The best R&D leaders are bilingual: they speak science and they speak business. I sit between the lab and the P&L and make both sides feel understood. Customer requirements become technical specifications. Data becomes a story executives can act on.",
               },
               {
                 num: "03",
                 heading: "Build the team, then get out of the way",
-                text: "Hire well, set clear goals, remove blockers, and trust people to deliver. I invest in structured onboarding, development conversations, and a culture where psychological safety and accountability coexist. Good scientists don't need micromanagement — they need air cover.",
+                text: "Hire well, set clear goals, remove blockers, and trust people to deliver. I invest in structured onboarding, development conversations, and a culture where psychological safety and accountability coexist. Good scientists don't need micromanagement. They need air cover.",
               },
             ].map((item, i) => (
               <FadeIn key={i} delay={i * 0.1}>
@@ -522,7 +522,7 @@ export default function PersonalSite() {
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 1 }}>
             {[
-              { value: "$53M", label: "Global sales funnel built for a sustainable polymer platform at Avient — from zero" },
+              { value: "$53M", label: "Global sales funnel built for a sustainable polymer platform at Avient, from zero" },
               { value: "$12M+", label: "New product revenue across multiple launches and technology transfers" },
               { value: "11", label: "Patents in thermoplastic blends, composites & biodegradable materials" },
               { value: "20+", label: "Peer-reviewed publications in Macromolecules, Polymer Chemistry & more" },
@@ -564,11 +564,11 @@ export default function PersonalSite() {
           {[
             {
               label: "AI-Powered Data Tools",
-              desc: "Built custom tools using large language model APIs to parse scanned certificates of analysis, extract legacy test data, and populate searchable databases — replacing weeks of manual entry with automated workflows.",
+              desc: "Built custom tools using large language model APIs to parse scanned certificates of analysis, extract legacy test data, and populate searchable databases, replacing weeks of manual entry with automated workflows.",
             },
             {
               label: "Patent Analytics & IP Strategy",
-              desc: "Deployed AI-powered patent landscaping for rapid prior-art searches, automated competitor monitoring, and freedom-to-operate analyses — cutting external legal review time from weeks to hours.",
+              desc: "Deployed AI-powered patent landscaping for rapid prior-art searches, automated competitor monitoring, and freedom-to-operate analyses, cutting external legal review time from weeks to hours.",
             },
             {
               label: "Electronic Lab Notebooks",
@@ -708,7 +708,7 @@ export default function PersonalSite() {
               {[
                 { icon: "\u2192", text: "I'm a registered minister and have officiated four weddings — apparently people trust me with the important stuff." },
                 { icon: "\u2192", text: "During COVID, with no races running, I organized my own solo marathon through the Rocky River Reservation, supported by my wife at water stops along the route. I've since run the Cleveland Marathon and two half marathons. Not fast, but finished." },
-                { icon: "\u2192", text: "I've been hooked on science since middle school, when I was building model rockets and trebuchets. The curiosity hasn't faded — the scale of the projects just got bigger." },
+                { icon: "\u2192", text: "I've been hooked on science since middle school, when I was building model rockets and trebuchets. The curiosity hasn't faded, the scale of the projects just got bigger." },
                 { icon: "\u2192", text: "Father and husband in Lakewood, Ohio. NSF Fellow. Clevelander by choice — Seattle born, Cal Poly educated, Akron trained." },
               ].map((item, i) => (
                 <div key={i} className="beyond-item">
@@ -737,7 +737,7 @@ export default function PersonalSite() {
               lineHeight: 1.7, maxWidth: 500, margin: "0 auto 48px",
             }}>
               Looking for R&D leadership, exploring a collaboration,
-              or just want to talk innovation strategy over coffee — I'd love to hear from you.
+              or just want to talk innovation strategy over coffee, I'd love to hear from you.
             </p>
           </FadeIn>
 
