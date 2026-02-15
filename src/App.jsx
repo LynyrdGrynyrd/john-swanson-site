@@ -151,6 +151,10 @@ export default function PersonalSite() {
           font-family: 'Source Serif 4', serif; font-size: 15px; font-weight: 400;
           color: #d4cfc8; line-height: 1.5;
         }
+        a.pub-title {
+          text-decoration: none; transition: color 0.3s;
+        }
+        a.pub-title:hover { color: #c4956a; }
         .pub-journal {
           font-family: 'DM Sans', sans-serif; font-size: 12px; color: #6b665e;
           margin-top: 4px; letter-spacing: 0.3px;
@@ -648,15 +652,15 @@ export default function PersonalSite() {
               Patents (selected from 11)
             </div>
             {[
-              { title: "Continuous fiber reinforced tapes", id: "WO/2024/243499, 2024" },
-              { title: "Thermoset articles comprising nitrile butadiene rubber", id: "WO/2023/278572, 2023" },
-              { title: "Polymer blends of aliphatic polyketone and ABS", id: "WO/2022/047030, 2022" },
-              { title: "Polymer blends of polyamide and aliphatic polyketone", id: "WO/2022/005896, 2022" },
-              { title: "Thermoresponsive Polyesters", id: "US Patent 10,106,514, 2018" },
-              { title: "Vegetable oil based viscoelastic polymers with photoresponsive properties", id: "US Patent 10,899,885, 2021" },
+              { title: "Continuous fiber reinforced tapes", id: "WO/2024/243499, 2024", url: "https://patents.google.com/patent/WO2024243499A1/en" },
+              { title: "Thermoset articles comprising nitrile butadiene rubber", id: "WO/2023/278572, 2023", url: "https://patents.google.com/patent/WO2023278572A1/en" },
+              { title: "Polymer blends of aliphatic polyketone and ABS", id: "WO/2022/047030, 2022", url: "https://patents.google.com/patent/WO2022047030A1/en" },
+              { title: "Polymer blends of polyamide and aliphatic polyketone", id: "WO/2022/005896, 2022", url: "https://patents.google.com/patent/WO2022005896A1/en" },
+              { title: "Thermoresponsive Polyesters", id: "US Patent 10,106,514, 2018", url: "https://patents.google.com/patent/US10106514B2/en" },
+              { title: "Vegetable oil based viscoelastic polymers with photoresponsive properties", id: "US Patent 10,899,885, 2021", url: "https://patents.google.com/patent/US10899885B2/en" },
             ].map((p, i) => (
               <div key={i} className="pub-item">
-                <div className="pub-title">{p.title}</div>
+                <a href={p.url} className="pub-title" target="_blank" rel="noopener noreferrer">{p.title}</a>
                 <div className="pub-journal">{p.id}</div>
               </div>
             ))}
@@ -669,14 +673,14 @@ export default function PersonalSite() {
               Journal Articles (selected from 20+)
             </div>
             {[
-              { title: "A Library of Thermoresponsive, Coacervate-Forming Biodegradable Polyesters", journal: "Macromolecules, 2015 — Most Read Article, June & July 2015" },
-              { title: "Effect of pendant group structure on thermoresponsive properties of N-substituted polyesters", journal: "Polymer Chemistry, 2017" },
-              { title: "Efficient Protein Encapsulation within Thermoresponsive Coacervate-Forming Biodegradable Polyesters", journal: "ACS Macro Letters, 2018" },
-              { title: "A Solvent and Initiator Free, Low-Modulus, Degradable Polyester Platform with Modular Functionality", journal: "Macromolecules, 2016" },
-              { title: "Development of Polymeric Phase Change Materials On the basis of Diels-Alder Chemistry", journal: "Macromolecules, 2010" },
+              { title: "A Library of Thermoresponsive, Coacervate-Forming Biodegradable Polyesters", journal: "Macromolecules, 2015 — Most Read Article, June & July 2015", url: "https://doi.org/10.1021/acs.macromol.5b00585" },
+              { title: "The Effect of Pendant Group Structure on the Thermoresponsive Properties of N-Substituted Polyesters", journal: "Polymer Chemistry, 2017", url: "https://doi.org/10.1039/C7PY01391D" },
+              { title: "Efficient Protein Encapsulation within Thermoresponsive Coacervate-Forming Biodegradable Polyesters", journal: "ACS Macro Letters, 2018", url: "https://doi.org/10.1021/acsmacrolett.8b00118" },
+              { title: "A Solvent and Initiator Free, Low-Modulus, Degradable Polyester Platform with Modular Functionality", journal: "Macromolecules, 2016", url: "https://doi.org/10.1021/acs.macromol.6b01316" },
+              { title: "Development of Polymeric Phase Change Materials On the basis of Diels-Alder Chemistry", journal: "Macromolecules, 2010", url: "https://doi.org/10.1021/ma100836c" },
             ].map((p, i) => (
               <div key={i} className="pub-item">
-                <div className="pub-title">{p.title}</div>
+                <a href={p.url} className="pub-title" target="_blank" rel="noopener noreferrer">{p.title}</a>
                 <div className="pub-journal">{p.journal}</div>
               </div>
             ))}
@@ -704,7 +708,7 @@ export default function PersonalSite() {
                 { icon: "\u2192", text: "I'm a registered minister and have officiated four weddings — apparently people trust me with the important stuff." },
                 { icon: "\u2192", text: "During COVID, with no races running, I organized my own solo marathon through the Rocky River Reservation, supported by my wife at water stops along the route. I've since run the Cleveland Marathon and two half marathons. Not fast, but finished." },
                 { icon: "\u2192", text: "I've been hooked on science since middle school, when I was building model rockets and trebuchets. The curiosity hasn't faded — the scale of the projects just got bigger." },
-                { icon: "\u2192", text: "Father and husband in Lakewood, Ohio. NSF Fellow. Lifelong Clevelander by choice." },
+                { icon: "\u2192", text: "Father and husband in Lakewood, Ohio. NSF Fellow. Clevelander by choice — Seattle born, Cal Poly educated, Akron trained." },
               ].map((item, i) => (
                 <div key={i} className="beyond-item">
                   <div className="beyond-icon">{item.icon}</div>
