@@ -395,7 +395,7 @@ export default function PersonalSite() {
                 I've spent 10+ years doing one thing well: taking a customer's problem, translating
                 it into a technical challenge my team can solve, and then making sure the solution
                 actually ships. I work across the table from sales, manufacturing, and executives
-                — and I work at the bench next to scientists. The value I bring is connecting those worlds.
+                — and I'm as fluent in the lab as I am in the boardroom. The value I bring is connecting those worlds.
               </p>
               <p style={{ marginTop: 16 }}>
                 My background is in polymer science — engineered thermoplastics,
@@ -473,7 +473,7 @@ export default function PersonalSite() {
               company: "NeoGraf Solutions",
               role: "Director of R&D",
               date: "2024 — 2026",
-              desc: "Led R&D strategy for a PE-backed advanced materials company, managing a cross-functional team of scientists, engineers, and technicians. Directed 10+ development projects across thermal management, flame retardant, fuel cell, and sealing applications. Built innovation infrastructure from the ground up — stage-gate frameworks, electronic lab notebooks, portfolio review processes, patent analytics. Managed government-funded programs and presented strategy to the Board of Directors.",
+              desc: "Led R&D strategy for a PE-backed advanced materials company, managing a cross-functional team of scientists, engineers, and technicians. Built an $18M development pipeline across thermal management, flame retardant, fuel cell, and sealing applications. Built innovation infrastructure from the ground up — stage-gate frameworks, electronic lab notebooks, portfolio review processes, patent analytics. Managed government-funded programs and presented strategy to the Board of Directors.",
             },
             {
               company: "Avient Corporation",
@@ -522,11 +522,12 @@ export default function PersonalSite() {
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 1 }}>
             {[
-              { value: "$53M", label: "Global sales funnel built for a sustainable polymer platform — from zero" },
+              { value: "$53M", label: "Global sales funnel built for a sustainable polymer platform at Avient — from zero" },
               { value: "$12M+", label: "New product revenue across multiple launches and technology transfers" },
               { value: "11", label: "Patents in thermoplastic blends, composites & biodegradable materials" },
               { value: "20+", label: "Peer-reviewed publications in Macromolecules, Polymer Chemistry & more" },
               { value: "22", label: "Product lines managed across global business units" },
+              { value: "$18M", label: "Development pipeline built at NeoGraf across thermal, FR, fuel cell & sealing applications" },
               { value: "93%", label: "Reduction in R&D working capital through proactive management" },
             ].map((m, i) => (
               <FadeIn key={i} delay={i * 0.06}>
