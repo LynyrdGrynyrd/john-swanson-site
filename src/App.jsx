@@ -335,7 +335,7 @@ export default function PersonalSite() {
                 fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(15px, 1.5vw, 17px)",
                 fontWeight: 300, color: "#a09a93", maxWidth: 540, lineHeight: 1.75,
               }}>
-                I'm a materials scientist who leads R&D teams and translates complex
+                I'm an R&D leader who translates complex
                 science into products that make money. I've built $53M product pipelines
                 and I've officiated four weddings. Both require understanding what people
                 actually need.
@@ -394,8 +394,8 @@ export default function PersonalSite() {
                 — and I work at the bench next to scientists. The value I bring is connecting those worlds.
               </p>
               <p style={{ marginTop: 16 }}>
-                My background is in polymer science — engineered thermoplastics, graphite-based
-                materials, sustainable polymers, composites — but the pattern is always the same:
+                My background is in polymer science — engineered thermoplastics,
+                sustainable polymers, composites, and specialty formulations — but the pattern is always the same:
                 understand the real need, formulate the solution, build the case, and drive it to
                 commercialization.
               </p>
@@ -469,7 +469,7 @@ export default function PersonalSite() {
               company: "NeoGraf Solutions",
               role: "Director of R&D",
               date: "2024 — 2026",
-              desc: "Led R&D strategy for a PE-backed advanced graphite materials company, managing a cross-functional team of scientists, engineers, and technicians. Directed 10+ development projects across thermal management, flame retardant, fuel cell, and sealing applications. Built innovation infrastructure from the ground up — stage-gate frameworks, electronic lab notebooks, portfolio review processes, patent analytics. Managed government-funded programs and presented strategy to the Board of Directors.",
+              desc: "Led R&D strategy for a PE-backed advanced materials company, managing a cross-functional team of scientists, engineers, and technicians. Directed 10+ development projects across thermal management, flame retardant, fuel cell, and sealing applications. Built innovation infrastructure from the ground up — stage-gate frameworks, electronic lab notebooks, portfolio review processes, patent analytics. Managed government-funded programs and presented strategy to the Board of Directors.",
             },
             {
               company: "Avient Corporation",
@@ -609,7 +609,7 @@ export default function PersonalSite() {
             {[
               {
                 heading: "Materials & Formulation",
-                tags: ["Polyamides", "Polyketone", "Polyolefins", "TPEs", "Graphite Materials", "Biodegradable Polymers", "Flame Retardants", "Masterbatching", "Composites"],
+                tags: ["Polyamides", "Polyketone", "Polyolefins", "TPEs", "Specialty Chemical Formulations", "Biodegradable Polymers", "Flame Retardants", "Masterbatching", "Composites"],
               },
               {
                 heading: "Characterization & Processing",
@@ -732,7 +732,7 @@ export default function PersonalSite() {
               lineHeight: 1.7, maxWidth: 500, margin: "0 auto 48px",
             }}>
               Looking for R&D leadership, exploring a collaboration,
-              or just want to talk polymer science over coffee — I'd love to hear from you.
+              or just want to talk innovation strategy over coffee — I'd love to hear from you.
             </p>
           </FadeIn>
 
