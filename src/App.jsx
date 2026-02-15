@@ -201,7 +201,7 @@ export default function PersonalSite() {
           box-shadow: inset 0 0 30px rgba(0,0,0,0.4);
         }
         .headshot-wrapper img {
-          width: 100%; height: 100%; object-fit: cover; object-position: center top;
+          width: 100%; height: 100%; object-fit: cover; object-position: center 15%;
           filter: grayscale(15%) contrast(1.05);
         }
 
