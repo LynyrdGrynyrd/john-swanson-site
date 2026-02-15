@@ -7,7 +7,8 @@ The entire site is one component: `src/App.jsx` (~760 lines). No routing, no CSS
 
 ## Key Details
 
-- **Domain:** `john-swanson.com` (user owns it). OG meta tags in `index.html` use `https://john-swanson.com` as base URL.
+- **Live site:** `https://john-swanson-site.netlify.app`
+- **Domain:** `john-swanson.com` (user owns it). OG meta tags currently use the Netlify subdomain. Swap to `https://john-swanson.com` once DNS is configured.
 - **Email:** `john@john-swanson.com`
 - **LinkedIn:** `linkedin.com/in/johnpswanson`
 - **GitHub repo:** `lynyrdgrynyrd/john-swanson-site` (public)
@@ -28,7 +29,9 @@ Loaded via `<link>` tags in `index.html` (not CSS `@import`). Three families: So
 Push to `main` → Netlify auto-builds (`npm run build`, publishes `dist/`). Config in `netlify.toml`.
 
 ## TODO: DNS Setup
-Once `john-swanson.com` is pointed to Netlify, no code changes needed — OG tags already reference that domain. If deploying before DNS is configured, the OG image preview won't work on LinkedIn until the domain resolves. You can temporarily swap the OG URLs to the Netlify subdomain if needed, then switch back.
+Once `john-swanson.com` is pointed to Netlify, update OG tags in `index.html`:
+- `og:image` and `twitter:image`: swap `john-swanson-site.netlify.app` → `john-swanson.com`
+- `og:url`: swap `john-swanson-site.netlify.app` → `john-swanson.com`
 
 ## Future Content Refinement
 Consider using these Claude Code skills to iterate on website copy:
