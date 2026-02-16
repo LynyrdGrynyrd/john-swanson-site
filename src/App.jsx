@@ -473,13 +473,13 @@ export default function PersonalSite() {
               company: "NeoGraf Solutions",
               role: "Director of R&D",
               date: "2024 — 2026",
-              desc: "Led R&D strategy for a PE-backed advanced materials company, managing a cross-functional team of scientists, engineers, and technicians. Built an $18M development pipeline across thermal management, flame retardant, fuel cell, and sealing applications. Built innovation infrastructure from the ground up — stage-gate frameworks, electronic lab notebooks, portfolio review processes, patent analytics. Managed government-funded programs and presented strategy to the Board of Directors.",
+              desc: "Led R&D strategy for a PE-backed advanced materials company, managing a cross-functional team of scientists, engineers, and technicians. Built an $18M+ development pipeline across thermal management, flame retardant, fuel cell, and sealing applications. Built innovation infrastructure from the ground up — stage-gate frameworks, a 25-document IP policy framework, electronic lab notebooks, portfolio review processes, and patent analytics. Managed government-funded programs and presented strategy to the Board of Directors.",
             },
             {
               company: "Avient Corporation",
               role: "Technology Manager — Specialty Engineered Materials",
               date: "2022 — 2024",
-              desc: "Led a team of 6 scientists delivering customized solutions across 22 engineered thermoplastic product lines. Generated $12M+ in new revenue through product launches and global technology transfers. Reduced R&D working capital by 93% through strategic inventory management. Doubled year-over-year invention records. Designed digital workflow systems that streamlined project management for a 25-person organization.",
+              desc: "Led a team of 6 scientists delivering customized solutions across 22 engineered thermoplastic product lines for this publicly traded, Fortune 1000 specialty materials company ($3.5B revenue). Generated $12M+ in new revenue through product launches and global technology transfers. Reduced R&D working capital by 93% through strategic inventory management. Doubled year-over-year invention records. Hosted R&D Leadership Development Program rotations, mentoring early-career scientists through structured product line and project assignments. Designed digital workflow systems that streamlined project management for a 25-person organization.",
             },
             {
               company: "Avient Corporation",
@@ -527,7 +527,8 @@ export default function PersonalSite() {
               { value: "11", label: "Patents in thermoplastic blends, composites & biodegradable materials" },
               { value: "20+", label: "Peer-reviewed publications in Macromolecules, Polymer Chemistry & more" },
               { value: "22", label: "Product lines managed across global business units" },
-              { value: "$18M", label: "Development pipeline built at NeoGraf across thermal, FR, fuel cell & sealing applications" },
+              { value: "$18M+", label: "Development pipeline built at NeoGraf across thermal, FR, fuel cell & sealing applications" },
+              { value: "25", label: "Documents in IP policy framework — invention disclosure triage, trade secret management, FTO analysis & role-specific training" },
               { value: "93%", label: "Reduction in R&D working capital through proactive management" },
             ].map((m, i) => (
               <FadeIn key={i} delay={i * 0.06}>
@@ -622,7 +623,7 @@ export default function PersonalSite() {
               },
               {
                 heading: "Leadership & Methods",
-                tags: ["Stage-Gate (Cooper)", "DOE / Lean Six Sigma", "Team Building & Talent Development", "Digital R&D Transformation", "Patent Strategy & FTO", "Voice of Customer Integration", "Innovation Portfolio Management"],
+                tags: ["Stage-Gate (Cooper)", "DOE / Lean Six Sigma", "Team Building & Talent Development", "Digital R&D Transformation", "Patent Strategy & FTO", "IP Policy & Trade Secret Management", "Voice of Customer Integration", "Innovation Portfolio Management"],
               },
             ].map((cat, i) => (
               <FadeIn key={i} delay={i * 0.1}>
