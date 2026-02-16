@@ -101,7 +101,7 @@ All 11 links on the website verified:
 | 10.1021/acs.macromol.5b00585 | A Library of Thermoresponsive, Coacervate-Forming Biodegradable Polyesters | 302 → ACS |
 | 10.1039/C7PY01391D | The Effect of Pendant Group Structure on the Thermoresponsive Properties... | 302 → RSC |
 | 10.1021/acsmacrolett.8b00118 | Efficient Protein Encapsulation within Thermoresponsive Coacervate... | 302 → ACS |
-| 10.1021/acs.macromol.6b01316 | A Solvent and Initiator Free, Low-Modulus, Degradable Polyester Platform... | 302 → ACS |
+| 10.1021/acs.macromol.5b02399 | A Solvent and Initiator Free, Low-Modulus, Degradable Polyester Platform... | **CORRECTED** — was 6b01316 (wrong paper), now 5b02399 (verified via Joy Lab publications page) |
 | 10.1021/ma100836c | Development of Polymeric Phase Change Materials On the basis of Diels-Alder... | 302 → ACS |
 
 ### Patents (6 Google Patents links)
