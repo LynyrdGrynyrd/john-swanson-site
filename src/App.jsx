@@ -678,7 +678,7 @@ export default function PersonalSite() {
               { title: "A Library of Thermoresponsive, Coacervate-Forming Biodegradable Polyesters", journal: "Macromolecules, 2015 — Most Read Article, June & July 2015", url: "https://doi.org/10.1021/acs.macromol.5b00585" },
               { title: "The Effect of Pendant Group Structure on the Thermoresponsive Properties of N-Substituted Polyesters", journal: "Polymer Chemistry, 2017", url: "https://doi.org/10.1039/C7PY01391D" },
               { title: "Efficient Protein Encapsulation within Thermoresponsive Coacervate-Forming Biodegradable Polyesters", journal: "ACS Macro Letters, 2018", url: "https://doi.org/10.1021/acsmacrolett.8b00118" },
-              { title: "A Solvent and Initiator Free, Low-Modulus, Degradable Polyester Platform with Modular Functionality", journal: "Macromolecules, 2016", url: "https://doi.org/10.1021/acs.macromol.6b01316" },
+              { title: "A Solvent and Initiator Free, Low-Modulus, Degradable Polyester Platform with Modular Functionality", journal: "Macromolecules, 2016", url: "https://doi.org/10.1021/acs.macromol.5b02399" },
               { title: "Development of Polymeric Phase Change Materials On the basis of Diels-Alder Chemistry", journal: "Macromolecules, 2010", url: "https://doi.org/10.1021/ma100836c" },
             ].map((p, i) => (
               <div key={i} className="pub-item">
