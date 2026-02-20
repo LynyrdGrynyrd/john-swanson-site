@@ -32,6 +32,41 @@ const FadeIn = ({ children, delay = 0, className = "", style = {} }) => {
   );
 };
 
+const SectionLabel = ({ children, center }) => (
+  <div className={`section-label${center ? " section-label-center" : ""}`}>{children}</div>
+);
+
+const SectionHeading = ({ children }) => (
+  <h2 className="section-title">{children}</h2>
+);
+
+const CountUpValue = ({ value }) => {
+  const [ref, isVisible] = useInView();
+  const hasRun = useRef(false);
+  const init = value.replace(/\d+/, "0");
+  const [display, setDisplay] = useState(init);
+
+  useEffect(() => {
+    if (!isVisible || hasRun.current) return;
+    const m = value.match(/^([^0-9]*)(\d+)(.*)$/);
+    if (!m) return;
+    hasRun.current = true;
+    const [, pre, num, suf] = m;
+    const target = parseInt(num, 10);
+    const dur = 1200;
+    const t0 = performance.now();
+    let raf;
+    (function tick(now) {
+      const p = Math.min((now - t0) / dur, 1);
+      setDisplay(`${pre}${Math.round((1 - (1 - p) ** 3) * target)}${suf}`);
+      if (p < 1) raf = requestAnimationFrame(tick);
+    })(t0);
+    return () => cancelAnimationFrame(raf);
+  }, [isVisible, value]);
+
+  return <div ref={ref} className="metric-value">{display}</div>;
+};
+
 const NAV_LINKS = ["About", "Philosophy", "Experience", "Impact", "Digital R&D", "Publications", "Contact"];
 
 export default function PersonalSite() {
@@ -42,6 +77,10 @@ export default function PersonalSite() {
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
+      document.documentElement.style.setProperty(
+        '--scroll-progress',
+        String(window.scrollY / (document.documentElement.scrollHeight - window.innerHeight || 1))
+      );
       const sections = NAV_LINKS.map((s) => s.toLowerCase().replace(/\s+/g, "-").replace("&", "and"));
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
@@ -68,6 +107,7 @@ export default function PersonalSite() {
         html { scroll-behavior: smooth; }
         body { background: #0a0a0a; }
         ::selection { background: #c4956a; color: #0a0a0a; }
+        *:focus-visible { outline: 2px solid #c4956a; outline-offset: 2px; }
 
         .nav-fixed {
           position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -87,6 +127,38 @@ export default function PersonalSite() {
         }
         .nav-link:hover::after, .nav-link.active::after { width: 100%; }
 
+        .scroll-progress {
+          position: fixed; top: 0; left: 0; right: 0; height: 2px;
+          background: #c4956a; transform-origin: left;
+          transform: scaleX(var(--scroll-progress, 0));
+          z-index: 101; pointer-events: none;
+        }
+
+        .back-to-top {
+          position: fixed; bottom: 32px; right: 32px; z-index: 50;
+          width: 44px; height: 44px; border-radius: 50%;
+          background: #1f1d1a; border: 1px solid #2a2724; color: #c4956a;
+          font-size: 18px; cursor: pointer;
+          opacity: 0; transform: translateY(8px);
+          transition: opacity 0.3s, transform 0.3s, background 0.3s;
+          display: flex; align-items: center; justify-content: center;
+        }
+        .back-to-top.visible { opacity: 1; transform: translateY(0); }
+        .back-to-top:hover { background: #2a2724; }
+
+        @keyframes pulse {
+          0%, 100% { opacity: 0.4; transform: scale(1); }
+          50% { opacity: 0; transform: scale(1.8); }
+        }
+        .status-dot {
+          width: 8px; height: 8px; border-radius: 50%;
+          background: #4ade80; display: inline-block; position: relative;
+        }
+        .status-dot::after {
+          content: ''; position: absolute; inset: -3px; border-radius: 50%;
+          background: #4ade80; animation: pulse 2s ease-in-out infinite;
+        }
+
         .grain-overlay {
           position: fixed; top: 0; left: 0; width: 100%; height: 100%;
           pointer-events: none; z-index: 99; opacity: 0.025;
@@ -96,11 +168,22 @@ export default function PersonalSite() {
         .section-label {
           font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500;
           letter-spacing: 3px; text-transform: uppercase; color: #c4956a; margin-bottom: 12px;
+          position: relative; padding-left: 56px;
         }
+        .section-label::before {
+          content: ''; position: absolute; left: 0; top: 50%;
+          width: 40px; height: 1px; background: #c4956a;
+        }
+        .section-label-center {
+          padding-left: 0; text-align: center;
+        }
+        .section-label-center::before { display: none; }
+
         .section-title {
           font-family: 'Source Serif 4', serif; font-size: clamp(28px, 4vw, 42px);
           font-weight: 300; line-height: 1.2; color: #e8e4df; margin-bottom: 40px;
         }
+        .section-title em { font-style: italic; color: #c4956a; }
 
         .metric-card {
           border: 1px solid #1f1d1a; padding: 32px; position: relative;
@@ -144,6 +227,7 @@ export default function PersonalSite() {
         }
 
         .pub-item {
+          display: flex; justify-content: space-between; align-items: baseline; gap: 24px;
           padding: 20px 0; border-bottom: 1px solid #1a1917; transition: padding-left 0.3s;
         }
         .pub-item:hover { padding-left: 8px; }
@@ -157,7 +241,7 @@ export default function PersonalSite() {
         a.pub-title:hover { color: #c4956a; }
         .pub-journal {
           font-family: 'DM Sans', sans-serif; font-size: 12px; color: #6b665e;
-          margin-top: 4px; letter-spacing: 0.3px;
+          margin-top: 4px; letter-spacing: 0.3px; flex-shrink: 0; white-space: nowrap;
         }
 
         .tag {
@@ -270,6 +354,8 @@ export default function PersonalSite() {
           .about-columns { grid-template-columns: 1fr !important; }
           .philosophy-grid { grid-template-columns: 1fr !important; }
           .digital-grid { grid-template-columns: 1fr !important; }
+          .pub-item { flex-direction: column; gap: 4px; }
+          .back-to-top { bottom: 20px; right: 20px; }
         }
       `}</style>
 
@@ -300,6 +386,9 @@ export default function PersonalSite() {
         </div>
       </nav>
 
+      {/* Scroll Progress */}
+      <div className="scroll-progress" />
+
       {/* Mobile Menu */}
       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
         <button className="mobile-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">&#10005;</button>
@@ -317,8 +406,15 @@ export default function PersonalSite() {
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px", width: "100%" }}>
           <div className="hero-grid" style={{ display: "flex", alignItems: "center", gap: "clamp(40px, 6vw, 80px)" }}>
             <div style={{ flex: 1 }}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 20, padding: "6px 16px", border: "1px solid #1f1d1a", borderRadius: 20 }}>
+                <span className="status-dot" />
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, fontWeight: 500, letterSpacing: 0.5, color: "#a09a93" }}>
+                  Open to Opportunities
+                </span>
+              </div>
+
               <div className="motto-text" style={{ marginBottom: 28 }}>
-                Do science · Make money · Have fun
+                Do science &middot; Make money &middot; Have fun
               </div>
 
               <h1 style={{
@@ -331,7 +427,7 @@ export default function PersonalSite() {
                   fontFamily: "'DM Sans', sans-serif", fontWeight: 300,
                   color: "#6b665e", marginTop: 10, letterSpacing: 1,
                 }}>
-                  Ph.D. Polymer Science · Cleveland, Ohio
+                  R&D Director &middot; Ph.D. Polymer Science &middot; Cleveland
                 </span>
               </h1>
 
@@ -339,10 +435,9 @@ export default function PersonalSite() {
                 fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(15px, 1.5vw, 17px)",
                 fontWeight: 300, color: "#a09a93", maxWidth: 540, lineHeight: 1.75,
               }}>
-                I'm an R&D leader who translates complex
-                science into products that make money. I've built $53M product pipelines
-                and I've officiated four weddings. Both require understanding what people
-                actually need.
+                I build R&D functions that turn science into revenue — then leave
+                them running. I've built $53M product pipelines and I've officiated
+                four weddings. Both require understanding what people actually need.
               </p>
 
               <div className="hero-buttons" style={{ marginTop: 40, display: "flex", gap: 20, flexWrap: "wrap" }}>
@@ -385,31 +480,31 @@ export default function PersonalSite() {
       {/* About */}
       <section id="about" style={{ maxWidth: 900, margin: "0 auto", padding: "120px 32px" }}>
         <FadeIn>
-          <div className="section-label">About</div>
-          <h2 className="section-title">I connect the lab to the<br />business case.</h2>
+          <SectionLabel>About</SectionLabel>
+          <SectionHeading>I connect research<br />to <em>results</em>.</SectionHeading>
         </FadeIn>
         <FadeIn delay={0.15}>
           <div className="about-columns" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, fontFamily: "'DM Sans', sans-serif", fontSize: 15, lineHeight: 1.8, color: "#a09a93" }}>
             <div>
               <p>
-                I've spent 10+ years doing one thing well: taking a customer's problem, translating
-                it into a technical challenge my team can solve, and then making sure the solution
-                actually ships. I work across the table from sales, manufacturing, and executives
-                and I'm as fluent in the lab as I am in the boardroom. The value I bring is connecting those worlds.
+                Every role follows one pattern: I build things that didn't exist before — platforms,
+                pipelines, teams, processes. Then I make sure they ship. I work across the table from
+                sales, manufacturing, executives, and external partners, and I'm as fluent in the lab
+                as I am in the boardroom. The value I bring is connecting those worlds.
               </p>
               <p style={{ marginTop: 16 }}>
-                My background is in polymer science (engineered thermoplastics,
-                sustainable polymers, composites, and specialty formulations), but the pattern is always the same:
-                understand the real need, formulate the solution, build the case, and drive it to
-                commercialization.
+                I'm a polymer scientist by training, but the pattern is always the same:
+                understand the real need, build the solution, make the business case, and
+                drive it to revenue.
               </p>
             </div>
             <div>
               <p>
-                I love building teams. I've been told my strength is acquiring great talent, removing
-                blockers, and getting people what they need to do their best work. I care about
-                structure: stage-gates, clear ownership, documented processes. Good systems
-                let good scientists focus on science instead of fighting the organization.
+                At NeoGraf I inherited a team of four and grew it to eight. At Avient I designed
+                LDP rotation assignments that added capacity at zero cost — and mentored every
+                associate through real projects, not busywork. I care about structure: stage-gates,
+                clear ownership, documented processes. Good systems let good scientists focus on
+                science instead of fighting the organization.
               </p>
               <p style={{ marginTop: 16 }}>
                 I've loved science since I was a kid building model rockets and trebuchets in middle
@@ -426,8 +521,8 @@ export default function PersonalSite() {
       <section id="philosophy" style={{ background: "#0d0c0b", padding: "120px 0" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
           <FadeIn>
-            <div className="section-label">How I Work</div>
-            <h2 className="section-title">Principles, not platitudes.</h2>
+            <SectionLabel>How I Work</SectionLabel>
+            <SectionHeading>Principles, not <em>platitudes</em>.</SectionHeading>
           </FadeIn>
 
           <div className="philosophy-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1 }}>
@@ -463,8 +558,8 @@ export default function PersonalSite() {
       {/* Experience */}
       <section id="experience" style={{ maxWidth: 800, margin: "0 auto", padding: "120px 32px" }}>
         <FadeIn>
-          <div className="section-label">Experience</div>
-          <h2 className="section-title">Where I've done the work.</h2>
+          <SectionLabel>Experience</SectionLabel>
+          <SectionHeading>Where I've done the <em>work</em>.</SectionHeading>
         </FadeIn>
 
         <div style={{ marginTop: 24 }}>
@@ -473,7 +568,7 @@ export default function PersonalSite() {
               company: "NeoGraf Solutions",
               role: "Director of R&D",
               date: "2024 — 2026",
-              desc: "Led R&D strategy for a PE-backed advanced materials company, managing a cross-functional team of scientists, engineers, and technicians. Built an $18M+ development pipeline across thermal management, flame retardant, fuel cell, and sealing applications. Built innovation infrastructure from the ground up — stage-gate frameworks, a 25-document IP policy framework, electronic lab notebooks, portfolio review processes, and patent analytics. Managed government-funded programs and presented strategy to the Board of Directors.",
+              desc: "Hired to build an R&D function that didn't exist yet. Grew the team from four to eight, assembled an $18M+ development pipeline across four application domains, and built all the infrastructure from scratch — stage-gate frameworks, a 25-document IP policy (condensed to 4 people would actually read), electronic lab notebooks, portfolio performance reviews, and patent analytics. Helped manage a $2M DOE-funded program for fuel cell bipolar plate development. Presented innovation strategy quarterly to the Board. Zero safety incidents in 24 months.",
             },
             {
               company: "Avient Corporation",
@@ -485,7 +580,7 @@ export default function PersonalSite() {
               company: "Avient Corporation",
               role: "Lead R&D Engineer — Specialty Engineered Materials",
               date: "2018 — 2022",
-              desc: "Built a sustainable polymer platform from concept to commercialization, creating a $53M global sales funnel across multiple business units and earning the company's Technology Excellence Award. Developed biodegradable packaging materials generating a $36M pipeline. Led rapid customer co-development projects for brands including Bose. Named inventor on multiple patents for novel thermoplastic blends.",
+              desc: "Took an unproven polymer platform — aliphatic polyketone — from first molecules to a $53M global sales funnel across four international business units, earning three Technology Excellence Awards and multiple patent families. Developed biodegradable packaging generating a $34.5M pipeline. Led rapid customer co-development for brands including Bose ($1.53M launch).",
             },
             {
               company: "PolyOne Corporation",
@@ -496,7 +591,7 @@ export default function PersonalSite() {
             {
               company: "University of Akron",
               role: "Ph.D. Polymer Science — NSF Graduate Research Fellow",
-              date: "2012 — 2016",
+              date: "2011 — 2016",
               desc: "Designed and synthesized thermoresponsive biodegradable polyesters for biomedical applications. Published across Macromolecules, Polymer Chemistry, and ACS Macro Letters. Research became the foundation for D-Glue thermoresponsive adhesive technology. 3.73 GPA.",
             },
           ].map((item, i) => (
@@ -516,16 +611,16 @@ export default function PersonalSite() {
       <section id="impact" style={{ background: "#0d0c0b", padding: "120px 0" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
           <FadeIn>
-            <div className="section-label">Impact</div>
-            <h2 className="section-title">The numbers behind the work.</h2>
+            <SectionLabel>Impact</SectionLabel>
+            <SectionHeading>The numbers behind the <em>work</em>.</SectionHeading>
           </FadeIn>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 1 }}>
             {[
               { value: "$53M", label: "Global sales funnel built for a sustainable polymer platform at Avient, from zero" },
               { value: "$12M+", label: "New product revenue across multiple launches and technology transfers" },
-              { value: "11", label: "Patents in thermoplastic blends, composites & biodegradable materials" },
-              { value: "20+", label: "Peer-reviewed publications in Macromolecules, Polymer Chemistry & more" },
+              { value: "12", label: "Patents in thermoplastic blends, composites & biodegradable materials" },
+              { value: "9", label: "Peer-reviewed publications in Macromolecules, Polymer Chemistry & ACS Macro Letters" },
               { value: "22", label: "Product lines managed across global business units" },
               { value: "$18M+", label: "Development pipeline built at NeoGraf across thermal, FR, fuel cell & sealing applications" },
               { value: "25", label: "Documents in IP policy framework — invention disclosure triage, trade secret management, FTO analysis & role-specific training" },
@@ -533,7 +628,7 @@ export default function PersonalSite() {
             ].map((m, i) => (
               <FadeIn key={i} delay={i * 0.06}>
                 <div className="metric-card">
-                  <div className="metric-value">{m.value}</div>
+                  <CountUpValue value={m.value} />
                   <div className="metric-label">{m.label}</div>
                 </div>
               </FadeIn>
@@ -545,8 +640,8 @@ export default function PersonalSite() {
       {/* Digital R&D */}
       <section id="digital-randd" style={{ maxWidth: 1000, margin: "0 auto", padding: "120px 32px" }}>
         <FadeIn>
-          <div className="section-label">Point of View</div>
-          <h2 className="section-title">The next generation of R&D is digital.</h2>
+          <SectionLabel>Point of View</SectionLabel>
+          <SectionHeading>The next generation of R&D is <em>digital</em>.</SectionHeading>
         </FadeIn>
 
         <FadeIn delay={0.1}>
@@ -554,10 +649,10 @@ export default function PersonalSite() {
             fontFamily: "'DM Sans', sans-serif", fontSize: 16, lineHeight: 1.8,
             color: "#a09a93", maxWidth: 700, marginBottom: 48,
           }}>
-            I believe the next generation of R&D leaders need to be as fluent in digital
-            infrastructure as they are in polymer chemistry. Scientists shouldn't spend their
-            time on tasks a machine can do better. Every team I've led, I've built systems
-            to make the science faster and the decisions sharper.
+            Every team I've led, I've built digital systems to make the science faster
+            and the decisions sharper. Not because I read an article about digital
+            transformation — because I got tired of watching scientists spend their time
+            on work a machine should do.
           </p>
         </FadeIn>
 
@@ -565,7 +660,7 @@ export default function PersonalSite() {
           {[
             {
               label: "AI-Powered Data Tools",
-              desc: "Built custom tools using large language model APIs to parse scanned certificates of analysis, extract legacy test data, and populate searchable databases, replacing weeks of manual entry with automated workflows.",
+              desc: "Deployed AI-powered data tools that replaced weeks of manual entry with automated workflows — parsing certificates of analysis, extracting legacy test data, and building searchable databases for faster R&D decisions.",
             },
             {
               label: "Patent Analytics & IP Strategy",
@@ -577,7 +672,7 @@ export default function PersonalSite() {
             },
             {
               label: "Innovation Management",
-              desc: "Implemented structured idea-to-launch platforms integrating voice-of-customer data, stage-gate workflows, and portfolio dashboards that connect R&D activity to commercial outcomes.",
+              desc: "Implemented innovation management platforms integrating voice-of-customer data, stage-gate workflows, and portfolio performance dashboards that connect R&D investment to commercial outcomes.",
             },
           ].map((item, i) => (
             <FadeIn key={i} delay={i * 0.08}>
@@ -607,8 +702,8 @@ export default function PersonalSite() {
       <section style={{ background: "#0d0c0b", padding: "120px 0" }}>
         <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 32px" }}>
           <FadeIn>
-            <div className="section-label">Technical Expertise</div>
-            <h2 className="section-title">What I work with.</h2>
+            <SectionLabel>Technical Expertise</SectionLabel>
+            <SectionHeading>What I <em>work</em> with.</SectionHeading>
           </FadeIn>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 48 }}>
@@ -623,7 +718,7 @@ export default function PersonalSite() {
               },
               {
                 heading: "Leadership & Methods",
-                tags: ["Stage-Gate (Cooper)", "DOE / Lean Six Sigma", "Team Building & Talent Development", "Digital R&D Transformation", "Patent Strategy & FTO", "IP Policy & Trade Secret Management", "Voice of Customer Integration", "Innovation Portfolio Management"],
+                tags: ["Stage-Gate (Cooper)", "DOE / Lean Six Sigma", "Team Building & Talent Development", "Digital R&D Transformation", "Patent Strategy & FTO", "IP Policy & Trade Secret Management", "Voice of Customer Integration", "Innovation Portfolio Management", "Stakeholder Engagement", "Grant Program Management"],
               },
             ].map((cat, i) => (
               <FadeIn key={i} delay={i * 0.1}>
@@ -644,14 +739,14 @@ export default function PersonalSite() {
       {/* Publications */}
       <section id="publications" style={{ maxWidth: 900, margin: "0 auto", padding: "120px 32px" }}>
         <FadeIn>
-          <div className="section-label">Selected Work</div>
-          <h2 className="section-title">Publications & Patents</h2>
+          <SectionLabel>Selected Work</SectionLabel>
+          <SectionHeading><em>Publications</em> & Patents</SectionHeading>
         </FadeIn>
 
         <FadeIn delay={0.1}>
           <div style={{ marginBottom: 40 }}>
             <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, letterSpacing: 2, textTransform: "uppercase", color: "#6b665e", marginBottom: 16 }}>
-              Patents (selected from 11)
+              Patents (selected from 12)
             </div>
             {[
               { title: "Continuous fiber reinforced tapes", id: "WO/2024/243499, 2024", url: "https://patents.google.com/patent/WO2024243499A1/en" },
@@ -672,7 +767,7 @@ export default function PersonalSite() {
         <FadeIn delay={0.15}>
           <div>
             <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, letterSpacing: 2, textTransform: "uppercase", color: "#6b665e", marginBottom: 16 }}>
-              Journal Articles (selected from 20+)
+              Journal Articles (selected from 9)
             </div>
             {[
               { title: "A Library of Thermoresponsive, Coacervate-Forming Biodegradable Polyesters", journal: "Macromolecules, 2015 — Most Read Article, June & July 2015", url: "https://doi.org/10.1021/acs.macromol.5b00585" },
@@ -700,8 +795,8 @@ export default function PersonalSite() {
       <section style={{ background: "#0d0c0b", padding: "120px 0" }}>
         <div style={{ maxWidth: 700, margin: "0 auto", padding: "0 32px" }}>
           <FadeIn>
-            <div className="section-label">Beyond the Lab</div>
-            <h2 className="section-title">A few things you won't find<br />on my resume.</h2>
+            <SectionLabel>Beyond the Lab</SectionLabel>
+            <SectionHeading>A few things you won't find<br />on my <em>resume</em>.</SectionHeading>
           </FadeIn>
 
           <FadeIn delay={0.1}>
@@ -710,6 +805,8 @@ export default function PersonalSite() {
                 { icon: "\u2192", text: "I'm a registered minister and have officiated four weddings — apparently people trust me with the important stuff." },
                 { icon: "\u2192", text: "During COVID, with no races running, I organized my own solo marathon through the Rocky River Reservation, supported by my wife at water stops along the route. I've since run the Cleveland Marathon and two half marathons. Not fast, but finished." },
                 { icon: "\u2192", text: "I've been hooked on science since middle school, when I was building model rockets and trebuchets. The curiosity hasn't faded, the scale of the projects just got bigger." },
+                { icon: "\u2192", text: "My phone number is 330-POLYMER (330-765-9637). Yes, really." },
+                { icon: "\u2192", text: "Guest lecturer for Cal Poly's polymer chemistry course — bringing industry perspective back to where I started." },
                 { icon: "\u2192", text: "Father and husband in Lakewood, Ohio. NSF Fellow. Clevelander by choice — Seattle born, Cal Poly educated, Akron trained." },
               ].map((item, i) => (
                 <div key={i} className="beyond-item">
@@ -726,7 +823,7 @@ export default function PersonalSite() {
       <section id="contact" style={{ padding: "120px 0" }}>
         <div style={{ maxWidth: 700, margin: "0 auto", padding: "0 32px", textAlign: "center" }}>
           <FadeIn>
-            <div className="section-label">Contact</div>
+            <SectionLabel center>Contact</SectionLabel>
             <h2 style={{
               fontFamily: "'Source Serif 4', serif", fontSize: "clamp(32px, 5vw, 52px)",
               fontWeight: 300, color: "#e8e4df", lineHeight: 1.15, marginBottom: 24,
@@ -737,8 +834,8 @@ export default function PersonalSite() {
               fontFamily: "'DM Sans', sans-serif", fontSize: 16, color: "#a09a93",
               lineHeight: 1.7, maxWidth: 500, margin: "0 auto 48px",
             }}>
-              Looking for R&D leadership, exploring a collaboration,
-              or just want to talk innovation strategy over coffee, I'd love to hear from you.
+              Whether you're hiring, building an innovation team, or exploring
+              how digital tools are changing R&D — I'd love to hear from you.
             </p>
           </FadeIn>
 
@@ -758,6 +855,15 @@ export default function PersonalSite() {
       }}>
         &copy; 2026 John P. Swanson &middot; Lakewood, Ohio
       </footer>
+
+      {/* Back to Top */}
+      <button
+        className={`back-to-top ${scrollY > 400 ? "visible" : ""}`}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        aria-label="Back to top"
+      >
+        &#8593;
+      </button>
     </div>
   );
 }
