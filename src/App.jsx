@@ -435,8 +435,8 @@ export default function PersonalSite() {
                 fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(15px, 1.5vw, 17px)",
                 fontWeight: 300, color: "#a09a93", maxWidth: 540, lineHeight: 1.75,
               }}>
-                I build R&D functions that turn science into revenue — then leave
-                them running. I've built $53M product pipelines and I've officiated
+                I build R&D functions that turn science into revenue — and build
+                the teams to run them. I've built $53M product pipelines and I've officiated
                 four weddings. Both require understanding what people actually need.
               </p>
 
