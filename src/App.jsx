@@ -804,7 +804,6 @@ export default function PersonalSite() {
               {[
                 { icon: "\u2192", text: "I'm a registered minister and have officiated four weddings — apparently people trust me with the important stuff." },
                 { icon: "\u2192", text: "During COVID, with no races running, I organized my own solo marathon through the Rocky River Reservation, supported by my wife at water stops along the route. I've since run the Cleveland Marathon and two half marathons. Not fast, but finished." },
-                { icon: "\u2192", text: "I've been hooked on science since middle school, when I was building model rockets and trebuchets. The curiosity hasn't faded, the scale of the projects just got bigger." },
                 { icon: "\u2192", text: "My phone number is 330-POLYMER (330-765-9637). Yes, really." },
                 { icon: "\u2192", text: "Guest lecturer for Cal Poly's polymer chemistry course — bringing industry perspective back to where I started." },
                 { icon: "\u2192", text: "Father and husband in Lakewood, Ohio. NSF Fellow. Clevelander by choice — Seattle born, Cal Poly educated, Akron trained." },
