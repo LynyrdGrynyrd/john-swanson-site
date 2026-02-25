@@ -107,6 +107,7 @@ export default function PersonalSite() {
   const [activeSection, setActiveSection] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(true);
+  const [simpleMode, setSimpleMode] = useState(false);
 
   useEffect(() => {
     document.body.style.background = isDark ? "#0a0a0a" : "#f0ede8";
@@ -389,6 +390,15 @@ export default function PersonalSite() {
           color: var(--clr-text-sec);
         }
 
+        .toggle-simple {
+          font-family: 'JetBrains Mono', monospace; font-size: 12px;
+          color: var(--clr-text-muted); background: none; border: none;
+          cursor: pointer; padding: 0; margin-top: 24px;
+          border-bottom: 1px dashed var(--clr-border);
+          transition: color 0.3s, border-color 0.3s;
+        }
+        .toggle-simple:hover { color: var(--clr-accent); border-color: var(--clr-accent); }
+
         .motto-text {
           font-family: 'JetBrains Mono', monospace; font-size: clamp(11px, 1.2vw, 13px);
           letter-spacing: 3px; text-transform: uppercase; color: var(--clr-text-muted);
@@ -601,36 +611,45 @@ export default function PersonalSite() {
           <SectionHeading>I connect research<br />to <em>results</em>.</SectionHeading>
         </FadeIn>
         <FadeIn delay={0.15}>
-          <div className="about-columns" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, fontFamily: "'DM Sans', sans-serif", fontSize: 15, lineHeight: 1.8, color: "var(--clr-text-sec)" }}>
-            <div>
-              <p>
-                Every role follows one pattern: I build things that didn't exist before. Platforms,
-                pipelines, teams, processes. Then I make sure they ship. I work across the table from
-                sales, manufacturing, executives, and external partners, and I'm as fluent in the lab
-                as I am in the boardroom. The value I bring is connecting those worlds.
-              </p>
-              <p style={{ marginTop: 16 }}>
-                I'm a polymer scientist by training, but the pattern is always the same:
-                understand the real need, build the solution, make the business case, and
-                drive it to revenue.
-              </p>
+          {simpleMode ? (
+            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 17, lineHeight: 1.9, color: "var(--clr-text-sec)", maxWidth: 600 }}>
+              <p>You know how some stuff melts when it gets hot and some stuff breaks when you bend it? I figure out how to make stuff that doesn't do either of those things. Scientists and business people speak different languages. I speak both. But mostly I write emails about it.</p>
             </div>
-            <div>
-              <p>
-                At NeoGraf I inherited a four-person R&D team and made three new hires to build out the function. At Avient I designed
-                LDP rotation assignments that added capacity at zero cost — and mentored every
-                associate through real projects, not busywork. I care about structure: stage-gates,
-                clear ownership, documented processes. Good systems let good scientists focus on
-                science instead of fighting the organization.
-              </p>
-              <p style={{ marginTop: 16 }}>
-                I've loved science since I was a kid building model rockets and trebuchets in middle
-                school. That curiosity hasn't changed. I still love asking questions, understanding
-                how things work, and figuring out how to make them better. I just get to do it at
-                a bigger scale now.
-              </p>
+          ) : (
+            <div className="about-columns" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, fontFamily: "'DM Sans', sans-serif", fontSize: 15, lineHeight: 1.8, color: "var(--clr-text-sec)" }}>
+              <div>
+                <p>
+                  Every role follows one pattern: I build things that didn't exist before. Platforms,
+                  pipelines, teams, processes. Then I make sure they ship. I work across the table from
+                  sales, manufacturing, executives, and external partners, and I'm as fluent in the lab
+                  as I am in the boardroom. I connect those worlds.
+                </p>
+                <p style={{ marginTop: 16 }}>
+                  I'm a polymer scientist by training, but the pattern is always the same:
+                  understand the real need, build the solution, make the business case, and
+                  drive it to revenue.
+                </p>
+              </div>
+              <div>
+                <p>
+                  At NeoGraf I inherited a four-person R&D team and made three new hires to build out the function. At Avient I designed
+                  LDP rotation assignments that added capacity at zero cost, and mentored every
+                  associate through real projects, not busywork. I care about structure: stage-gates,
+                  clear ownership, documented processes. Good systems let good scientists focus on
+                  science instead of fighting the organization.
+                </p>
+                <p style={{ marginTop: 16 }}>
+                  I've loved science since I was a kid building model rockets and trebuchets in middle
+                  school. That curiosity hasn't changed. I still love asking questions, understanding
+                  how things work, and figuring out how to make them better. I just get to do it at
+                  a bigger scale now.
+                </p>
+              </div>
             </div>
-          </div>
+          )}
+          <button className="toggle-simple" onClick={() => setSimpleMode(s => !s)}>
+            {simpleMode ? "\u2190 Back to the real version" : "Explain it to a five-year-old \u2192"}
+          </button>
         </FadeIn>
       </section>
 
@@ -657,7 +676,7 @@ export default function PersonalSite() {
               {
                 num: "03",
                 heading: "Build the team, then get out of the way",
-                text: "Hire well, set clear goals, remove blockers, and trust people to deliver. I invest in structured onboarding, development conversations, and a culture where psychological safety and accountability coexist. Good scientists don't need micromanagement. They need air cover.",
+                text: "Hire well, set clear goals, remove blockers, and trust people to deliver. I invest in structured onboarding and real development conversations. Good scientists don't need micromanagement. They need a culture where they can say 'I don't know' without getting punished for it. They need air cover.",
               },
               {
                 num: "04",
@@ -696,7 +715,7 @@ export default function PersonalSite() {
               company: "Avient Corporation",
               role: "Technology Manager — Specialty Engineered Materials",
               date: "2022 — 2024",
-              desc: "Led a team of 6 scientists delivering customized solutions across 22 engineered thermoplastic product lines for this publicly traded, Fortune 1000 specialty materials company ($3.5B revenue). Generated $12M+ in new revenue through product launches and global technology transfers. Reduced R&D working capital by 93% through strategic inventory management. Doubled year-over-year invention records. Hosted R&D Leadership Development Program rotations, mentoring early-career scientists through structured product line and project assignments. Designed digital workflow systems that streamlined project management for a 25-person organization.",
+              desc: "Led a team of 6 scientists delivering customized solutions across 22 engineered thermoplastic product lines. Generated $12M+ in new revenue through product launches and global technology transfers. Reduced R&D working capital by 93% through strategic inventory management. Doubled year-over-year invention records. Hosted R&D Leadership Development Program rotations, mentoring early-career scientists through structured product line and project assignments. Designed digital workflow systems that streamlined project management for a 25-person organization.",
             },
             {
               company: "Avient Corporation",
@@ -708,7 +727,7 @@ export default function PersonalSite() {
               company: "PolyOne Corporation",
               role: "Senior R&D Engineer — Leadership Development Program",
               date: "2016 — 2018",
-              desc: "Selected for competitive corporate R&D leadership program with rotations across Lean Six Sigma, DOE, thermoplastic composite formulation, processing, and analytical methods. Built foundational skills in cross-functional collaboration and structured innovation.",
+              desc: "Selected for competitive corporate R&D leadership program with rotations across Lean Six Sigma, DOE, thermoplastic composite formulation, processing, and analytical methods. Learned how a $3B company actually moves products from lab to market.",
             },
             {
               company: "University of Akron",
@@ -782,19 +801,19 @@ export default function PersonalSite() {
           {[
             {
               label: "AI-Powered Data Tools",
-              desc: "Deployed AI-powered data tools that replaced weeks of manual entry with automated workflows — parsing certificates of analysis, extracting legacy test data, and building searchable databases for faster R&D decisions.",
+              desc: "Scientists were spending hours every week on manual data entry. I built tools to fix that: automated parsing of certificates of analysis, legacy test data extraction, and searchable databases that actually get used.",
             },
             {
               label: "Patent Analytics & IP Strategy",
-              desc: "Deployed AI-powered patent landscaping for rapid prior-art searches, automated competitor monitoring, and freedom-to-operate analyses, cutting external legal review time from weeks to hours.",
+              desc: "Patent searches used to take weeks and cost a fortune in outside counsel. I championed bringing in a patent analytics platform for prior-art searches, competitor monitoring, and freedom-to-operate analyses, then got the team actually using it. Hours instead of weeks.",
             },
             {
               label: "Electronic Lab Notebooks",
-              desc: "Led migration from paper-based data management to structured digital lab notebooks, creating standardized experimental templates and enabling cross-team knowledge sharing.",
+              desc: "Moved the lab from paper notebooks to a structured ELN. Standardized experimental templates so when someone leaves, their data doesn't leave with them.",
             },
             {
               label: "Innovation Management",
-              desc: "Implemented innovation management platforms integrating voice-of-customer data, stage-gate workflows, and portfolio performance dashboards that connect R&D investment to commercial outcomes.",
+              desc: "Built innovation management systems that connect the pipeline to the P&L: voice-of-customer data feeding into stage-gate workflows, with portfolio dashboards that show what's actually making money.",
             },
           ].map((item, i) => (
             <FadeIn key={i} delay={i * 0.08} style={{ height: "100%" }}>

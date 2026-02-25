@@ -4,7 +4,7 @@ import { dirname, join } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = join(__dirname, '..');
-const source = join(projectRoot, '..', '..', 'OneDrive - NeoGraf Solutions, LLC', '01_Projects', '_Consulting', '__Resume', 'website', 'HeadshotJohn.jpg');
+const source = join(projectRoot, 'headshot_studio_google_enhanced.jpeg');
 const publicDir = join(projectRoot, 'public');
 
 async function processImages() {
@@ -12,8 +12,10 @@ async function processImages() {
   console.log('Source:', source);
 
   // Hero headshot: 800x1200, JPEG quality 82
+  // Extracted manually to center the subject better (moved up and to the right)
   await sharp(source)
-    .resize(800, 1200, { fit: 'cover', position: 'top' })
+    .extract({ left: 250, top: 300, width: 3800, height: 5700 })
+    .resize(800, 1200)
     .jpeg({ quality: 82 })
     .toFile(join(publicDir, 'headshot.jpg'));
 

@@ -33,6 +33,14 @@ Once `john-swanson.com` is pointed to Netlify, update OG tags in `index.html`:
 - `og:image` and `twitter:image`: swap `john-swanson-site.netlify.app` → `john-swanson.com`
 - `og:url`: swap `john-swanson-site.netlify.app` → `john-swanson.com`
 
+## Feature Roadmap
+Potential additions discussed 2026-02-25, not yet implemented:
+- **Ask Me About icebreakers** — Italic line in Contact section: "Ask me about: building stage-gates from scratch, why I taught myself to code as a polymer scientist, solo marathon logistics, or the four weddings I've officiated." Lowers activation energy for recruiter outreach.
+- **Metric hover stories** — Origin story one-liners on Impact metric cards (hover/tap to reveal). Deferred because keeping customer names out is tricky. Revisit when John has time to write the stories himself.
+- **"What I'm not" interstitial** — Rejected (felt smug). The Digital R&D section already shows-not-tells.
+- **Proof of work line** — Skipped for now. ("642 files, 200+ material grades, I'm a polymer scientist.")
+- **Currently micro-section** — Footer section with Reading/Building/Running/Listening to. Swap monthly. Draft items: "Reading: Slow Productivity by Cal Newport / Building: A product selector app that actually makes sense / Running: Not currently. But the shoes are by the door. / Listening to: Whatever Julian is requesting on repeat"
+
 ## Future Content Refinement
 Consider using these Claude Code skills to iterate on website copy:
 - **`career-biographer`** — conduct structured interviews to surface stronger stories for About, Hero, and Beyond the Lab sections
