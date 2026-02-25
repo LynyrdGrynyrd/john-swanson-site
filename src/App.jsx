@@ -14,6 +14,39 @@ const useInView = (threshold = 0.12) => {
   return [ref, isVisible];
 };
 
+const TypingText = ({ text, delay = 0, style = {} }) => {
+  const [ref, isVisible] = useInView();
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
+  const hasRun = useRef(false);
+  useEffect(() => {
+    if (!isVisible || hasRun.current) return;
+    hasRun.current = true;
+    let i = 0;
+    const timeout = setTimeout(() => {
+      const interval = setInterval(() => {
+        i++;
+        setDisplayed(text.slice(0, i));
+        if (i >= text.length) { clearInterval(interval); setDone(true); }
+      }, 38);
+      return () => clearInterval(interval);
+    }, delay * 1000);
+    return () => clearTimeout(timeout);
+  }, [isVisible]);
+  return (
+    <p ref={ref} style={style}>
+      {displayed}
+      <span style={{
+        display: "inline-block", width: "1px", height: "0.85em",
+        background: "currentColor", marginLeft: "2px", verticalAlign: "text-bottom",
+        opacity: done ? 0 : 1,
+        animation: done ? "none" : "cursor-blink 1s step-end infinite",
+        transition: done ? "opacity 0.4s ease 0.6s" : "none",
+      }} />
+    </p>
+  );
+};
+
 const FadeIn = ({ children, delay = 0, className = "", style = {} }) => {
   const [ref, isVisible] = useInView();
   return (
@@ -73,6 +106,12 @@ export default function PersonalSite() {
   const [scrollY, setScrollY] = useState(0);
   const [activeSection, setActiveSection] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isDark, setIsDark] = useState(true);
+
+  useEffect(() => {
+    document.body.style.background = isDark ? "#0a0a0a" : "#f0ede8";
+    document.body.style.transition = "background 0.4s ease";
+  }, [isDark]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -101,13 +140,35 @@ export default function PersonalSite() {
   };
 
   return (
-    <div style={{ fontFamily: "'Source Serif 4', 'Georgia', serif", background: "#0a0a0a", color: "#e8e4df", minHeight: "100vh" }}>
+    <div style={{ fontFamily: "'Source Serif 4', 'Georgia', serif", background: "var(--clr-bg)", color: "var(--clr-text)", minHeight: "100vh", transition: "background 0.4s ease, color 0.4s ease" }}>
       <style>{`
+        :root {
+          --clr-bg: ${isDark ? '#0a0a0a' : '#f0ede8'};
+          --clr-bg-section: ${isDark ? '#0d0c0b' : '#e8e4df'};
+          --clr-bg-card: ${isDark ? '#0f0e0d' : '#faf8f5'};
+          --clr-text: ${isDark ? '#e8e4df' : '#1a1815'};
+          --clr-text-sec: ${isDark ? '#a09a93' : '#5a5550'};
+          --clr-text-sec-light: ${isDark ? '#d4cfc8' : '#3d3930'};
+          --clr-text-muted: ${isDark ? '#6b665e' : '#8a8480'};
+          --clr-text-footer: ${isDark ? '#3d3a36' : '#b0aba4'};
+          --clr-accent: ${isDark ? '#c4956a' : '#9a6f3a'};
+          --clr-accent-hover: ${isDark ? '#d4a57a' : '#b07f45'};
+          --clr-accent-muted: ${isDark ? 'rgba(196,149,106,0.27)' : 'rgba(154,111,58,0.27)'};
+          --clr-accent-subtle: ${isDark ? 'rgba(196,149,106,0.2)' : 'rgba(154,111,58,0.2)'};
+          --clr-border: ${isDark ? '#1f1d1a' : '#d8d3cc'};
+          --clr-border-subtle: ${isDark ? '#1a1917' : '#ddd9d2'};
+          --clr-border-faint: ${isDark ? '#141311' : '#e5e2dc'};
+          --clr-border-btn: ${isDark ? '#2a2724' : '#c0bab2'};
+          --clr-nav-bg: ${isDark ? 'rgba(10,10,10,0.85)' : 'rgba(240,237,232,0.85)'};
+          --clr-mobile-menu: ${isDark ? 'rgba(10,10,10,0.97)' : 'rgba(240,237,232,0.97)'};
+          --clr-selection-bg: ${isDark ? '#c4956a' : '#9a6f3a'};
+          --clr-selection-color: ${isDark ? '#0a0a0a' : '#f0ede8'};
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { background: #0a0a0a; }
-        ::selection { background: #c4956a; color: #0a0a0a; }
-        *:focus-visible { outline: 2px solid #c4956a; outline-offset: 2px; }
+        body { background: var(--clr-bg); }
+        ::selection { background: var(--clr-selection-bg); color: var(--clr-selection-color); }
+        *:focus-visible { outline: 2px solid var(--clr-accent); outline-offset: 2px; }
 
         .nav-fixed {
           position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -116,20 +177,20 @@ export default function PersonalSite() {
         }
         .nav-link {
           font-family: 'DM Sans', sans-serif; font-size: 12.5px; font-weight: 400;
-          letter-spacing: 1.2px; text-transform: uppercase; color: #a09a93;
+          letter-spacing: 1.2px; text-transform: uppercase; color: var(--clr-text-sec);
           background: none; border: none; cursor: pointer; padding: 8px 0;
           position: relative; transition: color 0.3s; white-space: nowrap;
         }
-        .nav-link:hover, .nav-link.active { color: #e8e4df; }
+        .nav-link:hover, .nav-link.active { color: var(--clr-text); }
         .nav-link::after {
           content: ''; position: absolute; bottom: 4px; left: 0; width: 0; height: 1px;
-          background: #c4956a; transition: width 0.3s;
+          background: var(--clr-accent); transition: width 0.3s;
         }
         .nav-link:hover::after, .nav-link.active::after { width: 100%; }
 
         .scroll-progress {
           position: fixed; top: 0; left: 0; right: 0; height: 2px;
-          background: #c4956a; transform-origin: left;
+          background: var(--clr-accent); transform-origin: left;
           transform: scaleX(var(--scroll-progress, 0));
           z-index: 101; pointer-events: none;
         }
@@ -137,18 +198,22 @@ export default function PersonalSite() {
         .back-to-top {
           position: fixed; bottom: 32px; right: 32px; z-index: 50;
           width: 44px; height: 44px; border-radius: 50%;
-          background: #1f1d1a; border: 1px solid #2a2724; color: #c4956a;
+          background: var(--clr-border); border: 1px solid var(--clr-border-btn); color: var(--clr-accent);
           font-size: 18px; cursor: pointer;
           opacity: 0; transform: translateY(8px);
           transition: opacity 0.3s, transform 0.3s, background 0.3s;
           display: flex; align-items: center; justify-content: center;
         }
         .back-to-top.visible { opacity: 1; transform: translateY(0); }
-        .back-to-top:hover { background: #2a2724; }
+        .back-to-top:hover { background: var(--clr-border-btn); }
 
         @keyframes pulse {
           0%, 100% { opacity: 0.4; transform: scale(1); }
           50% { opacity: 0; transform: scale(1.8); }
+        }
+        @keyframes cursor-blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
         }
         .status-dot {
           width: 8px; height: 8px; border-radius: 50%;
@@ -159,20 +224,31 @@ export default function PersonalSite() {
           background: #4ade80; animation: pulse 2s ease-in-out infinite;
         }
 
-        .grain-overlay {
+        .topo-overlay {
           position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-          pointer-events: none; z-index: 99; opacity: 0.025;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+          pointer-events: none; z-index: 99; opacity: ${isDark ? 0.03 : 0.05};
+          background-image: url("/topo.svg");
+          background-size: cover;
+          background-position: center;
+          ${isDark ? 'filter: invert(1);' : ''}
         }
 
         .section-label {
           font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500;
-          letter-spacing: 3px; text-transform: uppercase; color: #c4956a; margin-bottom: 12px;
-          position: relative; padding-left: 56px;
+          letter-spacing: 3px; text-transform: uppercase; color: var(--clr-accent); margin-bottom: 12px;
+          position: relative; padding-left: 64px;
         }
         .section-label::before {
           content: ''; position: absolute; left: 0; top: 50%;
-          width: 40px; height: 1px; background: #c4956a;
+          width: 48px; height: 24px; transform: translateY(-50%); background-color: var(--clr-accent);
+          -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12l6-6 6 6 6-6 6 6 6-6 6 6'/%3E%3Cpath d='M10 6v-4M22 6v-4M34 6v-4'/%3E%3Cpath d='M16 12v4M28 12v4M40 12v4'/%3E%3Cpath d='M15 16h2M27 16h2M39 16h2'/%3E%3C/svg%3E");
+          mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12l6-6 6 6 6-6 6 6 6-6 6 6'/%3E%3Cpath d='M10 6v-4M22 6v-4M34 6v-4'/%3E%3Cpath d='M16 12v4M28 12v4M40 12v4'/%3E%3Cpath d='M15 16h2M27 16h2M39 16h2'/%3E%3C/svg%3E");
+          -webkit-mask-size: contain;
+          mask-size: contain;
+          -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+          -webkit-mask-position: center;
+          mask-position: center;
         }
         .section-label-center {
           padding-left: 0; text-align: center;
@@ -181,108 +257,108 @@ export default function PersonalSite() {
 
         .section-title {
           font-family: 'Source Serif 4', serif; font-size: clamp(28px, 4vw, 42px);
-          font-weight: 300; line-height: 1.2; color: #e8e4df; margin-bottom: 40px;
+          font-weight: 300; line-height: 1.2; color: var(--clr-text); margin-bottom: 40px;
         }
-        .section-title em { font-style: italic; color: #c4956a; }
+        .section-title em { font-style: italic; color: var(--clr-accent); }
 
         .metric-card {
-          border: 1px solid #1f1d1a; padding: 32px; position: relative;
-          background: linear-gradient(135deg, #0f0e0d 0%, #0a0a0a 100%);
-          transition: border-color 0.4s, transform 0.3s;
+          border: 1px solid var(--clr-border); padding: 32px; position: relative;
+          background: linear-gradient(135deg, var(--clr-bg-card) 0%, var(--clr-bg) 100%);
+          transition: border-color 0.4s, transform 0.3s; height: 100%;
         }
-        .metric-card:hover { border-color: #c4956a44; transform: translateY(-2px); }
+        .metric-card:hover { border-color: var(--clr-accent-muted); transform: translateY(-2px); }
         .metric-value {
           font-family: 'Source Serif 4', serif; font-size: clamp(36px, 5vw, 56px);
-          font-weight: 300; color: #c4956a; line-height: 1;
+          font-weight: 300; color: var(--clr-accent); line-height: 1;
         }
         .metric-label {
           font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 400;
-          color: #a09a93; margin-top: 12px; line-height: 1.5; letter-spacing: 0.3px;
+          color: var(--clr-text-sec); margin-top: 12px; line-height: 1.5; letter-spacing: 0.3px;
         }
 
         .timeline-item {
-          border-left: 1px solid #1f1d1a; padding-left: 32px; padding-bottom: 48px;
+          border-left: 1px solid var(--clr-border); padding-left: 32px; padding-bottom: 48px;
           position: relative;
         }
         .timeline-item::before {
           content: ''; position: absolute; left: -4px; top: 6px;
           width: 7px; height: 7px; border-radius: 50%;
-          background: #c4956a; border: 2px solid #0a0a0a;
+          background: var(--clr-accent); border: 2px solid var(--clr-bg);
         }
         .timeline-company {
           font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500;
-          letter-spacing: 2px; text-transform: uppercase; color: #c4956a;
+          letter-spacing: 2px; text-transform: uppercase; color: var(--clr-accent);
         }
         .timeline-role {
           font-family: 'Source Serif 4', serif; font-size: clamp(20px, 2.5vw, 26px);
-          font-weight: 400; color: #e8e4df; margin: 8px 0 4px;
+          font-weight: 400; color: var(--clr-text); margin: 8px 0 4px;
         }
         .timeline-date {
-          font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b665e;
+          font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--clr-text-muted);
           letter-spacing: 0.5px;
         }
         .timeline-desc {
           font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.7;
-          color: #a09a93; margin-top: 16px;
+          color: var(--clr-text-sec); margin-top: 16px;
         }
 
         .pub-item {
           display: flex; justify-content: space-between; align-items: baseline; gap: 24px;
-          padding: 20px 0; border-bottom: 1px solid #1a1917; transition: padding-left 0.3s;
+          padding: 20px 0; border-bottom: 1px solid var(--clr-border-subtle); transition: padding-left 0.3s;
         }
         .pub-item:hover { padding-left: 8px; }
         .pub-title {
           font-family: 'Source Serif 4', serif; font-size: 15px; font-weight: 400;
-          color: #d4cfc8; line-height: 1.5;
+          color: var(--clr-text-sec-light); line-height: 1.5;
         }
         a.pub-title {
           text-decoration: none; transition: color 0.3s;
         }
-        a.pub-title:hover { color: #c4956a; }
+        a.pub-title:hover { color: var(--clr-accent); }
         .pub-journal {
-          font-family: 'DM Sans', sans-serif; font-size: 12px; color: #6b665e;
+          font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--clr-text-muted);
           margin-top: 4px; letter-spacing: 0.3px; flex-shrink: 0; white-space: nowrap;
         }
 
         .tag {
           display: inline-block; font-family: 'JetBrains Mono', monospace;
-          font-size: 11px; padding: 6px 14px; border: 1px solid #1f1d1a;
-          color: #a09a93; margin: 4px; transition: all 0.3s;
+          font-size: 11px; padding: 6px 14px; border: 1px solid var(--clr-border);
+          color: var(--clr-text-sec); margin: 4px; transition: all 0.3s;
         }
-        .tag:hover { border-color: #c4956a; color: #c4956a; }
+        .tag:hover { border-color: var(--clr-accent); color: var(--clr-accent); }
 
         .contact-link {
-          font-family: 'DM Sans', sans-serif; font-size: 15px; color: #a09a93;
+          font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--clr-text-sec);
           text-decoration: none; border-bottom: 1px solid transparent;
           transition: all 0.3s; padding-bottom: 2px;
         }
-        .contact-link:hover { color: #c4956a; border-bottom-color: #c4956a; }
+        .contact-link:hover { color: var(--clr-accent); border-bottom-color: var(--clr-accent); }
 
-        .hero-line { position: absolute; background: #1a1917; }
+        .hero-line { position: absolute; background: var(--clr-border-subtle); }
 
         .philosophy-card {
-          padding: 40px; border: 1px solid #1f1d1a; position: relative;
-          background: linear-gradient(145deg, #0f0e0d 0%, #0a0a0a 100%);
+          padding: 40px; border: 1px solid var(--clr-border); position: relative;
+          background: linear-gradient(145deg, var(--clr-bg-card) 0%, var(--clr-bg) 100%);
           transition: border-color 0.4s; height: 100%;
         }
-        .philosophy-card:hover { border-color: #c4956a33; }
+        .philosophy-card:hover { border-color: var(--clr-accent-subtle); }
         .philosophy-num {
-          font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #c4956a;
+          font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--clr-accent);
           letter-spacing: 2px; margin-bottom: 16px;
         }
         .philosophy-heading {
           font-family: 'Source Serif 4', serif; font-size: 20px; font-weight: 400;
-          color: #e8e4df; margin-bottom: 12px;
+          color: var(--clr-text); margin-bottom: 12px;
         }
         .philosophy-text {
           font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.7;
-          color: #a09a93;
+          color: var(--clr-text-sec);
         }
 
         .headshot-wrapper {
           width: clamp(160px, 20vw, 220px); height: clamp(160px, 20vw, 220px);
           border-radius: 50%; overflow: hidden; position: relative;
-          border: 2px solid #1f1d1a; flex-shrink: 0;
+          border: 2px solid var(--clr-border); flex-shrink: 0;
         }
         .headshot-wrapper::after {
           content: ''; position: absolute; inset: 0; border-radius: 50%;
@@ -294,28 +370,28 @@ export default function PersonalSite() {
         }
 
         .digital-grid-card {
-          padding: 32px; border: 1px solid #1f1d1a;
-          background: linear-gradient(145deg, #0f0e0d 0%, #0a0a0a 100%);
-          transition: border-color 0.4s;
+          padding: 32px; border: 1px solid var(--clr-border);
+          background: linear-gradient(145deg, var(--clr-bg-card) 0%, var(--clr-bg) 100%);
+          transition: border-color 0.4s; height: 100%;
         }
-        .digital-grid-card:hover { border-color: #c4956a33; }
+        .digital-grid-card:hover { border-color: var(--clr-accent-subtle); }
 
         .beyond-item {
           display: flex; gap: 16px; align-items: baseline;
-          padding: 16px 0; border-bottom: 1px solid #141311;
+          padding: 16px 0; border-bottom: 1px solid var(--clr-border-faint);
         }
         .beyond-icon {
           font-family: 'JetBrains Mono', monospace; font-size: 11px;
-          color: #c4956a; letter-spacing: 1px; flex-shrink: 0; width: 24px;
+          color: var(--clr-accent); letter-spacing: 1px; flex-shrink: 0; width: 24px;
         }
         .beyond-text {
           font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6;
-          color: #a09a93;
+          color: var(--clr-text-sec);
         }
 
         .motto-text {
           font-family: 'JetBrains Mono', monospace; font-size: clamp(11px, 1.2vw, 13px);
-          letter-spacing: 3px; text-transform: uppercase; color: #6b665e;
+          letter-spacing: 3px; text-transform: uppercase; color: var(--clr-text-muted);
         }
 
         .hamburger {
@@ -323,7 +399,7 @@ export default function PersonalSite() {
           width: 32px; height: 24px; position: relative;
         }
         .hamburger span {
-          display: block; width: 100%; height: 1px; background: #e8e4df;
+          display: block; width: 100%; height: 1px; background: var(--clr-text);
           position: absolute; transition: all 0.3s;
         }
         .hamburger span:nth-child(1) { top: 4px; }
@@ -332,17 +408,17 @@ export default function PersonalSite() {
 
         .mobile-menu {
           display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(10,10,10,0.97); z-index: 200;
+          background: var(--clr-mobile-menu); z-index: 200;
           flex-direction: column; align-items: center; justify-content: center; gap: 32px;
         }
         .mobile-menu.open { display: flex; }
         .mobile-menu button {
           font-family: 'Source Serif 4', serif; font-size: 28px; font-weight: 300;
-          background: none; border: none; color: #e8e4df; cursor: pointer;
+          background: none; border: none; color: var(--clr-text); cursor: pointer;
         }
         .mobile-close {
           position: absolute; top: 24px; right: 24px; background: none;
-          border: none; color: #a09a93; font-size: 28px; cursor: pointer;
+          border: none; color: var(--clr-text-sec); font-size: 28px; cursor: pointer;
         }
 
         @media (max-width: 768px) {
@@ -359,15 +435,15 @@ export default function PersonalSite() {
         }
       `}</style>
 
-      <div className="grain-overlay" />
+      <div className="topo-overlay" />
 
       {/* Navigation */}
       <nav className="nav-fixed" style={{
-        background: scrollY > 60 ? "rgba(10,10,10,0.85)" : "transparent",
-        borderBottom: scrollY > 60 ? "1px solid #1a1917" : "1px solid transparent",
+        background: scrollY > 60 ? "var(--clr-nav-bg)" : "transparent",
+          borderBottom: scrollY > 60 ? "1px solid var(--clr-border-subtle)" : "1px solid transparent",
       }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "16px 32px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 500, letterSpacing: 2, textTransform: "uppercase", color: "#e8e4df" }}>
+          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 500, letterSpacing: 2, textTransform: "uppercase", color: "var(--clr-text)" }}>
             JPS
           </div>
           <div className="nav-links-desktop" style={{ display: "flex", gap: 28 }}>
@@ -380,9 +456,50 @@ export default function PersonalSite() {
               );
             })}
           </div>
-          <button className="hamburger" onClick={() => setMenuOpen(true)} aria-label="Open menu">
-            <span /><span /><span />
-          </button>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <button
+              onClick={() => setIsDark(d => !d)}
+              title={isDark ? "sp\u00B2 \u2014 graphite" : "sp\u00B3 \u2014 diamond"}
+              aria-label="Toggle hybridization theme"
+              style={{
+                background: "none",
+                border: "1px solid var(--clr-border)",
+                color: "var(--clr-accent)",
+                cursor: "pointer",
+                height: 32,
+                padding: "0 10px",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                borderRadius: 3,
+                transition: "border-color 0.3s, color 0.3s",
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 13,
+                letterSpacing: 0.5,
+                flexShrink: 0,
+              }}
+            >
+              {isDark ? (
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="12,2 20.5,7 20.5,17 12,22 3.5,17 3.5,7" />
+                  <line x1="12" y1="2" x2="12" y2="22" />
+                  <line x1="3.5" y1="7" x2="20.5" y2="17" />
+                  <line x1="20.5" y1="7" x2="3.5" y2="17" />
+                </svg>
+              ) : (
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="12,1 23,9 12,23 1,9" />
+                  <polyline points="1,9 7,9 12,1 17,9 23,9" />
+                  <line x1="7" y1="9" x2="12" y2="23" />
+                  <line x1="17" y1="9" x2="12" y2="23" />
+                </svg>
+              )}
+              sp{isDark ? "\u00B2" : "\u00B3"}
+            </button>
+            <button className="hamburger" onClick={() => setMenuOpen(true)} aria-label="Open menu">
+              <span /><span /><span />
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -406,9 +523,9 @@ export default function PersonalSite() {
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px", width: "100%" }}>
           <div className="hero-grid" style={{ display: "flex", alignItems: "center", gap: "clamp(40px, 6vw, 80px)" }}>
             <div style={{ flex: 1 }}>
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 20, padding: "6px 16px", border: "1px solid #1f1d1a", borderRadius: 20 }}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 20, padding: "6px 16px", border: "1px solid var(--clr-border)", borderRadius: 20 }}>
                 <span className="status-dot" />
-                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, fontWeight: 500, letterSpacing: 0.5, color: "#a09a93" }}>
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, fontWeight: 500, letterSpacing: 0.5, color: "var(--clr-text-sec)" }}>
                   Open to Opportunities
                 </span>
               </div>
@@ -419,13 +536,13 @@ export default function PersonalSite() {
 
               <h1 style={{
                 fontFamily: "'Source Serif 4', serif", fontSize: "clamp(40px, 6vw, 76px)",
-                fontWeight: 300, lineHeight: 1.05, color: "#e8e4df", marginBottom: 24, letterSpacing: "-0.02em",
+                fontWeight: 300, lineHeight: 1.05, color: "var(--clr-text)", marginBottom: 24, letterSpacing: "-0.02em",
               }}>
                 John P.<br />Swanson
                 <span style={{
                   display: "block", fontSize: "clamp(14px, 1.6vw, 17px)",
                   fontFamily: "'DM Sans', sans-serif", fontWeight: 300,
-                  color: "#6b665e", marginTop: 10, letterSpacing: 1,
+                  color: "var(--clr-text-muted)", marginTop: 10, letterSpacing: 1,
                 }}>
                   R&D Director &middot; Ph.D. Polymer Science &middot; Cleveland
                 </span>
@@ -433,10 +550,10 @@ export default function PersonalSite() {
 
               <p style={{
                 fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(15px, 1.5vw, 17px)",
-                fontWeight: 300, color: "#a09a93", maxWidth: 540, lineHeight: 1.75,
+                fontWeight: 300, color: "var(--clr-text-sec)", maxWidth: 540, lineHeight: 1.75,
               }}>
-                I build R&D functions that turn science into revenue — and build
-                the teams to run them. I've built $53M product pipelines and I've officiated
+                I build R&D functions that turn science into revenue and build
+                the teams to run them. I've built a $50M+ product pipeline and I've officiated
                 four weddings. Both require understanding what people actually need.
               </p>
 
@@ -444,22 +561,22 @@ export default function PersonalSite() {
                 <button onClick={() => scrollTo("Contact")} style={{
                   fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500,
                   letterSpacing: 1.5, textTransform: "uppercase", padding: "14px 36px",
-                  background: "#c4956a", color: "#0a0a0a", border: "none", cursor: "pointer",
+                  background: "var(--clr-accent)", color: "var(--clr-bg)", border: "none", cursor: "pointer",
                   transition: "all 0.3s",
                 }}
-                  onMouseEnter={(e) => e.target.style.background = "#d4a57a"}
-                  onMouseLeave={(e) => e.target.style.background = "#c4956a"}
+                  onMouseEnter={(e) => e.target.style.background = "var(--clr-accent-hover)"}
+                  onMouseLeave={(e) => e.target.style.background = "var(--clr-accent)"}
                 >
                   Get in Touch
                 </button>
                 <button onClick={() => scrollTo("Experience")} style={{
                   fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500,
                   letterSpacing: 1.5, textTransform: "uppercase", padding: "14px 36px",
-                  background: "transparent", color: "#a09a93", border: "1px solid #2a2724",
+                  background: "transparent", color: "var(--clr-text-sec)", border: "1px solid var(--clr-border-btn)",
                   cursor: "pointer", transition: "all 0.3s",
                 }}
-                  onMouseEnter={(e) => { e.target.style.borderColor = "#c4956a"; e.target.style.color = "#e8e4df"; }}
-                  onMouseLeave={(e) => { e.target.style.borderColor = "#2a2724"; e.target.style.color = "#a09a93"; }}
+                  onMouseEnter={(e) => { e.target.style.borderColor = "var(--clr-accent)"; e.target.style.color = "var(--clr-text)"; }}
+                  onMouseLeave={(e) => { e.target.style.borderColor = "var(--clr-border-btn)"; e.target.style.color = "var(--clr-text-sec)"; }}
                 >
                   View Experience
                 </button>
@@ -473,7 +590,7 @@ export default function PersonalSite() {
         </div>
 
         <div style={{ position: "absolute", bottom: 40, left: "50%", transform: "translateX(-50%)" }}>
-          <div style={{ width: 1, height: 40, background: "linear-gradient(to bottom, transparent, #c4956a)" }} />
+          <div style={{ width: 1, height: 40, background: "linear-gradient(to bottom, transparent, var(--clr-accent))" }} />
         </div>
       </section>
 
@@ -484,10 +601,10 @@ export default function PersonalSite() {
           <SectionHeading>I connect research<br />to <em>results</em>.</SectionHeading>
         </FadeIn>
         <FadeIn delay={0.15}>
-          <div className="about-columns" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, fontFamily: "'DM Sans', sans-serif", fontSize: 15, lineHeight: 1.8, color: "#a09a93" }}>
+          <div className="about-columns" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, fontFamily: "'DM Sans', sans-serif", fontSize: 15, lineHeight: 1.8, color: "var(--clr-text-sec)" }}>
             <div>
               <p>
-                Every role follows one pattern: I build things that didn't exist before — platforms,
+                Every role follows one pattern: I build things that didn't exist before. Platforms,
                 pipelines, teams, processes. Then I make sure they ship. I work across the table from
                 sales, manufacturing, executives, and external partners, and I'm as fluent in the lab
                 as I am in the boardroom. The value I bring is connecting those worlds.
@@ -500,7 +617,7 @@ export default function PersonalSite() {
             </div>
             <div>
               <p>
-                At NeoGraf I inherited a team of four and grew it to eight. At Avient I designed
+                At NeoGraf I inherited a four-person R&D team and made three new hires to build out the function. At Avient I designed
                 LDP rotation assignments that added capacity at zero cost — and mentored every
                 associate through real projects, not busywork. I care about structure: stage-gates,
                 clear ownership, documented processes. Good systems let good scientists focus on
@@ -518,14 +635,14 @@ export default function PersonalSite() {
       </section>
 
       {/* Philosophy */}
-      <section id="philosophy" style={{ background: "#0d0c0b", padding: "120px 0" }}>
+      <section id="philosophy" style={{ background: "var(--clr-bg-section)", padding: "120px 0" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
           <FadeIn>
             <SectionLabel>How I Work</SectionLabel>
             <SectionHeading>Principles, not <em>platitudes</em>.</SectionHeading>
           </FadeIn>
 
-          <div className="philosophy-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1 }}>
+          <div className="philosophy-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 1 }}>
             {[
               {
                 num: "01",
@@ -542,8 +659,13 @@ export default function PersonalSite() {
                 heading: "Build the team, then get out of the way",
                 text: "Hire well, set clear goals, remove blockers, and trust people to deliver. I invest in structured onboarding, development conversations, and a culture where psychological safety and accountability coexist. Good scientists don't need micromanagement. They need air cover.",
               },
+              {
+                num: "04",
+                heading: "Innovation is the fire, not the spark",
+                text: "Invention creates something new. Innovation turns it into business value. I didn't invent polyketone or graphite materials. I built the systems, IP strategy, and commercial pathways that turned them into revenue. That distinction matters to me, and it shapes how I run R&D.",
+              },
             ].map((item, i) => (
-              <FadeIn key={i} delay={i * 0.1}>
+              <FadeIn key={i} delay={i * 0.1} style={{ height: "100%" }}>
                 <div className="philosophy-card">
                   <div className="philosophy-num">{item.num}</div>
                   <div className="philosophy-heading">{item.heading}</div>
@@ -568,7 +690,7 @@ export default function PersonalSite() {
               company: "NeoGraf Solutions",
               role: "Director of R&D",
               date: "2024 — 2026",
-              desc: "Hired to build an R&D function that didn't exist yet. Grew the team from four to eight, assembled an $18M+ development pipeline across four application domains, and built all the infrastructure from scratch — stage-gate frameworks, a 25-document IP policy (condensed to 4 people would actually read), electronic lab notebooks, portfolio performance reviews, and patent analytics. Helped manage a $2M DOE-funded program for fuel cell bipolar plate development. Presented innovation strategy quarterly to the Board. Zero safety incidents in 24 months.",
+              desc: "Inherited a four-person R&D team and made three new hires to build out the function. Turned it into a stage-gate organization and grew the development pipeline to multimillion-dollar scale across thermal, flame retardant, fuel cell, and sealing applications. Wrote the IP policy from scratch (25 documents condensed to 4 people would actually read), deployed electronic lab notebooks, and built patent analytics and portfolio reviews. Helped manage a $2M DOE-funded program for fuel cell bipolar plate development. Presented innovation strategy quarterly to the Board. Zero safety incidents in 24 months.",
             },
             {
               company: "Avient Corporation",
@@ -580,7 +702,7 @@ export default function PersonalSite() {
               company: "Avient Corporation",
               role: "Lead R&D Engineer — Specialty Engineered Materials",
               date: "2018 — 2022",
-              desc: "Took an unproven polymer platform — aliphatic polyketone — from first molecules to a $53M global sales funnel across four international business units, earning three Technology Excellence Awards and multiple patent families. Developed biodegradable packaging generating a $34.5M pipeline. Led rapid customer co-development for brands including Bose ($1.53M launch).",
+              desc: "Identified aliphatic polyketone as a compounding opportunity and developed patented blend families that grew into a $50M+ global sales pipeline across four international business units, earning three Technology Excellence Awards. Developed biodegradable packaging generating a $34.5M pipeline. Led rapid customer co-development for brands including Bose ($1.53M launch).",
             },
             {
               company: "PolyOne Corporation",
@@ -608,7 +730,7 @@ export default function PersonalSite() {
       </section>
 
       {/* Impact */}
-      <section id="impact" style={{ background: "#0d0c0b", padding: "120px 0" }}>
+      <section id="impact" style={{ background: "var(--clr-bg-section)", padding: "120px 0" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
           <FadeIn>
             <SectionLabel>Impact</SectionLabel>
@@ -617,16 +739,16 @@ export default function PersonalSite() {
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 1 }}>
             {[
-              { value: "$53M", label: "Global sales funnel built for a sustainable polymer platform at Avient, from zero" },
+              { value: "$50M+", label: "Global sales pipeline built from aliphatic polyketone platform at Avient" },
               { value: "$12M+", label: "New product revenue across multiple launches and technology transfers" },
               { value: "12", label: "Patents in thermoplastic blends, composites & biodegradable materials" },
               { value: "9", label: "Peer-reviewed publications in Macromolecules, Polymer Chemistry & ACS Macro Letters" },
               { value: "22", label: "Product lines managed across global business units" },
-              { value: "$18M+", label: "Development pipeline built at NeoGraf across thermal, FR, fuel cell & sealing applications" },
-              { value: "25", label: "Documents in IP policy framework — invention disclosure triage, trade secret management, FTO analysis & role-specific training" },
+              { value: "$18M+", label: "NPI pipeline developed as Director of R&D across thermal, FR, fuel cell & sealing applications" },
+              { value: "25", label: "Documents in IP policy framework: invention disclosure triage, trade secret management, FTO analysis & role-specific training" },
               { value: "93%", label: "Reduction in R&D working capital through proactive management" },
             ].map((m, i) => (
-              <FadeIn key={i} delay={i * 0.06}>
+              <FadeIn key={i} delay={i * 0.06} style={{ height: "100%" }}>
                 <div className="metric-card">
                   <CountUpValue value={m.value} />
                   <div className="metric-label">{m.label}</div>
@@ -647,11 +769,11 @@ export default function PersonalSite() {
         <FadeIn delay={0.1}>
           <p style={{
             fontFamily: "'DM Sans', sans-serif", fontSize: 16, lineHeight: 1.8,
-            color: "#a09a93", maxWidth: 700, marginBottom: 48,
+            color: "var(--clr-text-sec)", maxWidth: 700, marginBottom: 48,
           }}>
             Every team I've led, I've built digital systems to make the science faster
             and the decisions sharper. Not because I read an article about digital
-            transformation — because I got tired of watching scientists spend their time
+            transformation, but because I got tired of watching scientists spend their time
             on work a machine should do.
           </p>
         </FadeIn>
@@ -675,12 +797,12 @@ export default function PersonalSite() {
               desc: "Implemented innovation management platforms integrating voice-of-customer data, stage-gate workflows, and portfolio performance dashboards that connect R&D investment to commercial outcomes.",
             },
           ].map((item, i) => (
-            <FadeIn key={i} delay={i * 0.08}>
+            <FadeIn key={i} delay={i * 0.08} style={{ height: "100%" }}>
               <div className="digital-grid-card">
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 500, color: "#c4956a", marginBottom: 12, letterSpacing: 0.5 }}>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 500, color: "var(--clr-accent)", marginBottom: 12, letterSpacing: 0.5 }}>
                   {item.label}
                 </div>
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, lineHeight: 1.7, color: "#a09a93" }}>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, lineHeight: 1.7, color: "var(--clr-text-sec)" }}>
                   {item.desc}
                 </div>
               </div>
@@ -688,18 +810,18 @@ export default function PersonalSite() {
           ))}
         </div>
 
-        <FadeIn delay={0.3}>
-          <p style={{
-            fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#6b665e",
-            marginTop: 32, fontStyle: "italic",
-          }}>
-            Full disclosure: this website was built with AI too.
-          </p>
-        </FadeIn>
+        <TypingText
+          text="Full disclosure: this website was built with AI too."
+          delay={0.3}
+          style={{
+            fontFamily: "'JetBrains Mono', monospace", fontSize: 13, color: "var(--clr-text-muted)",
+            marginTop: 32, fontStyle: "normal", minHeight: "1.6em",
+          }}
+        />
       </section>
 
       {/* Technical Expertise */}
-      <section style={{ background: "#0d0c0b", padding: "120px 0" }}>
+      <section style={{ background: "var(--clr-bg-section)", padding: "120px 0" }}>
         <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 32px" }}>
           <FadeIn>
             <SectionLabel>Technical Expertise</SectionLabel>
@@ -723,7 +845,7 @@ export default function PersonalSite() {
             ].map((cat, i) => (
               <FadeIn key={i} delay={i * 0.1}>
                 <div>
-                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 500, color: "#c4956a", marginBottom: 16, letterSpacing: 0.5 }}>
+                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 500, color: "var(--clr-accent)", marginBottom: 16, letterSpacing: 0.5 }}>
                     {cat.heading}
                   </div>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 0 }}>
@@ -745,7 +867,7 @@ export default function PersonalSite() {
 
         <FadeIn delay={0.1}>
           <div style={{ marginBottom: 40 }}>
-            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, letterSpacing: 2, textTransform: "uppercase", color: "#6b665e", marginBottom: 16 }}>
+            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, letterSpacing: 2, textTransform: "uppercase", color: "var(--clr-text-muted)", marginBottom: 16 }}>
               Patents (selected from 12)
             </div>
             {[
@@ -766,7 +888,7 @@ export default function PersonalSite() {
 
         <FadeIn delay={0.15}>
           <div>
-            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, letterSpacing: 2, textTransform: "uppercase", color: "#6b665e", marginBottom: 16 }}>
+            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, letterSpacing: 2, textTransform: "uppercase", color: "var(--clr-text-muted)", marginBottom: 16 }}>
               Journal Articles (selected from 9)
             </div>
             {[
@@ -785,14 +907,14 @@ export default function PersonalSite() {
         </FadeIn>
 
         <FadeIn delay={0.2}>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#6b665e", marginTop: 32, fontStyle: "italic" }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "var(--clr-text-muted)", marginTop: 32, fontStyle: "italic" }}>
             Full publication list and Google Scholar profile available upon request.
           </p>
         </FadeIn>
       </section>
 
       {/* Beyond the Lab */}
-      <section style={{ background: "#0d0c0b", padding: "120px 0" }}>
+      <section style={{ background: "var(--clr-bg-section)", padding: "120px 0" }}>
         <div style={{ maxWidth: 700, margin: "0 auto", padding: "0 32px" }}>
           <FadeIn>
             <SectionLabel>Beyond the Lab</SectionLabel>
@@ -825,12 +947,12 @@ export default function PersonalSite() {
             <SectionLabel center>Contact</SectionLabel>
             <h2 style={{
               fontFamily: "'Source Serif 4', serif", fontSize: "clamp(32px, 5vw, 52px)",
-              fontWeight: 300, color: "#e8e4df", lineHeight: 1.15, marginBottom: 24,
+              fontWeight: 300, color: "var(--clr-text)", lineHeight: 1.15, marginBottom: 24,
             }}>
               Let's talk.
             </h2>
             <p style={{
-              fontFamily: "'DM Sans', sans-serif", fontSize: 16, color: "#a09a93",
+              fontFamily: "'DM Sans', sans-serif", fontSize: 16, color: "var(--clr-text-sec)",
               lineHeight: 1.7, maxWidth: 500, margin: "0 auto 48px",
             }}>
               Whether you're hiring, building an innovation team, or exploring
@@ -849,10 +971,22 @@ export default function PersonalSite() {
 
       {/* Footer */}
       <footer style={{
-        borderTop: "1px solid #1a1917", padding: "32px", textAlign: "center",
-        fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#3d3a36", letterSpacing: 0.5,
+        borderTop: "1px solid var(--clr-border-subtle)", padding: "48px 32px", textAlign: "center",
+        fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "var(--clr-text-footer)", letterSpacing: 0.5,
       }}>
-        &copy; 2026 John P. Swanson &middot; Lakewood, Ohio
+        <div style={{ marginBottom: 32 }}>
+          &copy; 2026 John P. Swanson &middot; Lakewood, Ohio
+        </div>
+        
+        <div style={{ 
+          maxWidth: 500, margin: "0 auto", fontSize: 10, color: "var(--clr-text-muted)", 
+          opacity: 0.5, lineHeight: 1.6, transition: "opacity 0.3s"
+        }}
+        onMouseEnter={(e) => e.currentTarget.style.opacity = 1}
+        onMouseLeave={(e) => e.currentTarget.style.opacity = 0.5}
+        >
+          <strong>About this site:</strong> This site was designed in conversation with Claude, Gemini, Codex, and VS Code/Windsurf, built with React and Vite, and deployed on Netlify. The background texture is inspired by USGS topographic maps of the Rocky River Reservation. Minimal frameworks were harmed in the making of this website.
+        </div>
       </footer>
 
       {/* Back to Top */}
