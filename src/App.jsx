@@ -1,9 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 const useInView = (threshold = 0.12) => {
   const ref = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(() => prefersReducedMotion());
   useEffect(() => {
+    if (prefersReducedMotion()) { setIsVisible(true); return; }
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
       { threshold }
@@ -15,10 +19,11 @@ const useInView = (threshold = 0.12) => {
 };
 
 const TypingText = ({ text, delay = 0, style = {} }) => {
+  const reduced = prefersReducedMotion();
   const [ref, isVisible] = useInView();
-  const [displayed, setDisplayed] = useState("");
-  const [done, setDone] = useState(false);
-  const hasRun = useRef(false);
+  const [displayed, setDisplayed] = useState(reduced ? text : "");
+  const [done, setDone] = useState(reduced);
+  const hasRun = useRef(reduced);
   useEffect(() => {
     if (!isVisible || hasRun.current) return;
     hasRun.current = true;
@@ -207,6 +212,15 @@ export default function PersonalSite() {
         }
         .back-to-top.visible { opacity: 1; transform: translateY(0); }
         .back-to-top:hover { background: var(--clr-border-btn); }
+
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+          }
+        }
 
         @keyframes pulse {
           0%, 100% { opacity: 0.4; transform: scale(1); }
@@ -594,7 +608,10 @@ export default function PersonalSite() {
             </div>
 
             <div className="headshot-wrapper">
-              <img src="/headshot.jpg" alt="John P. Swanson" />
+              <picture>
+                <source srcSet="/headshot.webp" type="image/webp" />
+                <img src="/headshot.jpg" alt="John P. Swanson" />
+              </picture>
             </div>
           </div>
         </div>
