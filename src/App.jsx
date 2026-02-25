@@ -241,7 +241,7 @@ export default function PersonalSite() {
 
         .topo-overlay {
           position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-          pointer-events: none; z-index: 99; opacity: ${isDark ? 0.015 : 0.025};
+          pointer-events: none; z-index: 99; opacity: ${isDark ? 0.07 : 0.06};
           background-image: url("/topo.svg");
           background-size: cover;
           background-position: center;
