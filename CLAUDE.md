@@ -3,7 +3,7 @@
 ## Project Overview
 Single-page personal website for John Swanson's job search. Vite + React, deployed on Netlify free tier via GitHub (`lynyrdgrynyrd/john-swanson-site`).
 
-The entire site is one component: `src/App.jsx` (~760 lines). No routing, no CSS files, no state management library. Styles are inline + a `<style>` block inside the component. This is intentional — keep it simple.
+The site is built with React components and custom hooks for better maintainability. The main entry point is `src/App.jsx`, which orchestrates the sections. No routing or complex state management libraries are used. Styles are handled via `src/App.css`, `src/theme.js`, and inline styles.
 
 ## Key Details
 
