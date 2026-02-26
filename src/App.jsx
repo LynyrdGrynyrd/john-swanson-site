@@ -10,9 +10,13 @@ import { ExpertiseSection } from "./components/sections/Expertise";
 import { PublicationsSection } from "./components/sections/Publications";
 import { BeyondSection } from "./components/sections/Beyond";
 import { ContactSection } from "./components/sections/Contact";
-import { NAV_LINKS, NAV_SLUGS, toSlug, FOOTER_CONTENT } from "./data";
+import { NAV_LINKS, NAV_SLUGS, toSlug } from "./data";
 import { themes } from "./theme";
 import { SCROLL_THRESHOLDS } from "./constants";
+import { ThemeToggle } from "./components/ui/ThemeToggle";
+import { MobileMenu } from "./components/ui/MobileMenu";
+import { Footer } from "./components/ui/Footer";
+import { BackToTop } from "./components/ui/BackToTop";
 
 export default function PersonalSite() {
   const [navSolid, setNavSolid] = useState(false);
@@ -84,29 +88,7 @@ export default function PersonalSite() {
           </div>
 
           <div className="nav-actions">
-            <button
-              onClick={() => setIsDark((state) => !state)}
-              title={isDark ? "sp² — graphite" : "sp³ — diamond"}
-              aria-label="Toggle hybridization theme"
-              className="theme-toggle"
-            >
-              {isDark ? (
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <polygon points="12,2 20.5,7 20.5,17 12,22 3.5,17 3.5,7" />
-                  <line x1="12" y1="2" x2="12" y2="22" />
-                  <line x1="3.5" y1="7" x2="20.5" y2="17" />
-                  <line x1="20.5" y1="7" x2="3.5" y2="17" />
-                </svg>
-              ) : (
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <polygon points="12,1 23,9 12,23 1,9" />
-                  <polyline points="1,9 7,9 12,1 17,9 23,9" />
-                  <line x1="7" y1="9" x2="12" y2="23" />
-                  <line x1="17" y1="9" x2="12" y2="23" />
-                </svg>
-              )}
-              sp{isDark ? "²" : "³"}
-            </button>
+            <ThemeToggle isDark={isDark} setIsDark={setIsDark} />
 
             <button className="hamburger" onClick={() => setMenuOpen(true)} aria-label="Open menu">
               <span />
@@ -119,16 +101,7 @@ export default function PersonalSite() {
 
       <div className="scroll-progress" />
 
-      <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
-        <button className="mobile-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">
-          &#10005;
-        </button>
-        {NAV_LINKS.map((link) => (
-          <button key={link} onClick={() => scrollTo(link)}>
-            {link}
-          </button>
-        ))}
-      </div>
+      <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} scrollTo={scrollTo} />
 
       <HeroSection scrollTo={scrollTo} />
       <AboutSection simpleMode={simpleMode} setSimpleMode={setSimpleMode} />
@@ -141,20 +114,9 @@ export default function PersonalSite() {
       <BeyondSection />
       <ContactSection />
 
-      {/* Footer */}
-      <footer className="site-footer">
-        <div className="footer-copyright">
-          &copy; 2026 {FOOTER_CONTENT.COPYRIGHT_TEXT}
-        </div>
-        
-        <div className="footer-note">
-          <strong>About this site:</strong> {FOOTER_CONTENT.NOTE_TEXT}
-        </div>
-      </footer>
+      <Footer />
 
-      <button className={`back-to-top ${showTopBtn ? "visible" : ""}`} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Back to top">
-        &#8593;
-      </button>
+      <BackToTop showTopBtn={showTopBtn} />
     </div>
   );
 }
