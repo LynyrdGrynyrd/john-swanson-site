@@ -1,0 +1,5 @@
+export const SCROLL_THRESHOLDS = {
+  NAV_SOLID: 60,
+  SHOW_TOP_BTN: 400,
+  SECTION_ACTIVE: 200,
+};

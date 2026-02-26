@@ -12,6 +12,7 @@ import { BeyondSection } from "./components/sections/Beyond";
 import { ContactSection } from "./components/sections/Contact";
 import { NAV_LINKS, NAV_SLUGS, toSlug } from "./content/navigation";
 import { themes } from "./theme";
+import { SCROLL_THRESHOLDS } from "./constants";
 
 export default function PersonalSite() {
   const [navSolid, setNavSolid] = useState(false);
@@ -35,8 +36,8 @@ export default function PersonalSite() {
       ticking = true;
       requestAnimationFrame(() => {
         const y = window.scrollY;
-        setNavSolid(y > 60);
-        setShowTopBtn(y > 400);
+        setNavSolid(y > SCROLL_THRESHOLDS.NAV_SOLID);
+        setShowTopBtn(y > SCROLL_THRESHOLDS.SHOW_TOP_BTN);
 
         document.documentElement.style.setProperty(
           "--scroll-progress",
@@ -45,7 +46,7 @@ export default function PersonalSite() {
 
         for (let i = NAV_SLUGS.length - 1; i >= 0; i -= 1) {
           const element = document.getElementById(NAV_SLUGS[i]);
-          if (element && element.getBoundingClientRect().top < 200) {
+          if (element && element.getBoundingClientRect().top < SCROLL_THRESHOLDS.SECTION_ACTIVE) {
             setActiveSection(NAV_SLUGS[i]);
             break;
           }
