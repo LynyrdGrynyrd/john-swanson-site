@@ -317,3 +317,11 @@ a.pub-title:hover { color: var(--clr-accent); }
   .pub-item { flex-direction: column; gap: 4px; }
   .back-to-top { bottom: 20px; right: 20px; }
 }
+
+.app-container {
+  font-family: 'Source Serif 4', 'Georgia', serif;
+  background: var(--clr-bg);
+  color: var(--clr-text);
+  min-height: 100vh;
+  transition: background 0.4s ease, color 0.4s ease;
+}
