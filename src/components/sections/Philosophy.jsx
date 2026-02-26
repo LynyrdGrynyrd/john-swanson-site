@@ -1,4 +1,4 @@
-import { PHILOSOPHY_ITEMS } from "../../content/siteContent";
+import { PHILOSOPHY_ITEMS } from "../../data";
 import { FadeIn } from "../ui/FadeIn";
 import { SectionHeading, SectionLabel } from "../ui/SectionHeader";
 

@@ -1,4 +1,4 @@
-import { BEYOND_ITEMS } from "../../content/siteContent";
+import { BEYOND_ITEMS } from "../../data";
 import { FadeIn } from "../ui/FadeIn";
 import { SectionHeading, SectionLabel } from "../ui/SectionHeader";
 

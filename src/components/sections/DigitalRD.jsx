@@ -1,4 +1,4 @@
-import { DIGITAL_RD_ITEMS } from "../../content/siteContent";
+import { DIGITAL_RD_ITEMS } from "../../data";
 import { FadeIn } from "../ui/FadeIn";
 import { SectionHeading, SectionLabel } from "../ui/SectionHeader";
 import { TypingText } from "../ui/TypingText";

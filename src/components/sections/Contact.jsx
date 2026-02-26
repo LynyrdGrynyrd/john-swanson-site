@@ -1,4 +1,4 @@
-import { PROFILE_LINKS } from "../../content/siteContent";
+import { PROFILE_LINKS } from "../../data";
 import { FadeIn } from "../ui/FadeIn";
 import { SectionLabel } from "../ui/SectionHeader";
 

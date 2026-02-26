@@ -1,4 +1,4 @@
-import { EXPERTISE_CATEGORIES } from "../../content/siteContent";
+import { EXPERTISE_CATEGORIES } from "../../data";
 import { FadeIn } from "../ui/FadeIn";
 import { SectionHeading, SectionLabel } from "../ui/SectionHeader";
 
