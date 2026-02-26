@@ -13,6 +13,10 @@ import { ContactSection } from "./components/sections/Contact";
 import { NAV_LINKS, NAV_SLUGS, toSlug } from "./content/navigation";
 import { themes } from "./theme";
 import { SCROLL_THRESHOLDS } from "./constants";
+import { ThemeToggle } from "./components/ui/ThemeToggle";
+import { MobileMenu } from "./components/ui/MobileMenu";
+import { Footer } from "./components/ui/Footer";
+import { BackToTop } from "./components/ui/BackToTop";
 
 export default function PersonalSite() {
   const [navSolid, setNavSolid] = useState(false);
@@ -90,45 +94,7 @@ export default function PersonalSite() {
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <button
-              onClick={() => setIsDark((state) => !state)}
-              title={isDark ? "sp² — graphite" : "sp³ — diamond"}
-              aria-label="Toggle hybridization theme"
-              style={{
-                background: "none",
-                border: "1px solid var(--clr-border)",
-                color: "var(--clr-accent)",
-                cursor: "pointer",
-                height: 32,
-                padding: "0 10px",
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                borderRadius: 3,
-                transition: "border-color 0.3s, color 0.3s",
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 13,
-                letterSpacing: 0.5,
-                flexShrink: 0,
-              }}
-            >
-              {isDark ? (
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <polygon points="12,2 20.5,7 20.5,17 12,22 3.5,17 3.5,7" />
-                  <line x1="12" y1="2" x2="12" y2="22" />
-                  <line x1="3.5" y1="7" x2="20.5" y2="17" />
-                  <line x1="20.5" y1="7" x2="3.5" y2="17" />
-                </svg>
-              ) : (
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <polygon points="12,1 23,9 12,23 1,9" />
-                  <polyline points="1,9 7,9 12,1 17,9 23,9" />
-                  <line x1="7" y1="9" x2="12" y2="23" />
-                  <line x1="17" y1="9" x2="12" y2="23" />
-                </svg>
-              )}
-              sp{isDark ? "²" : "³"}
-            </button>
+            <ThemeToggle isDark={isDark} setIsDark={setIsDark} />
 
             <button className="hamburger" onClick={() => setMenuOpen(true)} aria-label="Open menu">
               <span />
@@ -141,16 +107,7 @@ export default function PersonalSite() {
 
       <div className="scroll-progress" />
 
-      <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
-        <button className="mobile-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">
-          &#10005;
-        </button>
-        {NAV_LINKS.map((link) => (
-          <button key={link} onClick={() => scrollTo(link)}>
-            {link}
-          </button>
-        ))}
-      </div>
+      <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} scrollTo={scrollTo} />
 
       <HeroSection scrollTo={scrollTo} />
       <AboutSection simpleMode={simpleMode} setSimpleMode={setSimpleMode} />
@@ -163,23 +120,9 @@ export default function PersonalSite() {
       <BeyondSection />
       <ContactSection />
 
-      {/* Footer */}
-      <footer style={{
-        borderTop: "1px solid var(--clr-border-subtle)", padding: "48px 32px", textAlign: "center",
-        fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "var(--clr-text-footer)", letterSpacing: 0.5,
-      }}>
-        <div style={{ marginBottom: 32 }}>
-          &copy; 2026 John P. Swanson &middot; Lakewood, Ohio
-        </div>
-        
-        <div className="footer-note">
-          <strong>About this site:</strong> This site was designed in conversation with Claude, Gemini, Codex, and VS Code/Windsurf, built with React and Vite, and deployed on Netlify. The background texture is inspired by USGS topographic maps of the Rocky River Reservation. Minimal frameworks were harmed in the making of this website.
-        </div>
-      </footer>
+      <Footer />
 
-      <button className={`back-to-top ${showTopBtn ? "visible" : ""}`} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Back to top">
-        &#8593;
-      </button>
+      <BackToTop showTopBtn={showTopBtn} />
     </div>
   );
 }
