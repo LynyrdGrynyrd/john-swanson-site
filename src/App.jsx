@@ -641,8 +641,11 @@ export default function PersonalSite() {
         </FadeIn>
 
         <FadeIn delay={0.2}>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "var(--clr-text-muted)", marginTop: 32, fontStyle: "italic" }}>
-            Full publication list and Google Scholar profile available upon request.
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "var(--clr-text-muted)", marginTop: 32, display: "flex", gap: 20, flexWrap: "wrap", alignItems: "center" }}>
+            <span style={{ fontStyle: "italic" }}>Full publication list →</span>
+            <a href="https://scholar.google.com/citations?user=A4L-xLoAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" style={{ color: "var(--clr-accent)", textDecoration: "none", borderBottom: "1px solid transparent", transition: "border-color 0.2s" }} onMouseEnter={e => e.currentTarget.style.borderColor = "var(--clr-accent)"} onMouseLeave={e => e.currentTarget.style.borderColor = "transparent"}>Google Scholar</a>
+            <a href="https://www.researchgate.net/profile/John-Swanson" target="_blank" rel="noopener noreferrer" style={{ color: "var(--clr-accent)", textDecoration: "none", borderBottom: "1px solid transparent", transition: "border-color 0.2s" }} onMouseEnter={e => e.currentTarget.style.borderColor = "var(--clr-accent)"} onMouseLeave={e => e.currentTarget.style.borderColor = "transparent"}>ResearchGate</a>
+            <a href="https://orcid.org/0000-0001-8820-7273" target="_blank" rel="noopener noreferrer" style={{ color: "var(--clr-accent)", textDecoration: "none", borderBottom: "1px solid transparent", transition: "border-color 0.2s" }} onMouseEnter={e => e.currentTarget.style.borderColor = "var(--clr-accent)"} onMouseLeave={e => e.currentTarget.style.borderColor = "transparent"}>ORCID</a>
           </p>
         </FadeIn>
       </section>
