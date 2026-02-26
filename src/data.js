@@ -1,3 +1,9 @@
+export const NAV_LINKS = ["About", "Philosophy", "Experience", "Impact", "Digital R&D", "Publications", "Contact"];
+
+export const toSlug = (value) => value.toLowerCase().replace(/\s+/g, "-").replace("&", "and");
+
+export const NAV_SLUGS = NAV_LINKS.map(toSlug);
+
 export const PHILOSOPHY_ITEMS = [
   {
     num: "01",
@@ -130,7 +136,6 @@ export const JOURNAL_ARTICLES = [
   { title: "Development of Polymeric Phase Change Materials On the basis of Diels-Alder Chemistry", subtitle: "Macromolecules, 2010", url: "https://doi.org/10.1021/ma100836c" },
 ];
 
-
 export const PROFILE_LINKS = [
   { label: "LinkedIn", href: "https://linkedin.com/in/johnpswanson", display: "linkedin.com/in/johnpswanson" },
   { label: "Google Scholar", href: "https://scholar.google.com/citations?user=A4L-xLoAAAAJ&hl=en", display: "Google Scholar" },
@@ -138,9 +143,13 @@ export const PROFILE_LINKS = [
   { label: "ResearchGate", href: "https://www.researchgate.net/profile/John-Swanson", display: "ResearchGate" },
 ];
 
-
 export const PUBLICATION_PROFILE_LINKS = [
   { label: "Google Scholar", href: "https://scholar.google.com/citations?user=A4L-xLoAAAAJ&hl=en" },
   { label: "ResearchGate", href: "https://www.researchgate.net/profile/John-Swanson" },
   { label: "ORCID", href: "https://orcid.org/0000-0001-8820-7273" },
 ];
+
+export const FOOTER_CONTENT = {
+  COPYRIGHT_TEXT: "John P. Swanson \u00B7 Lakewood, Ohio",
+  NOTE_TEXT: "This site was designed in conversation with Claude, Gemini, Codex, and VS Code/Windsurf, built with React and Vite, and deployed on Netlify. The background texture is inspired by USGS topographic maps of the Rocky River Reservation. Minimal frameworks were harmed in the making of this website."
+};

@@ -1,4 +1,4 @@
-import { IMPACT_METRICS } from "../../content/siteContent";
+import { IMPACT_METRICS } from "../../data";
 import { CountUpValue } from "../ui/CountUpValue";
 import { FadeIn } from "../ui/FadeIn";
 import { SectionHeading, SectionLabel } from "../ui/SectionHeader";

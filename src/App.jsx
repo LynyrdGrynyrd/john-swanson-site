@@ -10,7 +10,7 @@ import { ExpertiseSection } from "./components/sections/Expertise";
 import { PublicationsSection } from "./components/sections/Publications";
 import { BeyondSection } from "./components/sections/Beyond";
 import { ContactSection } from "./components/sections/Contact";
-import { NAV_LINKS, NAV_SLUGS, toSlug } from "./content/navigation";
+import { NAV_LINKS, NAV_SLUGS, toSlug, FOOTER_CONTENT } from "./data";
 import { themes } from "./theme";
 import { SCROLL_THRESHOLDS } from "./constants";
 
@@ -169,11 +169,11 @@ export default function PersonalSite() {
         fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "var(--clr-text-footer)", letterSpacing: 0.5,
       }}>
         <div style={{ marginBottom: 32 }}>
-          &copy; 2026 John P. Swanson &middot; Lakewood, Ohio
+          &copy; 2026 {FOOTER_CONTENT.COPYRIGHT_TEXT}
         </div>
         
         <div className="footer-note">
-          <strong>About this site:</strong> This site was designed in conversation with Claude, Gemini, Codex, and VS Code/Windsurf, built with React and Vite, and deployed on Netlify. The background texture is inspired by USGS topographic maps of the Rocky River Reservation. Minimal frameworks were harmed in the making of this website.
+          <strong>About this site:</strong> {FOOTER_CONTENT.NOTE_TEXT}
         </div>
       </footer>
 

@@ -1,4 +1,4 @@
-import { JOURNAL_ARTICLES, PATENTS, PUBLICATION_PROFILE_LINKS } from "../../content/siteContent";
+import { JOURNAL_ARTICLES, PATENTS, PUBLICATION_PROFILE_LINKS } from "../../data";
 import { FadeIn } from "../ui/FadeIn";
 import { PublicationList } from "../ui/PublicationList";
 import { SectionHeading, SectionLabel } from "../ui/SectionHeader";
