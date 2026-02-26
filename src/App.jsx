@@ -28,15 +28,15 @@ const TypingText = ({ text, delay = 0, style = {} }) => {
     if (!isVisible || hasRun.current) return;
     hasRun.current = true;
     let i = 0;
+    let intervalId;
     const timeout = setTimeout(() => {
-      const interval = setInterval(() => {
+      intervalId = setInterval(() => {
         i++;
         setDisplayed(text.slice(0, i));
-        if (i >= text.length) { clearInterval(interval); setDone(true); }
+        if (i >= text.length) { clearInterval(intervalId); setDone(true); }
       }, 38);
-      return () => clearInterval(interval);
     }, delay * 1000);
-    return () => clearTimeout(timeout);
+    return () => { clearTimeout(timeout); if (intervalId) clearInterval(intervalId); };
   }, [isVisible]);
   return (
     <p ref={ref} style={style}>
@@ -78,6 +78,18 @@ const SectionHeading = ({ children }) => (
   <h2 className="section-title">{children}</h2>
 );
 
+const PublicationList = ({ title, items }) => (
+  <div style={{ marginBottom: 40 }}>
+    <div className="sub-label">{title}</div>
+    {items.map((p, i) => (
+      <div key={i} className="pub-item">
+        <a href={p.url} className="pub-title" target="_blank" rel="noopener noreferrer">{p.title}</a>
+        <div className="pub-journal">{p.subtitle}</div>
+      </div>
+    ))}
+  </div>
+);
+
 const CountUpValue = ({ value }) => {
   const [ref, isVisible] = useInView();
   const hasRun = useRef(false);
@@ -106,42 +118,172 @@ const CountUpValue = ({ value }) => {
 };
 
 const NAV_LINKS = ["About", "Philosophy", "Experience", "Impact", "Digital R&D", "Publications", "Contact"];
+const toSlug = (s) => s.toLowerCase().replace(/\s+/g, "-").replace("&", "and");
+const NAV_SLUGS = NAV_LINKS.map(toSlug);
+
+const PHILOSOPHY_ITEMS = [
+  {
+    num: "01",
+    heading: "Leave it better than you found it",
+    text: "Product lines, labs, teams, processes. My measure of success is whether things are meaningfully better because I was involved. I hate waste. I love solving problems. If something's broken, I'm probably already sketching a fix.",
+  },
+  {
+    num: "02",
+    heading: "Translate, don't gatekeep",
+    text: "The best R&D leaders are bilingual: they speak science and they speak business. I sit between the lab and the P&L and make both sides feel understood. Customer requirements become technical specifications. Data becomes a story executives can act on.",
+  },
+  {
+    num: "03",
+    heading: "Build the team, then get out of the way",
+    text: "Hire well, set clear goals, remove blockers, and trust people to deliver. I invest in structured onboarding and real development conversations. Good scientists don't need micromanagement. They need a culture where they can say 'I don't know' without getting punished for it. They need air cover.",
+  },
+  {
+    num: "04",
+    heading: "Innovation is the fire, not the spark",
+    text: "Invention creates something new. Innovation turns it into business value. I didn't invent polyketone or graphite materials. I built the systems, IP strategy, and commercial pathways that turned them into revenue. That distinction matters to me, and it shapes how I run R&D.",
+  },
+];
+
+const EXPERIENCE_ITEMS = [
+  {
+    company: "NeoGraf Solutions",
+    role: "Director of R&D",
+    date: "2024 \u2014 2026",
+    desc: "Inherited a four-person R&D team and made three new hires to build out the function. Turned it into a stage-gate organization and grew the development pipeline to multimillion-dollar scale across thermal, flame retardant, fuel cell, and sealing applications. Wrote the IP policy from scratch (25 documents condensed to 4 people would actually read), deployed electronic lab notebooks, and built patent analytics and portfolio reviews. Helped manage a $2M DOE-funded program for fuel cell bipolar plate development. Presented innovation strategy quarterly to the Board. Zero safety incidents in 24 months.",
+  },
+  {
+    company: "Avient Corporation",
+    role: "Technology Manager \u2014 Specialty Engineered Materials",
+    date: "2022 \u2014 2024",
+    desc: "Led a team of 6 scientists delivering customized solutions across 22 engineered thermoplastic product lines. Generated $12M+ in new revenue through product launches and global technology transfers. Reduced R&D working capital by 93% through strategic inventory management. Doubled year-over-year invention records. Hosted R&D Leadership Development Program rotations, mentoring early-career scientists through structured product line and project assignments. Designed digital workflow systems that streamlined project management for a 25-person organization.",
+  },
+  {
+    company: "Avient Corporation",
+    role: "Lead R&D Engineer \u2014 Specialty Engineered Materials",
+    date: "2018 \u2014 2022",
+    desc: "Identified aliphatic polyketone as a compounding opportunity and developed patented blend families that grew into a $50M+ global sales pipeline across four international business units, earning three Technology Excellence Awards. Developed biodegradable packaging generating a $34.5M pipeline. Led rapid customer co-development for brands including Bose ($1.53M launch).",
+  },
+  {
+    company: "PolyOne Corporation",
+    role: "Senior R&D Engineer \u2014 Leadership Development Program",
+    date: "2016 \u2014 2018",
+    desc: "Selected for competitive corporate R&D leadership program with rotations across Lean Six Sigma, DOE, thermoplastic composite formulation, processing, and analytical methods. Learned how a $3B company actually moves products from lab to market.",
+  },
+  {
+    company: "University of Akron",
+    role: "Ph.D. Polymer Science \u2014 NSF Graduate Research Fellow",
+    date: "2011 \u2014 2016",
+    desc: "Designed and synthesized thermoresponsive biodegradable polyesters for biomedical applications. Published across Macromolecules, Polymer Chemistry, and ACS Macro Letters. Research became the foundation for D-Glue thermoresponsive adhesive technology. 3.73 GPA.",
+  },
+];
+
+const IMPACT_METRICS = [
+  { value: "$50M+", label: "Global sales pipeline built from aliphatic polyketone platform at Avient" },
+  { value: "$12M+", label: "New product revenue across multiple launches and technology transfers" },
+  { value: "12", label: "Patents in thermoplastic blends, composites & biodegradable materials" },
+  { value: "9", label: "Peer-reviewed publications in Macromolecules, Polymer Chemistry & ACS Macro Letters" },
+  { value: "22", label: "Product lines managed across global business units" },
+  { value: "$18M+", label: "NPI pipeline developed as Director of R&D across thermal, FR, fuel cell & sealing applications" },
+  { value: "25", label: "Documents in IP policy framework: invention disclosure triage, trade secret management, FTO analysis & role-specific training" },
+  { value: "93%", label: "Reduction in R&D working capital through proactive management" },
+];
+
+const DIGITAL_RD_ITEMS = [
+  {
+    label: "AI-Powered Data Tools",
+    desc: "Scientists were spending hours every week on manual data entry. I built tools to fix that: automated parsing of certificates of analysis, legacy test data extraction, and searchable databases that actually get used.",
+  },
+  {
+    label: "Patent Analytics & IP Strategy",
+    desc: "Patent searches used to take weeks and cost a fortune in outside counsel. I championed bringing in a patent analytics platform for prior-art searches, competitor monitoring, and freedom-to-operate analyses, then got the team actually using it. Hours instead of weeks.",
+  },
+  {
+    label: "Electronic Lab Notebooks",
+    desc: "Moved the lab from paper notebooks to a structured ELN. Standardized experimental templates so when someone leaves, their data doesn't leave with them.",
+  },
+  {
+    label: "Innovation Management",
+    desc: "Built innovation management systems that connect the pipeline to the P&L: voice-of-customer data feeding into stage-gate workflows, with portfolio dashboards that show what's actually making money.",
+  },
+];
+
+const EXPERTISE_CATEGORIES = [
+  {
+    heading: "Materials & Formulation",
+    tags: ["Polyamides", "Polyketone", "Polyolefins", "TPEs", "Specialty Chemical Formulations", "Biodegradable Polymers", "Flame Retardants", "Masterbatching", "Composites"],
+  },
+  {
+    heading: "Characterization & Processing",
+    tags: ["DSC / TGA / TMA", "Polymer Rheology", "Mechanical Testing (ASTM & ISO)", "Extrusion & Compounding", "Injection Molding", "Blown Film", "Multilayer Coextrusion"],
+  },
+  {
+    heading: "Leadership & Methods",
+    tags: ["Stage-Gate (Cooper)", "DOE / Lean Six Sigma", "Team Building & Talent Development", "Digital R&D Transformation", "Patent Strategy & FTO", "IP Policy & Trade Secret Management", "Voice of Customer Integration", "Innovation Portfolio Management", "Stakeholder Engagement", "Grant Program Management"],
+  },
+];
+
+const BEYOND_ITEMS = [
+  { icon: "\u2192", text: "I'm a registered minister and have officiated four weddings \u2014 apparently people trust me with the important stuff." },
+  { icon: "\u2192", text: "During COVID, with no races running, I organized my own solo marathon through the Rocky River Reservation, supported by my wife at water stops along the route. I've since run the Cleveland Marathon and two half marathons. Not fast, but finished." },
+  { icon: "\u2192", text: "My phone number is 330-POLYMER (330-765-9637). Yes, really." },
+  { icon: "\u2192", text: "Guest lecturer for Cal Poly's polymer chemistry course \u2014 bringing industry perspective back to where I started." },
+  { icon: "\u2192", text: "Father and husband in Lakewood, Ohio. NSF Fellow. Clevelander by choice \u2014 Seattle born, Cal Poly educated, Akron trained." },
+];
+
+const PATENTS = [
+  { title: "Continuous fiber reinforced tapes", subtitle: "WO/2024/243499, 2024", url: "https://patents.google.com/patent/WO2024243499A1/en" },
+  { title: "Thermoset articles comprising nitrile butadiene rubber", subtitle: "WO/2023/278572, 2023", url: "https://patents.google.com/patent/WO2023278572A1/en" },
+  { title: "Polymer blends of aliphatic polyketone and ABS", subtitle: "WO/2022/047030, 2022", url: "https://patents.google.com/patent/WO2022047030A1/en" },
+  { title: "Polymer blends of polyamide and aliphatic polyketone", subtitle: "WO/2022/005896, 2022", url: "https://patents.google.com/patent/WO2022005896A1/en" },
+  { title: "Thermoresponsive Polyesters", subtitle: "US Patent 10,106,514, 2018", url: "https://patents.google.com/patent/US10106514B2/en" },
+  { title: "Vegetable oil based viscoelastic polymers with photoresponsive properties", subtitle: "US Patent 10,899,885, 2021", url: "https://patents.google.com/patent/US10899885B2/en" },
+];
+
+const JOURNAL_ARTICLES = [
+  { title: "A Library of Thermoresponsive, Coacervate-Forming Biodegradable Polyesters", subtitle: "Macromolecules, 2015 \u2014 Most Read Article, June & July 2015", url: "https://doi.org/10.1021/acs.macromol.5b00585" },
+  { title: "The Effect of Pendant Group Structure on the Thermoresponsive Properties of N-Substituted Polyesters", subtitle: "Polymer Chemistry, 2017", url: "https://doi.org/10.1039/C7PY01391D" },
+  { title: "Efficient Protein Encapsulation within Thermoresponsive Coacervate-Forming Biodegradable Polyesters", subtitle: "ACS Macro Letters, 2018", url: "https://doi.org/10.1021/acsmacrolett.8b00118" },
+  { title: "A Solvent and Initiator Free, Low-Modulus, Degradable Polyester Platform with Modular Functionality", subtitle: "Macromolecules, 2016", url: "https://doi.org/10.1021/acs.macromol.5b02399" },
+  { title: "Development of Polymeric Phase Change Materials On the basis of Diels-Alder Chemistry", subtitle: "Macromolecules, 2010", url: "https://doi.org/10.1021/ma100836c" },
+];
 
 export default function PersonalSite() {
-  const [scrollY, setScrollY] = useState(0);
+  const [navSolid, setNavSolid] = useState(false);
+  const [showTopBtn, setShowTopBtn] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(true);
   const [simpleMode, setSimpleMode] = useState(false);
 
   useEffect(() => {
-    document.body.style.background = isDark ? "#0a0a0a" : "#f0ede8";
-    document.body.style.transition = "background 0.4s ease";
-  }, [isDark]);
-
-  useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setScrollY(window.scrollY);
-      document.documentElement.style.setProperty(
-        '--scroll-progress',
-        String(window.scrollY / (document.documentElement.scrollHeight - window.innerHeight || 1))
-      );
-      const sections = NAV_LINKS.map((s) => s.toLowerCase().replace(/\s+/g, "-").replace("&", "and"));
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i]);
-        if (el && el.getBoundingClientRect().top < 200) {
-          setActiveSection(sections[i]);
-          break;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        setNavSolid(y > 60);
+        setShowTopBtn(y > 400);
+        document.documentElement.style.setProperty(
+          '--scroll-progress',
+          String(y / (document.documentElement.scrollHeight - window.innerHeight || 1))
+        );
+        for (let i = NAV_SLUGS.length - 1; i >= 0; i--) {
+          const el = document.getElementById(NAV_SLUGS[i]);
+          if (el && el.getBoundingClientRect().top < 200) {
+            setActiveSection(NAV_SLUGS[i]);
+            break;
+          }
         }
-      }
+        ticking = false;
+      });
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollTo = (id) => {
-    const slug = id.toLowerCase().replace(/\s+/g, "-").replace("&", "and");
-    document.getElementById(slug)?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById(toSlug(id))?.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
   };
 
@@ -349,6 +491,37 @@ export default function PersonalSite() {
         }
         .contact-link:hover { color: var(--clr-accent); border-bottom-color: var(--clr-accent); }
 
+        .btn-primary {
+          font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+          letter-spacing: 1.5px; text-transform: uppercase; padding: 14px 36px;
+          background: var(--clr-accent); color: var(--clr-bg); border: none;
+          cursor: pointer; transition: all 0.3s;
+        }
+        .btn-primary:hover { background: var(--clr-accent-hover); }
+        .btn-outline {
+          font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+          letter-spacing: 1.5px; text-transform: uppercase; padding: 14px 36px;
+          background: transparent; color: var(--clr-text-sec); border: 1px solid var(--clr-border-btn);
+          cursor: pointer; transition: all 0.3s;
+        }
+        .btn-outline:hover { border-color: var(--clr-accent); color: var(--clr-text); }
+
+        .card-label {
+          font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+          color: var(--clr-accent); letter-spacing: 0.5px;
+        }
+
+        .footer-note {
+          max-width: 500px; margin: 0 auto; font-size: 10px; color: var(--clr-text-muted);
+          opacity: 0.5; line-height: 1.6; transition: opacity 0.3s;
+        }
+        .footer-note:hover { opacity: 1; }
+
+        .sub-label {
+          font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+          letter-spacing: 2px; text-transform: uppercase; color: var(--clr-text-muted); margin-bottom: 16px;
+        }
+
         .hero-line { position: absolute; background: var(--clr-border-subtle); }
 
         .philosophy-card {
@@ -463,22 +636,19 @@ export default function PersonalSite() {
 
       {/* Navigation */}
       <nav className="nav-fixed" style={{
-        background: scrollY > 60 ? "var(--clr-nav-bg)" : "transparent",
-          borderBottom: scrollY > 60 ? "1px solid var(--clr-border-subtle)" : "1px solid transparent",
+        background: navSolid ? "var(--clr-nav-bg)" : "transparent",
+        borderBottom: navSolid ? "1px solid var(--clr-border-subtle)" : "1px solid transparent",
       }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "16px 32px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 500, letterSpacing: 2, textTransform: "uppercase", color: "var(--clr-text)" }}>
             JPS
           </div>
           <div className="nav-links-desktop" style={{ display: "flex", gap: 28 }}>
-            {NAV_LINKS.map((link) => {
-              const slug = link.toLowerCase().replace(/\s+/g, "-").replace("&", "and");
-              return (
-                <button key={link} className={`nav-link ${activeSection === slug ? "active" : ""}`} onClick={() => scrollTo(link)}>
-                  {link}
-                </button>
-              );
-            })}
+            {NAV_LINKS.map((link, i) => (
+              <button key={link} className={`nav-link ${activeSection === NAV_SLUGS[i] ? "active" : ""}`} onClick={() => scrollTo(link)}>
+                {link}
+              </button>
+            ))}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <button
@@ -582,26 +752,10 @@ export default function PersonalSite() {
               </p>
 
               <div className="hero-buttons" style={{ marginTop: 40, display: "flex", gap: 20, flexWrap: "wrap" }}>
-                <button onClick={() => scrollTo("Contact")} style={{
-                  fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500,
-                  letterSpacing: 1.5, textTransform: "uppercase", padding: "14px 36px",
-                  background: "var(--clr-accent)", color: "var(--clr-bg)", border: "none", cursor: "pointer",
-                  transition: "all 0.3s",
-                }}
-                  onMouseEnter={(e) => e.target.style.background = "var(--clr-accent-hover)"}
-                  onMouseLeave={(e) => e.target.style.background = "var(--clr-accent)"}
-                >
+                <button className="btn-primary" onClick={() => scrollTo("Contact")}>
                   Get in Touch
                 </button>
-                <button onClick={() => scrollTo("Experience")} style={{
-                  fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500,
-                  letterSpacing: 1.5, textTransform: "uppercase", padding: "14px 36px",
-                  background: "transparent", color: "var(--clr-text-sec)", border: "1px solid var(--clr-border-btn)",
-                  cursor: "pointer", transition: "all 0.3s",
-                }}
-                  onMouseEnter={(e) => { e.target.style.borderColor = "var(--clr-accent)"; e.target.style.color = "var(--clr-text)"; }}
-                  onMouseLeave={(e) => { e.target.style.borderColor = "var(--clr-border-btn)"; e.target.style.color = "var(--clr-text-sec)"; }}
-                >
+                <button className="btn-outline" onClick={() => scrollTo("Experience")}>
                   View Experience
                 </button>
               </div>
@@ -679,28 +833,7 @@ export default function PersonalSite() {
           </FadeIn>
 
           <div className="philosophy-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 1 }}>
-            {[
-              {
-                num: "01",
-                heading: "Leave it better than you found it",
-                text: "Product lines, labs, teams, processes. My measure of success is whether things are meaningfully better because I was involved. I hate waste. I love solving problems. If something's broken, I'm probably already sketching a fix.",
-              },
-              {
-                num: "02",
-                heading: "Translate, don't gatekeep",
-                text: "The best R&D leaders are bilingual: they speak science and they speak business. I sit between the lab and the P&L and make both sides feel understood. Customer requirements become technical specifications. Data becomes a story executives can act on.",
-              },
-              {
-                num: "03",
-                heading: "Build the team, then get out of the way",
-                text: "Hire well, set clear goals, remove blockers, and trust people to deliver. I invest in structured onboarding and real development conversations. Good scientists don't need micromanagement. They need a culture where they can say 'I don't know' without getting punished for it. They need air cover.",
-              },
-              {
-                num: "04",
-                heading: "Innovation is the fire, not the spark",
-                text: "Invention creates something new. Innovation turns it into business value. I didn't invent polyketone or graphite materials. I built the systems, IP strategy, and commercial pathways that turned them into revenue. That distinction matters to me, and it shapes how I run R&D.",
-              },
-            ].map((item, i) => (
+            {PHILOSOPHY_ITEMS.map((item, i) => (
               <FadeIn key={i} delay={i * 0.1} style={{ height: "100%" }}>
                 <div className="philosophy-card">
                   <div className="philosophy-num">{item.num}</div>
@@ -721,38 +854,7 @@ export default function PersonalSite() {
         </FadeIn>
 
         <div style={{ marginTop: 24 }}>
-          {[
-            {
-              company: "NeoGraf Solutions",
-              role: "Director of R&D",
-              date: "2024 — 2026",
-              desc: "Inherited a four-person R&D team and made three new hires to build out the function. Turned it into a stage-gate organization and grew the development pipeline to multimillion-dollar scale across thermal, flame retardant, fuel cell, and sealing applications. Wrote the IP policy from scratch (25 documents condensed to 4 people would actually read), deployed electronic lab notebooks, and built patent analytics and portfolio reviews. Helped manage a $2M DOE-funded program for fuel cell bipolar plate development. Presented innovation strategy quarterly to the Board. Zero safety incidents in 24 months.",
-            },
-            {
-              company: "Avient Corporation",
-              role: "Technology Manager — Specialty Engineered Materials",
-              date: "2022 — 2024",
-              desc: "Led a team of 6 scientists delivering customized solutions across 22 engineered thermoplastic product lines. Generated $12M+ in new revenue through product launches and global technology transfers. Reduced R&D working capital by 93% through strategic inventory management. Doubled year-over-year invention records. Hosted R&D Leadership Development Program rotations, mentoring early-career scientists through structured product line and project assignments. Designed digital workflow systems that streamlined project management for a 25-person organization.",
-            },
-            {
-              company: "Avient Corporation",
-              role: "Lead R&D Engineer — Specialty Engineered Materials",
-              date: "2018 — 2022",
-              desc: "Identified aliphatic polyketone as a compounding opportunity and developed patented blend families that grew into a $50M+ global sales pipeline across four international business units, earning three Technology Excellence Awards. Developed biodegradable packaging generating a $34.5M pipeline. Led rapid customer co-development for brands including Bose ($1.53M launch).",
-            },
-            {
-              company: "PolyOne Corporation",
-              role: "Senior R&D Engineer — Leadership Development Program",
-              date: "2016 — 2018",
-              desc: "Selected for competitive corporate R&D leadership program with rotations across Lean Six Sigma, DOE, thermoplastic composite formulation, processing, and analytical methods. Learned how a $3B company actually moves products from lab to market.",
-            },
-            {
-              company: "University of Akron",
-              role: "Ph.D. Polymer Science — NSF Graduate Research Fellow",
-              date: "2011 — 2016",
-              desc: "Designed and synthesized thermoresponsive biodegradable polyesters for biomedical applications. Published across Macromolecules, Polymer Chemistry, and ACS Macro Letters. Research became the foundation for D-Glue thermoresponsive adhesive technology. 3.73 GPA.",
-            },
-          ].map((item, i) => (
+          {EXPERIENCE_ITEMS.map((item, i) => (
             <FadeIn key={i} delay={i * 0.07}>
               <div className="timeline-item">
                 <div className="timeline-company">{item.company}</div>
@@ -774,16 +876,7 @@ export default function PersonalSite() {
           </FadeIn>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 1 }}>
-            {[
-              { value: "$50M+", label: "Global sales pipeline built from aliphatic polyketone platform at Avient" },
-              { value: "$12M+", label: "New product revenue across multiple launches and technology transfers" },
-              { value: "12", label: "Patents in thermoplastic blends, composites & biodegradable materials" },
-              { value: "9", label: "Peer-reviewed publications in Macromolecules, Polymer Chemistry & ACS Macro Letters" },
-              { value: "22", label: "Product lines managed across global business units" },
-              { value: "$18M+", label: "NPI pipeline developed as Director of R&D across thermal, FR, fuel cell & sealing applications" },
-              { value: "25", label: "Documents in IP policy framework: invention disclosure triage, trade secret management, FTO analysis & role-specific training" },
-              { value: "93%", label: "Reduction in R&D working capital through proactive management" },
-            ].map((m, i) => (
+            {IMPACT_METRICS.map((m, i) => (
               <FadeIn key={i} delay={i * 0.06} style={{ height: "100%" }}>
                 <div className="metric-card">
                   <CountUpValue value={m.value} />
@@ -815,27 +908,10 @@ export default function PersonalSite() {
         </FadeIn>
 
         <div className="digital-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 1 }}>
-          {[
-            {
-              label: "AI-Powered Data Tools",
-              desc: "Scientists were spending hours every week on manual data entry. I built tools to fix that: automated parsing of certificates of analysis, legacy test data extraction, and searchable databases that actually get used.",
-            },
-            {
-              label: "Patent Analytics & IP Strategy",
-              desc: "Patent searches used to take weeks and cost a fortune in outside counsel. I championed bringing in a patent analytics platform for prior-art searches, competitor monitoring, and freedom-to-operate analyses, then got the team actually using it. Hours instead of weeks.",
-            },
-            {
-              label: "Electronic Lab Notebooks",
-              desc: "Moved the lab from paper notebooks to a structured ELN. Standardized experimental templates so when someone leaves, their data doesn't leave with them.",
-            },
-            {
-              label: "Innovation Management",
-              desc: "Built innovation management systems that connect the pipeline to the P&L: voice-of-customer data feeding into stage-gate workflows, with portfolio dashboards that show what's actually making money.",
-            },
-          ].map((item, i) => (
+          {DIGITAL_RD_ITEMS.map((item, i) => (
             <FadeIn key={i} delay={i * 0.08} style={{ height: "100%" }}>
               <div className="digital-grid-card">
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 500, color: "var(--clr-accent)", marginBottom: 12, letterSpacing: 0.5 }}>
+                <div className="card-label" style={{ marginBottom: 12 }}>
                   {item.label}
                 </div>
                 <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, lineHeight: 1.7, color: "var(--clr-text-sec)" }}>
@@ -865,26 +941,13 @@ export default function PersonalSite() {
           </FadeIn>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 48 }}>
-            {[
-              {
-                heading: "Materials & Formulation",
-                tags: ["Polyamides", "Polyketone", "Polyolefins", "TPEs", "Specialty Chemical Formulations", "Biodegradable Polymers", "Flame Retardants", "Masterbatching", "Composites"],
-              },
-              {
-                heading: "Characterization & Processing",
-                tags: ["DSC / TGA / TMA", "Polymer Rheology", "Mechanical Testing (ASTM & ISO)", "Extrusion & Compounding", "Injection Molding", "Blown Film", "Multilayer Coextrusion"],
-              },
-              {
-                heading: "Leadership & Methods",
-                tags: ["Stage-Gate (Cooper)", "DOE / Lean Six Sigma", "Team Building & Talent Development", "Digital R&D Transformation", "Patent Strategy & FTO", "IP Policy & Trade Secret Management", "Voice of Customer Integration", "Innovation Portfolio Management", "Stakeholder Engagement", "Grant Program Management"],
-              },
-            ].map((cat, i) => (
+            {EXPERTISE_CATEGORIES.map((cat, i) => (
               <FadeIn key={i} delay={i * 0.1}>
                 <div>
-                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 500, color: "var(--clr-accent)", marginBottom: 16, letterSpacing: 0.5 }}>
+                  <div className="card-label" style={{ marginBottom: 16 }}>
                     {cat.heading}
                   </div>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 0 }}>
+                  <div style={{ display: "flex", flexWrap: "wrap" }}>
                     {cat.tags.map((tag, j) => <span key={j} className="tag">{tag}</span>)}
                   </div>
                 </div>
@@ -902,44 +965,11 @@ export default function PersonalSite() {
         </FadeIn>
 
         <FadeIn delay={0.1}>
-          <div style={{ marginBottom: 40 }}>
-            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, letterSpacing: 2, textTransform: "uppercase", color: "var(--clr-text-muted)", marginBottom: 16 }}>
-              Patents (selected from 12)
-            </div>
-            {[
-              { title: "Continuous fiber reinforced tapes", id: "WO/2024/243499, 2024", url: "https://patents.google.com/patent/WO2024243499A1/en" },
-              { title: "Thermoset articles comprising nitrile butadiene rubber", id: "WO/2023/278572, 2023", url: "https://patents.google.com/patent/WO2023278572A1/en" },
-              { title: "Polymer blends of aliphatic polyketone and ABS", id: "WO/2022/047030, 2022", url: "https://patents.google.com/patent/WO2022047030A1/en" },
-              { title: "Polymer blends of polyamide and aliphatic polyketone", id: "WO/2022/005896, 2022", url: "https://patents.google.com/patent/WO2022005896A1/en" },
-              { title: "Thermoresponsive Polyesters", id: "US Patent 10,106,514, 2018", url: "https://patents.google.com/patent/US10106514B2/en" },
-              { title: "Vegetable oil based viscoelastic polymers with photoresponsive properties", id: "US Patent 10,899,885, 2021", url: "https://patents.google.com/patent/US10899885B2/en" },
-            ].map((p, i) => (
-              <div key={i} className="pub-item">
-                <a href={p.url} className="pub-title" target="_blank" rel="noopener noreferrer">{p.title}</a>
-                <div className="pub-journal">{p.id}</div>
-              </div>
-            ))}
-          </div>
+          <PublicationList title="Patents (selected from 12)" items={PATENTS} />
         </FadeIn>
 
         <FadeIn delay={0.15}>
-          <div>
-            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, letterSpacing: 2, textTransform: "uppercase", color: "var(--clr-text-muted)", marginBottom: 16 }}>
-              Journal Articles (selected from 9)
-            </div>
-            {[
-              { title: "A Library of Thermoresponsive, Coacervate-Forming Biodegradable Polyesters", journal: "Macromolecules, 2015 — Most Read Article, June & July 2015", url: "https://doi.org/10.1021/acs.macromol.5b00585" },
-              { title: "The Effect of Pendant Group Structure on the Thermoresponsive Properties of N-Substituted Polyesters", journal: "Polymer Chemistry, 2017", url: "https://doi.org/10.1039/C7PY01391D" },
-              { title: "Efficient Protein Encapsulation within Thermoresponsive Coacervate-Forming Biodegradable Polyesters", journal: "ACS Macro Letters, 2018", url: "https://doi.org/10.1021/acsmacrolett.8b00118" },
-              { title: "A Solvent and Initiator Free, Low-Modulus, Degradable Polyester Platform with Modular Functionality", journal: "Macromolecules, 2016", url: "https://doi.org/10.1021/acs.macromol.5b02399" },
-              { title: "Development of Polymeric Phase Change Materials On the basis of Diels-Alder Chemistry", journal: "Macromolecules, 2010", url: "https://doi.org/10.1021/ma100836c" },
-            ].map((p, i) => (
-              <div key={i} className="pub-item">
-                <a href={p.url} className="pub-title" target="_blank" rel="noopener noreferrer">{p.title}</a>
-                <div className="pub-journal">{p.journal}</div>
-              </div>
-            ))}
-          </div>
+          <PublicationList title="Journal Articles (selected from 9)" items={JOURNAL_ARTICLES} />
         </FadeIn>
 
         <FadeIn delay={0.2}>
@@ -959,13 +989,7 @@ export default function PersonalSite() {
 
           <FadeIn delay={0.1}>
             <div>
-              {[
-                { icon: "\u2192", text: "I'm a registered minister and have officiated four weddings — apparently people trust me with the important stuff." },
-                { icon: "\u2192", text: "During COVID, with no races running, I organized my own solo marathon through the Rocky River Reservation, supported by my wife at water stops along the route. I've since run the Cleveland Marathon and two half marathons. Not fast, but finished." },
-                { icon: "\u2192", text: "My phone number is 330-POLYMER (330-765-9637). Yes, really." },
-                { icon: "\u2192", text: "Guest lecturer for Cal Poly's polymer chemistry course — bringing industry perspective back to where I started." },
-                { icon: "\u2192", text: "Father and husband in Lakewood, Ohio. NSF Fellow. Clevelander by choice — Seattle born, Cal Poly educated, Akron trained." },
-              ].map((item, i) => (
+              {BEYOND_ITEMS.map((item, i) => (
                 <div key={i} className="beyond-item">
                   <div className="beyond-icon">{item.icon}</div>
                   <div className="beyond-text">{item.text}</div>
@@ -1014,20 +1038,14 @@ export default function PersonalSite() {
           &copy; 2026 John P. Swanson &middot; Lakewood, Ohio
         </div>
         
-        <div style={{ 
-          maxWidth: 500, margin: "0 auto", fontSize: 10, color: "var(--clr-text-muted)", 
-          opacity: 0.5, lineHeight: 1.6, transition: "opacity 0.3s"
-        }}
-        onMouseEnter={(e) => e.currentTarget.style.opacity = 1}
-        onMouseLeave={(e) => e.currentTarget.style.opacity = 0.5}
-        >
+        <div className="footer-note">
           <strong>About this site:</strong> This site was designed in conversation with Claude, Gemini, Codex, and VS Code/Windsurf, built with React and Vite, and deployed on Netlify. The background texture is inspired by USGS topographic maps of the Rocky River Reservation. Minimal frameworks were harmed in the making of this website.
         </div>
       </footer>
 
       {/* Back to Top */}
       <button
-        className={`back-to-top ${scrollY > 400 ? "visible" : ""}`}
+        className={`back-to-top ${showTopBtn ? "visible" : ""}`}
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         aria-label="Back to top"
       >

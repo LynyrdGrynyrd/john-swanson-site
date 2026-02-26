@@ -10,12 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "d3-contour": "^4.0.2",
-    "jsdom": "^28.1.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "simplex-noise": "^4.0.3",
-    "simplify-js": "^1.2.4"
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
