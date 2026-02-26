@@ -50,7 +50,13 @@ export const EXPERIENCE_ITEMS = [
     company: "University of Akron",
     role: "Ph.D. Polymer Science — NSF Graduate Research Fellow",
     date: "2011 — 2016",
-    desc: "Designed and synthesized thermoresponsive biodegradable polyesters for biomedical applications. Published across Macromolecules, Polymer Chemistry, and ACS Macro Letters. Research became the foundation for D-Glue thermoresponsive adhesive technology. 3.73 GPA.",
+    desc: "Designed and synthesized thermoresponsive biodegradable polyesters for biomedical applications. Published across Macromolecules, Polymer Chemistry, and ACS Macro Letters. 3.73 GPA.",
+  },
+  {
+    company: "Cal Poly San Luis Obispo",
+    role: "B.S. Biochemistry — Polymers & Coatings Concentration",
+    date: "2007 — 2011",
+    desc: "Undergraduate research in the Costanzo research group, where the D-Glue thermoresponsive adhesive technology originated. President of Alpha Chi Sigma professional chemistry fraternity.",
   },
 ];
 
