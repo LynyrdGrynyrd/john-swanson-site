@@ -50,7 +50,7 @@ export const EXPERIENCE_ITEMS = [
     company: "University of Akron",
     role: "Ph.D. Polymer Science — NSF Graduate Research Fellow",
     date: "2011 — 2016",
-    desc: "Designed and synthesized thermoresponsive biodegradable polyesters for biomedical applications. Published across Macromolecules, Polymer Chemistry, and ACS Macro Letters. 3.73 GPA.",
+    desc: "Joy Lab. Designed and synthesized thermoresponsive biodegradable polyesters for biomedical applications. Published across Macromolecules, Polymer Chemistry, and ACS Macro Letters. 3.73 GPA.",
   },
   {
     company: "Cal Poly San Luis Obispo",
