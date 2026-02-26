@@ -18,6 +18,8 @@ const useInView = (threshold = 0.12) => {
   return [ref, isVisible];
 };
 
+const TYPING_INTERVAL_MS = 38;
+
 const TypingText = ({ text, delay = 0, style = {} }) => {
   const reduced = prefersReducedMotion();
   const [ref, isVisible] = useInView();
@@ -34,7 +36,7 @@ const TypingText = ({ text, delay = 0, style = {} }) => {
         i++;
         setDisplayed(text.slice(0, i));
         if (i >= text.length) { clearInterval(intervalId); setDone(true); }
-      }, 38);
+      }, TYPING_INTERVAL_MS);
     }, delay * 1000);
     return () => { clearTimeout(timeout); if (intervalId) clearInterval(intervalId); };
   }, [isVisible]);
