@@ -8,7 +8,14 @@ body { background: var(--clr-bg); }
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   transition: all 0.4s ease;
+  background: transparent;
+  border-bottom: 1px solid transparent;
 }
+.nav-fixed.nav-solid {
+  background: var(--clr-nav-bg);
+  border-bottom: 1px solid var(--clr-border-subtle);
+}
+
 .nav-link {
   font-family: 'DM Sans', sans-serif; font-size: 12.5px; font-weight: 400;
   letter-spacing: 1.2px; text-transform: uppercase; color: var(--clr-text-sec);
@@ -305,6 +312,51 @@ a.pub-title:hover { color: var(--clr-accent); }
   border: none; color: var(--clr-text-sec); font-size: 28px; cursor: pointer;
 }
 
+.app-container {
+  font-family: 'Source Serif 4', 'Georgia', serif;
+  background: var(--clr-bg);
+  color: var(--clr-text);
+  min-height: 100vh;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* Extracted inline styles */
+.nav-container {
+  max-width: 1200px; margin: 0 auto; padding: 16px 32px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.nav-logo {
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--clr-text);
+}
+
+.nav-links-desktop {
+  display: flex; gap: 28px;
+}
+
+.nav-actions {
+  display: flex; align-items: center; gap: 12px;
+}
+
+.theme-toggle {
+  background: none; border: 1px solid var(--clr-border); color: var(--clr-accent);
+  cursor: pointer; height: 32px; padding: 0 10px; display: flex; align-items: center;
+  gap: 6px; border-radius: 3px; transition: border-color 0.3s, color 0.3s;
+  font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.site-footer {
+  border-top: 1px solid var(--clr-border-subtle); padding: 48px 32px;
+  text-align: center; font-family: 'DM Sans', sans-serif; font-size: 12px;
+  color: var(--clr-text-footer); letter-spacing: 0.5px;
+}
+
+.footer-copyright {
+  margin-bottom: 32px;
+}
+
 @media (max-width: 768px) {
   .nav-links-desktop { display: none !important; }
   .hamburger { display: block; }
@@ -316,12 +368,4 @@ a.pub-title:hover { color: var(--clr-accent); }
   .digital-grid { grid-template-columns: 1fr !important; }
   .pub-item { flex-direction: column; gap: 4px; }
   .back-to-top { bottom: 20px; right: 20px; }
-}
-
-.app-container {
-  font-family: 'Source Serif 4', 'Georgia', serif;
-  background: var(--clr-bg);
-  color: var(--clr-text);
-  min-height: 100vh;
-  transition: background 0.4s ease, color 0.4s ease;
 }

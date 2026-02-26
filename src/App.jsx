@@ -69,19 +69,13 @@ export default function PersonalSite() {
     <div className="app-container">
       <div className="topo-overlay" />
 
-      <nav
-        className="nav-fixed"
-        style={{
-          background: navSolid ? "var(--clr-nav-bg)" : "transparent",
-          borderBottom: navSolid ? "1px solid var(--clr-border-subtle)" : "1px solid transparent",
-        }}
-      >
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "16px 32px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 500, letterSpacing: 2, textTransform: "uppercase", color: "var(--clr-text)" }}>
+      <nav className={`nav-fixed ${navSolid ? "nav-solid" : ""}`}>
+        <div className="nav-container">
+          <div className="nav-logo">
             JPS
           </div>
 
-          <div className="nav-links-desktop" style={{ display: "flex", gap: 28 }}>
+          <div className="nav-links-desktop">
             {NAV_LINKS.map((link, index) => (
               <button key={link} className={`nav-link ${activeSection === NAV_SLUGS[index] ? "active" : ""}`} onClick={() => scrollTo(link)}>
                 {link}
@@ -89,28 +83,12 @@ export default function PersonalSite() {
             ))}
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div className="nav-actions">
             <button
               onClick={() => setIsDark((state) => !state)}
               title={isDark ? "sp² — graphite" : "sp³ — diamond"}
               aria-label="Toggle hybridization theme"
-              style={{
-                background: "none",
-                border: "1px solid var(--clr-border)",
-                color: "var(--clr-accent)",
-                cursor: "pointer",
-                height: 32,
-                padding: "0 10px",
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                borderRadius: 3,
-                transition: "border-color 0.3s, color 0.3s",
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 13,
-                letterSpacing: 0.5,
-                flexShrink: 0,
-              }}
+              className="theme-toggle"
             >
               {isDark ? (
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -164,11 +142,8 @@ export default function PersonalSite() {
       <ContactSection />
 
       {/* Footer */}
-      <footer style={{
-        borderTop: "1px solid var(--clr-border-subtle)", padding: "48px 32px", textAlign: "center",
-        fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "var(--clr-text-footer)", letterSpacing: 0.5,
-      }}>
-        <div style={{ marginBottom: 32 }}>
+      <footer className="site-footer">
+        <div className="footer-copyright">
           &copy; 2026 {FOOTER_CONTENT.COPYRIGHT_TEXT}
         </div>
         
