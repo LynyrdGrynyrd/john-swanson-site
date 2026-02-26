@@ -28,15 +28,15 @@ const TypingText = ({ text, delay = 0, style = {} }) => {
     if (!isVisible || hasRun.current) return;
     hasRun.current = true;
     let i = 0;
+    let intervalId;
     const timeout = setTimeout(() => {
-      const interval = setInterval(() => {
+      intervalId = setInterval(() => {
         i++;
         setDisplayed(text.slice(0, i));
-        if (i >= text.length) { clearInterval(interval); setDone(true); }
+        if (i >= text.length) { clearInterval(intervalId); setDone(true); }
       }, 38);
-      return () => clearInterval(interval);
     }, delay * 1000);
-    return () => clearTimeout(timeout);
+    return () => { clearTimeout(timeout); if (intervalId) clearInterval(intervalId); };
   }, [isVisible]);
   return (
     <p ref={ref} style={style}>
@@ -78,6 +78,18 @@ const SectionHeading = ({ children }) => (
   <h2 className="section-title">{children}</h2>
 );
 
+const PublicationList = ({ title, items }) => (
+  <div style={{ marginBottom: 40 }}>
+    <div className="sub-label">{title}</div>
+    {items.map((p, i) => (
+      <div key={i} className="pub-item">
+        <a href={p.url} className="pub-title" target="_blank" rel="noopener noreferrer">{p.title}</a>
+        <div className="pub-journal">{p.subtitle}</div>
+      </div>
+    ))}
+  </div>
+);
+
 const CountUpValue = ({ value }) => {
   const [ref, isVisible] = useInView();
   const hasRun = useRef(false);
@@ -106,6 +118,8 @@ const CountUpValue = ({ value }) => {
 };
 
 const NAV_LINKS = ["About", "Philosophy", "Experience", "Impact", "Digital R&D", "Publications", "Contact"];
+const toSlug = (s) => s.toLowerCase().replace(/\s+/g, "-").replace("&", "and");
+const NAV_SLUGS = NAV_LINKS.map(toSlug);
 
 export default function PersonalSite() {
   const [scrollY, setScrollY] = useState(0);
@@ -120,28 +134,32 @@ export default function PersonalSite() {
   }, [isDark]);
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setScrollY(window.scrollY);
-      document.documentElement.style.setProperty(
-        '--scroll-progress',
-        String(window.scrollY / (document.documentElement.scrollHeight - window.innerHeight || 1))
-      );
-      const sections = NAV_LINKS.map((s) => s.toLowerCase().replace(/\s+/g, "-").replace("&", "and"));
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i]);
-        if (el && el.getBoundingClientRect().top < 200) {
-          setActiveSection(sections[i]);
-          break;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setScrollY(window.scrollY);
+        document.documentElement.style.setProperty(
+          '--scroll-progress',
+          String(window.scrollY / (document.documentElement.scrollHeight - window.innerHeight || 1))
+        );
+        for (let i = NAV_SLUGS.length - 1; i >= 0; i--) {
+          const el = document.getElementById(NAV_SLUGS[i]);
+          if (el && el.getBoundingClientRect().top < 200) {
+            setActiveSection(NAV_SLUGS[i]);
+            break;
+          }
         }
-      }
+        ticking = false;
+      });
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollTo = (id) => {
-    const slug = id.toLowerCase().replace(/\s+/g, "-").replace("&", "and");
-    document.getElementById(slug)?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById(toSlug(id))?.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
   };
 
@@ -349,6 +367,11 @@ export default function PersonalSite() {
         }
         .contact-link:hover { color: var(--clr-accent); border-bottom-color: var(--clr-accent); }
 
+        .sub-label {
+          font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+          letter-spacing: 2px; text-transform: uppercase; color: var(--clr-text-muted); margin-bottom: 16px;
+        }
+
         .hero-line { position: absolute; background: var(--clr-border-subtle); }
 
         .philosophy-card {
@@ -471,14 +494,11 @@ export default function PersonalSite() {
             JPS
           </div>
           <div className="nav-links-desktop" style={{ display: "flex", gap: 28 }}>
-            {NAV_LINKS.map((link) => {
-              const slug = link.toLowerCase().replace(/\s+/g, "-").replace("&", "and");
-              return (
-                <button key={link} className={`nav-link ${activeSection === slug ? "active" : ""}`} onClick={() => scrollTo(link)}>
-                  {link}
-                </button>
-              );
-            })}
+            {NAV_LINKS.map((link, i) => (
+              <button key={link} className={`nav-link ${activeSection === NAV_SLUGS[i] ? "active" : ""}`} onClick={() => scrollTo(link)}>
+                {link}
+              </button>
+            ))}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <button
@@ -902,44 +922,24 @@ export default function PersonalSite() {
         </FadeIn>
 
         <FadeIn delay={0.1}>
-          <div style={{ marginBottom: 40 }}>
-            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, letterSpacing: 2, textTransform: "uppercase", color: "var(--clr-text-muted)", marginBottom: 16 }}>
-              Patents (selected from 12)
-            </div>
-            {[
-              { title: "Continuous fiber reinforced tapes", id: "WO/2024/243499, 2024", url: "https://patents.google.com/patent/WO2024243499A1/en" },
-              { title: "Thermoset articles comprising nitrile butadiene rubber", id: "WO/2023/278572, 2023", url: "https://patents.google.com/patent/WO2023278572A1/en" },
-              { title: "Polymer blends of aliphatic polyketone and ABS", id: "WO/2022/047030, 2022", url: "https://patents.google.com/patent/WO2022047030A1/en" },
-              { title: "Polymer blends of polyamide and aliphatic polyketone", id: "WO/2022/005896, 2022", url: "https://patents.google.com/patent/WO2022005896A1/en" },
-              { title: "Thermoresponsive Polyesters", id: "US Patent 10,106,514, 2018", url: "https://patents.google.com/patent/US10106514B2/en" },
-              { title: "Vegetable oil based viscoelastic polymers with photoresponsive properties", id: "US Patent 10,899,885, 2021", url: "https://patents.google.com/patent/US10899885B2/en" },
-            ].map((p, i) => (
-              <div key={i} className="pub-item">
-                <a href={p.url} className="pub-title" target="_blank" rel="noopener noreferrer">{p.title}</a>
-                <div className="pub-journal">{p.id}</div>
-              </div>
-            ))}
-          </div>
+          <PublicationList title="Patents (selected from 12)" items={[
+            { title: "Continuous fiber reinforced tapes", subtitle: "WO/2024/243499, 2024", url: "https://patents.google.com/patent/WO2024243499A1/en" },
+            { title: "Thermoset articles comprising nitrile butadiene rubber", subtitle: "WO/2023/278572, 2023", url: "https://patents.google.com/patent/WO2023278572A1/en" },
+            { title: "Polymer blends of aliphatic polyketone and ABS", subtitle: "WO/2022/047030, 2022", url: "https://patents.google.com/patent/WO2022047030A1/en" },
+            { title: "Polymer blends of polyamide and aliphatic polyketone", subtitle: "WO/2022/005896, 2022", url: "https://patents.google.com/patent/WO2022005896A1/en" },
+            { title: "Thermoresponsive Polyesters", subtitle: "US Patent 10,106,514, 2018", url: "https://patents.google.com/patent/US10106514B2/en" },
+            { title: "Vegetable oil based viscoelastic polymers with photoresponsive properties", subtitle: "US Patent 10,899,885, 2021", url: "https://patents.google.com/patent/US10899885B2/en" },
+          ]} />
         </FadeIn>
 
         <FadeIn delay={0.15}>
-          <div>
-            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, letterSpacing: 2, textTransform: "uppercase", color: "var(--clr-text-muted)", marginBottom: 16 }}>
-              Journal Articles (selected from 9)
-            </div>
-            {[
-              { title: "A Library of Thermoresponsive, Coacervate-Forming Biodegradable Polyesters", journal: "Macromolecules, 2015 — Most Read Article, June & July 2015", url: "https://doi.org/10.1021/acs.macromol.5b00585" },
-              { title: "The Effect of Pendant Group Structure on the Thermoresponsive Properties of N-Substituted Polyesters", journal: "Polymer Chemistry, 2017", url: "https://doi.org/10.1039/C7PY01391D" },
-              { title: "Efficient Protein Encapsulation within Thermoresponsive Coacervate-Forming Biodegradable Polyesters", journal: "ACS Macro Letters, 2018", url: "https://doi.org/10.1021/acsmacrolett.8b00118" },
-              { title: "A Solvent and Initiator Free, Low-Modulus, Degradable Polyester Platform with Modular Functionality", journal: "Macromolecules, 2016", url: "https://doi.org/10.1021/acs.macromol.5b02399" },
-              { title: "Development of Polymeric Phase Change Materials On the basis of Diels-Alder Chemistry", journal: "Macromolecules, 2010", url: "https://doi.org/10.1021/ma100836c" },
-            ].map((p, i) => (
-              <div key={i} className="pub-item">
-                <a href={p.url} className="pub-title" target="_blank" rel="noopener noreferrer">{p.title}</a>
-                <div className="pub-journal">{p.journal}</div>
-              </div>
-            ))}
-          </div>
+          <PublicationList title="Journal Articles (selected from 9)" items={[
+            { title: "A Library of Thermoresponsive, Coacervate-Forming Biodegradable Polyesters", subtitle: "Macromolecules, 2015 — Most Read Article, June & July 2015", url: "https://doi.org/10.1021/acs.macromol.5b00585" },
+            { title: "The Effect of Pendant Group Structure on the Thermoresponsive Properties of N-Substituted Polyesters", subtitle: "Polymer Chemistry, 2017", url: "https://doi.org/10.1039/C7PY01391D" },
+            { title: "Efficient Protein Encapsulation within Thermoresponsive Coacervate-Forming Biodegradable Polyesters", subtitle: "ACS Macro Letters, 2018", url: "https://doi.org/10.1021/acsmacrolett.8b00118" },
+            { title: "A Solvent and Initiator Free, Low-Modulus, Degradable Polyester Platform with Modular Functionality", subtitle: "Macromolecules, 2016", url: "https://doi.org/10.1021/acs.macromol.5b02399" },
+            { title: "Development of Polymeric Phase Change Materials On the basis of Diels-Alder Chemistry", subtitle: "Macromolecules, 2010", url: "https://doi.org/10.1021/ma100836c" },
+          ]} />
         </FadeIn>
 
         <FadeIn delay={0.2}>
