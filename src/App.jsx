@@ -65,7 +65,7 @@ export default function PersonalSite() {
   };
 
   return (
-    <div style={{ fontFamily: "'Source Serif 4', 'Georgia', serif", background: "var(--clr-bg)", color: "var(--clr-text)", minHeight: "100vh", transition: "background 0.4s ease, color 0.4s ease" }}>
+    <div className="app-container">
       <div className="topo-overlay" />
 
       <nav
