@@ -112,6 +112,10 @@ body { background: var(--clr-bg); }
 }
 .section-title em { font-style: italic; color: var(--clr-accent); }
 
+.impact-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+}
+
 .metric-card {
   border: 1px solid var(--clr-border); padding: 32px; position: relative;
   background: linear-gradient(135deg, var(--clr-bg-card) 0%, var(--clr-bg) 100%);
@@ -214,6 +218,17 @@ a.pub-title:hover { color: var(--clr-accent); }
 .sub-label {
   font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
   letter-spacing: 2px; text-transform: uppercase; color: var(--clr-text-muted); margin-bottom: 16px;
+}
+
+.credential-row {
+  display: flex; align-items: baseline; gap: 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px;
+  color: var(--clr-text-sec); line-height: 1.6;
+}
+.credential-year {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  color: var(--clr-accent); background: var(--clr-bg-section);
+  padding: 2px 8px; border-radius: 4px; white-space: nowrap;
 }
 
 .hero-line { position: absolute; background: var(--clr-border-subtle); }
@@ -368,4 +383,5 @@ a.pub-title:hover { color: var(--clr-accent); }
   .digital-grid { grid-template-columns: 1fr !important; }
   .pub-item { flex-direction: column; gap: 4px; }
   .back-to-top { bottom: 20px; right: 20px; }
+  .impact-grid { grid-template-columns: 1fr; }
 }

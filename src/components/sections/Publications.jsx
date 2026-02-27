@@ -11,11 +11,11 @@ export const PublicationsSection = () => (
     </FadeIn>
 
     <FadeIn delay={0.1}>
-      <PublicationList title="Patents (selected from 12)" items={PATENTS} />
+      <PublicationList title="Patents (12)" items={PATENTS} />
     </FadeIn>
 
     <FadeIn delay={0.15}>
-      <PublicationList title="Journal Articles (selected from 9)" items={JOURNAL_ARTICLES} />
+      <PublicationList title="Journal Articles (9)" items={JOURNAL_ARTICLES} />
     </FadeIn>
 
     <FadeIn delay={0.2}>

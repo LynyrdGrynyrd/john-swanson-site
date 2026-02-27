@@ -19,7 +19,7 @@ export const AboutSection = ({ simpleMode, setSimpleMode }) => (
             <p style={{ marginTop: 16 }}>I'm a polymer scientist by training, but the pattern is always the same: understand the real need, build the solution, make the business case, and drive it to revenue.</p>
           </div>
           <div>
-            <p>At NeoGraf I inherited a four-person R&D team and made three new hires to build out the function. At Avient I designed LDP rotation assignments that added capacity at zero cost, and mentored every associate through real projects, not busywork. I care about structure: stage-gates, clear ownership, documented processes. Good systems let good scientists focus on science instead of fighting the organization.</p>
+            <p>At NeoGraf I inherited a four-person R&D team, grew it from four to eight at its peak. At Avient I designed LDP rotation assignments that added capacity at zero cost, and mentored every associate through real projects, not busywork. I care about structure: stage-gates, clear ownership, documented processes. Good systems let good scientists focus on science instead of fighting the organization.</p>
             <p style={{ marginTop: 16 }}>I've loved science since I was a kid building model rockets and trebuchets in middle school. That curiosity hasn't changed. I still love asking questions, understanding how things work, and figuring out how to make them better. I just get to do it at a bigger scale now.</p>
           </div>
         </div>

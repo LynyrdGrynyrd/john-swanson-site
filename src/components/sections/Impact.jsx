@@ -11,7 +11,7 @@ export const ImpactSection = () => (
         <SectionHeading>The numbers behind the <em>work</em>.</SectionHeading>
       </FadeIn>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 1 }}>
+      <div className="impact-grid">
         {IMPACT_METRICS.map((metric, index) => (
           <FadeIn key={metric.label} delay={index * 0.06} style={{ height: "100%" }}>
             <div className="metric-card">

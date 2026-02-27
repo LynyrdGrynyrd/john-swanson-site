@@ -35,7 +35,7 @@ Once `john-swanson.com` is pointed to Netlify, update OG tags in `index.html`:
 
 ## Feature Roadmap
 Potential additions discussed 2026-02-25, not yet implemented:
-- **Ask Me About icebreakers** — Italic line in Contact section: "Ask me about: building stage-gates from scratch, why I taught myself to code as a polymer scientist, solo marathon logistics, or the four weddings I've officiated." Lowers activation energy for recruiter outreach.
+- ~~**Ask Me About icebreakers**~~ — Implemented (2026-02-26). Two items in Contact section: stage-gates + coding. Data in `ASK_ME_ABOUT` array in `data.js`.
 - **Metric hover stories** — Origin story one-liners on Impact metric cards (hover/tap to reveal). Deferred because keeping customer names out is tricky. Revisit when John has time to write the stories himself.
 - **"What I'm not" interstitial** — Rejected (felt smug). The Digital R&D section already shows-not-tells.
 - **Proof of work line** — Skipped for now. ("642 files, 200+ material grades, I'm a polymer scientist.")

@@ -1,9 +1,9 @@
-import { PROFILE_LINKS } from "../../data";
+import { PROFILE_LINKS, ASK_ME_ABOUT } from "../../data";
 import { FadeIn } from "../ui/FadeIn";
 import { SectionLabel } from "../ui/SectionHeader";
 
 export const ContactSection = () => {
-  const activeProfiles = PROFILE_LINKS.filter((profile) => Boolean(profile.href));
+  const activeProfiles = PROFILE_LINKS.filter((profile) => profile.href);
 
   return (
     <section id="contact" style={{ padding: "120px 0" }}>
@@ -15,6 +15,9 @@ export const ContactSection = () => {
           </h2>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, color: "var(--clr-text-sec)", lineHeight: 1.7, maxWidth: 500, margin: "0 auto 48px" }}>
             Whether you're hiring, building an innovation team, or exploring how digital tools are changing R&D — I'd love to hear from you.
+          </p>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "var(--clr-text-muted)", lineHeight: 1.7, maxWidth: 500, margin: "0 auto 48px" }}>
+            <em>Ask me about {ASK_ME_ABOUT[0].toLowerCase()} — or {ASK_ME_ABOUT[1].toLowerCase()}.</em>
           </p>
         </FadeIn>
 
