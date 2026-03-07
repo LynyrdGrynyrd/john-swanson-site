@@ -123,8 +123,8 @@ export const BEYOND_ITEMS = [
   { icon: "→", text: "I'm a registered minister and have officiated four weddings — apparently people trust me with the important stuff." },
   { icon: "→", text: "During COVID, with no races running, I organized my own solo marathon through the Rocky River Reservation, supported by my wife at water stops along the route. I've since run the Cleveland Marathon and two half marathons. Not fast, but finished." },
   { icon: "→", text: "My phone number is 330-POLYMER (330-765-9637). Yes, really." },
-  { icon: "→", text: "Guest lecturer at Shaker Heights High School (IB Chemistry, 2020–2022) and Cal Poly (CHEM 343/443: Polymers, 2024–present) — bringing industry perspective back to where I started." },
-  { icon: "→", text: "Father and husband in Lakewood, Ohio. NSF Fellow. Clevelander by choice — Seattle born, Cal Poly educated, Akron trained." },
+  { icon: "→", text: "I guest lecture at Shaker Heights High School, O'Dea High School, and Cal Poly, teaching IB Chemistry and polymer science. Turns out 'industry guy comes back to the classroom' is a talk students actually show up for." },
+  { icon: "→", text: "Father and husband in Lakewood, Ohio. Born in Seattle, educated at Cal Poly, trained in Akron, and stayed in Cleveland on purpose." },
 ];
 
 export const PATENTS = [
