@@ -4,8 +4,7 @@ import { useInView } from "../../hooks/useInView";
 export const CountUpValue = ({ value }) => {
   const [ref, isVisible] = useInView();
   const hasRun = useRef(false);
-  const init = value.replace(/\d+/, "0");
-  const [display, setDisplay] = useState(init);
+  const [display, setDisplay] = useState(() => value.replace(/\d+/, "0"));
 
   useEffect(() => {
     if (!isVisible || hasRun.current) return;

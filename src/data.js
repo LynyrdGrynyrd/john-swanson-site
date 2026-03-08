@@ -25,7 +25,7 @@ export const PHILOSOPHY_ITEMS = [
   {
     num: "04",
     heading: "Innovation is the fire, not the spark",
-    text: "Invention creates something new. Innovation turns it into business value. I didn't invent polyketone or graphite materials. I built the systems, IP strategy, and commercial pathways that turned them into revenue. That distinction matters to me, and it shapes how I run R&D.",
+    text: "Invention creates something new. Innovation turns it into business value. I didn't invent aliphatic polyketone or engineered graphite. I built the systems, IP strategy, and commercial pathways that turned them into revenue. That distinction matters to me, and it shapes how I run R&D.",
   },
 ];
 
