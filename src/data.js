@@ -161,12 +161,6 @@ export const PROFILE_LINKS = [
   { label: "ResearchGate", href: "https://www.researchgate.net/profile/John-Swanson", display: "ResearchGate" },
 ];
 
-export const PUBLICATION_PROFILE_LINKS = [
-  { label: "Google Scholar", href: "https://scholar.google.com/citations?user=A4L-xLoAAAAJ&hl=en" },
-  { label: "ResearchGate", href: "https://www.researchgate.net/profile/John-Swanson" },
-  { label: "ORCID", href: "https://orcid.org/0000-0001-8820-7273" },
-];
-
 export const AWARDS = [
   { title: "Technology Excellence Award — Specialty TPV IP", org: "Avient", year: "2021" },
   { title: "Technology Excellence Award — PIR Composite Waste", org: "Avient", year: "2021" },
@@ -189,5 +183,5 @@ export const ASK_ME_ABOUT = [
 
 export const FOOTER_CONTENT = {
   COPYRIGHT_TEXT: "John P. Swanson \u00B7 Lakewood, Ohio",
-  NOTE_TEXT: "This site was designed in conversation with Claude, Gemini, Codex, and VS Code/Windsurf, built with React and Vite, and deployed on Netlify. The background texture is inspired by USGS topographic maps of the Rocky River Reservation. Minimal frameworks were harmed in the making of this website."
+  NOTE_TEXT: "This site was designed in conversation with Claude, Gemini, Codex, and VS Code/Windsurf, built with React and Vite, and deployed on Netlify. The background texture is inspired by USGS topographic maps of the Rocky River Reservation. Minimal electrons were inconvenienced in the making of this website."
 };
