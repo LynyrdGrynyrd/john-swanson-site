@@ -1,9 +1,10 @@
 import { PROFILE_LINKS, ASK_ME_ABOUT } from "../../data";
+import { isSafeUrl } from "../../utils/security";
 import { FadeIn } from "../ui/FadeIn";
 import { SectionLabel } from "../ui/SectionHeader";
 
 export const ContactSection = () => {
-  const activeProfiles = PROFILE_LINKS.filter((profile) => profile.href);
+  const activeProfiles = PROFILE_LINKS.filter((profile) => profile.href && isSafeUrl(profile.href));
 
   return (
     <section id="contact" style={{ padding: "120px 0" }}>
