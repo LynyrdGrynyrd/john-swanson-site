@@ -4,10 +4,11 @@ import { FadeIn } from "../ui/FadeIn";
 import { SectionHeading, SectionLabel } from "../ui/SectionHeader";
 
 const linkStyle = { color: "var(--clr-accent)", textDecoration: "none", borderBottom: "1px solid transparent", transition: "border-color 0.2s" };
+const LINK_PATTERN = /\{(\w+)\}/;
 
 function renderDesc(desc, descLinks) {
   if (!descLinks) return desc;
-  const parts = desc.split(/\{(\w+)\}/);
+  const parts = desc.split(LINK_PATTERN);
   return parts.map((part, i) => {
     if (descLinks[part]) {
       const { url, text } = descLinks[part];
@@ -36,8 +37,11 @@ export const ExperienceSection = () => (
             <div className="timeline-role">{item.role}</div>
             <div className="timeline-date">{item.date}</div>
             <div className="timeline-desc">
-              {item.labUrl && isSafeUrl(item.labUrl) && <><a href={item.labUrl} target="_blank" rel="noopener noreferrer" style={linkStyle}>{item.labName}</a>. </>}
-              {item.labUrl && !isSafeUrl(item.labUrl) && <>{item.labName}. </>}
+              {item.labUrl && isSafeUrl(item.labUrl) ? (
+                <><a href={item.labUrl} target="_blank" rel="noopener noreferrer" style={linkStyle}>{item.labName}</a>. </>
+              ) : (
+                item.labUrl && <>{item.labName}. </>
+              )}
               {renderDesc(item.desc, item.descLinks)}
             </div>
           </div>

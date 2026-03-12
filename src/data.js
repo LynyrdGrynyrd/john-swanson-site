@@ -25,7 +25,7 @@ export const PHILOSOPHY_ITEMS = [
   {
     num: "04",
     heading: "Innovation is the fire, not the spark",
-    text: "Invention creates something new. Innovation turns it into business value. I didn't invent aliphatic polyketone or engineered graphite. I built the systems, IP strategy, and commercial pathways that turned them into revenue. That distinction matters to me, and it shapes how I run R&D.",
+    text: "Invention creates something new. Innovation turns it into business value. I didn't invent polyketone or graphite materials. I built the systems, IP strategy, and commercial pathways that turned them into revenue. That distinction matters to me, and it shapes how I run R&D.",
   },
 ];
 
@@ -120,7 +120,7 @@ export const EXPERTISE_CATEGORIES = [
 ];
 
 export const BEYOND_ITEMS = [
-  { icon: "→", text: "I'm a registered minister and have officiated four weddings. Apparently people trust me with the important stuff." },
+  { icon: "→", text: "I'm a registered minister and have officiated four weddings — apparently people trust me with the important stuff." },
   { icon: "→", text: "During COVID, with no races running, I organized my own solo marathon through the Rocky River Reservation, supported by my wife at water stops along the route. I've since run the Cleveland Marathon and two half marathons. Not fast, but finished." },
   { icon: "→", text: "My phone number is 330-POLYMER (330-765-9637). Yes, really." },
   { icon: "→", text: "I've guest lectured at Shaker Heights High School, O'Dea High School, and Cal Poly. I don't know if the students got anything out of it, but I loved every minute." },
@@ -161,6 +161,12 @@ export const PROFILE_LINKS = [
   { label: "ResearchGate", href: "https://www.researchgate.net/profile/John-Swanson", display: "ResearchGate" },
 ];
 
+export const PUBLICATION_PROFILE_LINKS = [
+  { label: "Google Scholar", href: "https://scholar.google.com/citations?user=A4L-xLoAAAAJ&hl=en" },
+  { label: "ResearchGate", href: "https://www.researchgate.net/profile/John-Swanson" },
+  { label: "ORCID", href: "https://orcid.org/0000-0001-8820-7273" },
+];
+
 export const AWARDS = [
   { title: "Technology Excellence Award — Specialty TPV IP", org: "Avient", year: "2021" },
   { title: "Technology Excellence Award — PIR Composite Waste", org: "Avient", year: "2021" },
@@ -183,5 +189,5 @@ export const ASK_ME_ABOUT = [
 
 export const FOOTER_CONTENT = {
   COPYRIGHT_TEXT: "John P. Swanson \u00B7 Lakewood, Ohio",
-  NOTE_TEXT: "This site was designed in conversation with Claude, Gemini, Codex, and VS Code/Windsurf, built with React and Vite, and deployed on Netlify. The background texture is inspired by USGS topographic maps of the Rocky River Reservation. Minimal electrons were inconvenienced in the making of this website."
+  NOTE_TEXT: "This site was designed in conversation with Claude, Gemini, Codex, and VS Code/Windsurf, built with React and Vite, and deployed on Netlify. The background texture is inspired by USGS topographic maps of the Rocky River Reservation. Minimal frameworks were harmed in the making of this website."
 };
