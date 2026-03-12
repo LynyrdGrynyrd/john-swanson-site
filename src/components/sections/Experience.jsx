@@ -1,6 +1,7 @@
 import { EXPERIENCE_ITEMS, AWARDS, PROF_DEV } from "../../data";
 import { FadeIn } from "../ui/FadeIn";
 import { SectionHeading, SectionLabel } from "../ui/SectionHeader";
+import { isSafeUrl } from "../../utils/security";
 
 const linkStyle = { color: "var(--clr-accent)", textDecoration: "none", borderBottom: "1px solid transparent", transition: "border-color 0.2s" };
 
@@ -8,9 +9,9 @@ function renderDesc(desc, descLinks) {
   if (!descLinks) return desc;
   const parts = desc.split(/\{(\w+)\}/);
   return parts.map((part, i) =>
-    descLinks[part]
+    descLinks[part] && isSafeUrl(descLinks[part].url)
       ? <a key={i} href={descLinks[part].url} target="_blank" rel="noopener noreferrer" style={linkStyle}>{descLinks[part].text}</a>
-      : part
+      : (descLinks[part] ? descLinks[part].text : part)
   );
 }
 
@@ -29,7 +30,11 @@ export const ExperienceSection = () => (
             <div className="timeline-role">{item.role}</div>
             <div className="timeline-date">{item.date}</div>
             <div className="timeline-desc">
-              {item.labUrl && <><a href={item.labUrl} target="_blank" rel="noopener noreferrer" style={linkStyle}>{item.labName}</a>. </>}
+              {item.labUrl && isSafeUrl(item.labUrl) ? (
+                <><a href={item.labUrl} target="_blank" rel="noopener noreferrer" style={linkStyle}>{item.labName}</a>. </>
+              ) : (
+                item.labUrl && <>{item.labName}. </>
+              )}
               {renderDesc(item.desc, item.descLinks)}
             </div>
           </div>
