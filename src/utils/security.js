@@ -1,3 +1,9 @@
+/**
+ * Validates if a URL uses a safe protocol (http, https, or mailto).
+ * This prevents XSS attacks via javascript: or data: URLs.
+ * @param {string} url - The URL to validate
+ * @returns {boolean} - True if the URL is safe, false otherwise
+ */
 export function isSafeUrl(url) {
   if (typeof url !== "string") return false;
 
