@@ -4,14 +4,32 @@ import { SectionHeading, SectionLabel } from "../ui/SectionHeader";
 
 const linkStyle = { color: "var(--clr-accent)", textDecoration: "none", borderBottom: "1px solid transparent", transition: "border-color 0.2s" };
 
+function isSafeUrl(url) {
+  if (!url) return false;
+  try {
+    const parsed = new URL(url, window.location.origin);
+    return ["http:", "https:", "mailto:"].includes(parsed.protocol);
+  } catch {
+    return false;
+  }
+}
+
 function renderDesc(desc, descLinks) {
   if (!descLinks) return desc;
   const parts = desc.split(/\{(\w+)\}/);
-  return parts.map((part, i) =>
-    descLinks[part]
-      ? <a key={i} href={descLinks[part].url} target="_blank" rel="noopener noreferrer" style={linkStyle}>{descLinks[part].text}</a>
-      : part
-  );
+  return parts.map((part, i) => {
+    if (descLinks[part]) {
+      const isSafe = isSafeUrl(descLinks[part].url);
+      return isSafe ? (
+        <a key={i} href={descLinks[part].url} target="_blank" rel="noopener noreferrer" style={linkStyle}>
+          {descLinks[part].text}
+        </a>
+      ) : (
+        <span key={i}>{descLinks[part].text}</span>
+      );
+    }
+    return part;
+  });
 }
 
 export const ExperienceSection = () => (
@@ -22,19 +40,34 @@ export const ExperienceSection = () => (
     </FadeIn>
 
     <div style={{ marginTop: 24 }}>
-      {EXPERIENCE_ITEMS.map((item, index) => (
-        <FadeIn key={`${item.company}-${item.role}`} delay={index * 0.07}>
-          <div className="timeline-item">
-            <div className="timeline-company">{item.company}</div>
-            <div className="timeline-role">{item.role}</div>
-            <div className="timeline-date">{item.date}</div>
-            <div className="timeline-desc">
-              {item.labUrl && <><a href={item.labUrl} target="_blank" rel="noopener noreferrer" style={linkStyle}>{item.labName}</a>. </>}
-              {renderDesc(item.desc, item.descLinks)}
+      {EXPERIENCE_ITEMS.map((item, index) => {
+        const hasLabUrl = Boolean(item.labUrl);
+        const safeLabUrl = hasLabUrl && isSafeUrl(item.labUrl);
+        return (
+          <FadeIn key={`${item.company}-${item.role}`} delay={index * 0.07}>
+            <div className="timeline-item">
+              <div className="timeline-company">{item.company}</div>
+              <div className="timeline-role">{item.role}</div>
+              <div className="timeline-date">{item.date}</div>
+              <div className="timeline-desc">
+                {hasLabUrl && (
+                  <>
+                    {safeLabUrl ? (
+                      <a href={item.labUrl} target="_blank" rel="noopener noreferrer" style={linkStyle}>
+                        {item.labName}
+                      </a>
+                    ) : (
+                      <span>{item.labName}</span>
+                    )}
+                    .{" "}
+                  </>
+                )}
+                {renderDesc(item.desc, item.descLinks)}
+              </div>
             </div>
-          </div>
-        </FadeIn>
-      ))}
+          </FadeIn>
+        );
+      })}
     </div>
 
     <FadeIn delay={0.5}>
