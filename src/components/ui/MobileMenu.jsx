@@ -1,4 +1,3 @@
-import React from "react";
 import { NAV_LINKS } from "../../data";
 
 export const MobileMenu = ({ menuOpen, setMenuOpen, scrollTo }) => (
