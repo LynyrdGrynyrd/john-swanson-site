@@ -1,5 +1,3 @@
-import React from "react";
-
 export const BackToTop = ({ showTopBtn }) => (
   <button
     className={`back-to-top ${showTopBtn ? "visible" : ""}`}
