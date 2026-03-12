@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { useInView } from "../../hooks/useInView";
-import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { prefersReducedMotion, useInView } from "../../hooks/useInView";
 
 const TYPING_INTERVAL_MS = 38;
 
 export const TypingText = ({ text, delay = 0, style = {} }) => {
-  const reduced = useReducedMotion();
+  const reduced = prefersReducedMotion();
   const [ref, isVisible] = useInView();
   const [displayed, setDisplayed] = useState(reduced ? text : "");
   const [done, setDone] = useState(reduced);
