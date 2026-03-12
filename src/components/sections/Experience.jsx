@@ -4,10 +4,11 @@ import { SectionHeading, SectionLabel } from "../ui/SectionHeader";
 import { isSafeUrl } from "../../utils/security";
 
 const linkStyle = { color: "var(--clr-accent)", textDecoration: "none", borderBottom: "1px solid transparent", transition: "border-color 0.2s" };
+const LINK_PATTERN = /\{(\w+)\}/;
 
 function renderDesc(desc, descLinks) {
   if (!descLinks) return desc;
-  const parts = desc.split(/\{(\w+)\}/);
+  const parts = desc.split(LINK_PATTERN);
   return parts.map((part, i) =>
     descLinks[part] && isSafeUrl(descLinks[part].url)
       ? <a key={i} href={descLinks[part].url} target="_blank" rel="noopener noreferrer" style={linkStyle}>{descLinks[part].text}</a>
