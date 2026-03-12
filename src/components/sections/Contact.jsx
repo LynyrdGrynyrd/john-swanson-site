@@ -2,9 +2,9 @@ import { PROFILE_LINKS, ASK_ME_ABOUT } from "../../data";
 import { FadeIn } from "../ui/FadeIn";
 import { SectionLabel } from "../ui/SectionHeader";
 
-export const ContactSection = () => {
-  const activeProfiles = PROFILE_LINKS.filter((profile) => profile.href);
+const ACTIVE_PROFILES = PROFILE_LINKS.filter((profile) => profile.href);
 
+export const ContactSection = () => {
   return (
     <section id="contact" style={{ padding: "120px 0" }}>
       <div style={{ maxWidth: 700, margin: "0 auto", padding: "0 32px", textAlign: "center" }}>
@@ -24,7 +24,7 @@ export const ContactSection = () => {
         <FadeIn delay={0.1}>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
             <a href="mailto:john@john-swanson.com" className="contact-link">john@john-swanson.com</a>
-            {activeProfiles.map((profile) => (
+            {ACTIVE_PROFILES.map((profile) => (
               <a key={profile.label} href={profile.href} className="contact-link" target="_blank" rel="noopener noreferrer">
                 {profile.display}
               </a>
