@@ -1,35 +1,19 @@
 import { EXPERIENCE_ITEMS, AWARDS, PROF_DEV } from "../../data";
 import { FadeIn } from "../ui/FadeIn";
 import { SectionHeading, SectionLabel } from "../ui/SectionHeader";
+import { isSafeUrl } from "../../utils/security";
 
 const linkStyle = { color: "var(--clr-accent)", textDecoration: "none", borderBottom: "1px solid transparent", transition: "border-color 0.2s" };
-
-function isSafeUrl(url) {
-  if (!url) return false;
-  try {
-    const parsed = new URL(url, window.location.origin);
-    return ["http:", "https:", "mailto:"].includes(parsed.protocol);
-  } catch {
-    return false;
-  }
-}
+const LINK_PATTERN = /\{(\w+)\}/;
 
 function renderDesc(desc, descLinks) {
   if (!descLinks) return desc;
-  const parts = desc.split(/\{(\w+)\}/);
-  return parts.map((part, i) => {
-    if (descLinks[part]) {
-      const isSafe = isSafeUrl(descLinks[part].url);
-      return isSafe ? (
-        <a key={i} href={descLinks[part].url} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-          {descLinks[part].text}
-        </a>
-      ) : (
-        <span key={i}>{descLinks[part].text}</span>
-      );
-    }
-    return part;
-  });
+  const parts = desc.split(LINK_PATTERN);
+  return parts.map((part, i) =>
+    descLinks[part] && isSafeUrl(descLinks[part].url)
+      ? <a key={i} href={descLinks[part].url} target="_blank" rel="noopener noreferrer" style={linkStyle}>{descLinks[part].text}</a>
+      : (descLinks[part] ? descLinks[part].text : part)
+  );
 }
 
 export const ExperienceSection = () => (
@@ -43,6 +27,7 @@ export const ExperienceSection = () => (
       {EXPERIENCE_ITEMS.map((item, index) => {
         const hasLabUrl = Boolean(item.labUrl);
         const safeLabUrl = hasLabUrl && isSafeUrl(item.labUrl);
+
         return (
           <FadeIn key={`${item.company}-${item.role}`} delay={index * 0.07}>
             <div className="timeline-item">
