@@ -15,7 +15,7 @@ export const ContactSection = () => {
             Let's talk.
           </h2>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, color: "var(--clr-text-sec)", lineHeight: 1.7, maxWidth: 500, margin: "0 auto 48px" }}>
-            Whether you're hiring, building an innovation team, or exploring how digital tools are changing R&D — I'd love to hear from you.
+            If you're building, funding, or partnering in polymers, composites, or advanced materials anywhere in Polymer Valley, I'd like to hear about it. Same goes for anyone working on digital tools for R&D.
           </p>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "var(--clr-text-muted)", lineHeight: 1.7, maxWidth: 500, margin: "0 auto 48px" }}>
             <em>Ask me about {ASK_ME_ABOUT[0].toLowerCase()} — or {ASK_ME_ABOUT[1].toLowerCase()}.</em>

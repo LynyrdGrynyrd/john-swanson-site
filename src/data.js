@@ -31,32 +31,38 @@ export const PHILOSOPHY_ITEMS = [
 
 export const EXPERIENCE_ITEMS = [
   {
+    company: "Polymer Industry Cluster · Greater Akron Chamber",
+    role: "Director of Innovation Portfolio",
+    date: "2026 — Present",
+    desc: "Director of Innovation Portfolio for the Polymer Industry Cluster, the EDA-designated Sustainable Polymers Tech Hub at the Greater Akron Chamber. Building the portfolio operating system across 13 active innovation projects, $100M+ in secured federal and state funding (EDA Tech Hub Phase 2 and Ohio Innovation Hubs), the first Synthe6 startup accelerator cohort, a 19,000 sqft pilot facility breaking ground summer 2026, and 70+ industry, university, and government partners. Focus: stage-gate governance, KPI reporting, federal and state grant compliance, and helping the team transition from grant funding to earned-revenue models.",
+  },
+  {
     company: "NeoGraf Solutions",
     role: "Director of R&D",
     date: "2024 — 2026",
-    desc: "Inherited a four-person R&D team, grew it from four to eight at its peak. Turned it into a stage-gate organization and grew the NPI pipeline to $18M+ across thermal, flame retardant, fuel cell, and sealing applications. Wrote the IP policy from scratch (25 documents condensed to 4 people would actually read), deployed electronic lab notebooks, and built patent analytics and portfolio reviews. Helped manage a $2M DOE-funded program for fuel cell bipolar plate development. Presented innovation strategy quarterly to the Board. Zero safety incidents in 24 months.",
+    desc: "Inherited a four-person R&D team and hired three more. Designed the infrastructure a small R&D function needs: a stage-gate framework, a risk-tiered NPI process, an IP policy written from scratch (25 documents condensed to 4 people would actually read), and the digital tools to run it (custom ELN, product selector web app, AI-assisted competitive IP mapping). Supported a direct report running a $2M DOE-funded program for fuel cell bipolar plate development under the Hydrogen Energy Earthshot initiative. Presented innovation strategy quarterly to the Board. Zero safety incidents in 24 months.",
   },
   {
     company: "Avient Corporation",
-    role: "Technology Manager — Specialty Engineered Materials",
+    role: "Technology Manager, Specialty Engineered Materials",
     date: "2022 — 2024",
     desc: "Led a team of 6 scientists delivering customized solutions across 22 engineered thermoplastic product lines. Generated $12M+ in new revenue through product launches and global technology transfers. Reduced R&D working capital by 93% through strategic inventory management. Doubled year-over-year invention records. Hosted R&D Leadership Development Program rotations, mentoring early-career scientists through structured product line and project assignments. Designed digital workflow systems that streamlined project management for a 25-person organization.",
   },
   {
     company: "Avient Corporation",
-    role: "Lead R&D Engineer — Specialty Engineered Materials",
+    role: "Lead R&D Engineer, Specialty Engineered Materials",
     date: "2018 — 2022",
-    desc: "Identified aliphatic polyketone as a compounding opportunity and developed patented blend families that grew into a $53M global sales pipeline across four international business units, earning three Technology Excellence Awards. Developed biodegradable packaging generating a $34.5M pipeline. Led rapid customer co-development programs including a $1.53M product launch for a major consumer electronics brand.",
+    desc: "Identified aliphatic polyketone as a compounding opportunity and developed patented blend families that grew into a $50M+ global sales pipeline across four international business units, earning three Technology Excellence Awards. Developed biodegradable packaging generating a $34.5M pipeline. Led rapid customer co-development programs including a $1.53M product launch for a major consumer electronics brand.",
   },
   {
     company: "PolyOne Corporation",
-    role: "Senior R&D Engineer — Leadership Development Program",
+    role: "Senior R&D Engineer, Leadership Development Program",
     date: "2016 — 2018",
     desc: "Selected for competitive corporate R&D leadership program with rotations across Lean Six Sigma, DOE, thermoplastic composite formulation, processing, and analytical methods. Learned how a $3B company actually moves products from lab to market.",
   },
   {
     company: "University of Akron",
-    role: "Ph.D. Polymer Science — NSF Graduate Research Fellow",
+    role: "Ph.D. Polymer Science, NSF Graduate Research Fellow",
     date: "2011 — 2016",
     labName: "Joy Lab",
     labUrl: "https://joyresearch.sites.northeastern.edu/",
@@ -64,7 +70,7 @@ export const EXPERIENCE_ITEMS = [
   },
   {
     company: "Cal Poly San Luis Obispo",
-    role: "B.S. Biochemistry — Polymers & Coatings Concentration",
+    role: "B.S. Biochemistry, Polymers & Coatings Concentration",
     date: "2007 — 2011",
     labName: "Costanzo Lab",
     labUrl: "https://costanzolab.com/",
@@ -74,7 +80,7 @@ export const EXPERIENCE_ITEMS = [
 ];
 
 export const IMPACT_METRICS = [
-  { value: "$53M", label: "Global sales pipeline built from aliphatic polyketone platform at Avient" },
+  { value: "$50M+", label: "Global sales pipeline built from aliphatic polyketone platform at Avient" },
   { value: "$18M+", label: "NPI pipeline developed as Director of R&D across thermal, FR, fuel cell & sealing applications" },
   { value: "12", label: "Patents in thermoplastic blends, composites & biodegradable materials" },
   { value: "$12M+", label: "New product revenue across multiple launches and technology transfers" },

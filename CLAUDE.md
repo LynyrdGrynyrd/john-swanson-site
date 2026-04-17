@@ -1,7 +1,7 @@
 # John Swanson Personal Site
 
 ## Project Overview
-Single-page personal website for John Swanson's job search. Vite + React, deployed on Netlify free tier via GitHub (`lynyrdgrynyrd/john-swanson-site`).
+Single-page personal website for John Swanson — "what John is up to" site. As of April 2026, John is Director of Innovation Portfolio at the Polymer Industry Cluster (Greater Akron Chamber). Vite + React, deployed on Netlify free tier via GitHub (`lynyrdgrynyrd/john-swanson-site`).
 
 The site is built with React components and custom hooks for better maintainability. The main entry point is `src/App.jsx`, which orchestrates the sections. No routing or complex state management libraries are used. Styles are handled via `src/App.css`, `src/theme.js`, and inline styles.
 

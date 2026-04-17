@@ -9,7 +9,7 @@ export const HeroSection = ({ scrollTo }) => (
         <div style={{ flex: 1 }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 20, padding: "6px 12px", border: "1px solid var(--clr-border)", borderRadius: 999, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "var(--clr-text-muted)", letterSpacing: 0.5 }}>
             <span className="status-dot" />
-            Open to technical and leadership conversations
+            Director of Innovation Portfolio · Polymer Industry Cluster
           </div>
 
           <h1 style={{ fontFamily: "'Source Serif 4', serif", fontSize: "clamp(48px, 9vw, 108px)", fontWeight: 300, lineHeight: 0.95, letterSpacing: "-0.02em", color: "var(--clr-text)", marginBottom: 24 }}>
@@ -19,11 +19,11 @@ export const HeroSection = ({ scrollTo }) => (
           <p className="motto-text" style={{ marginBottom: 28 }}>Built in the lab. Proven in the boardroom.</p>
 
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(17px, 2.1vw, 21px)", lineHeight: 1.6, color: "var(--clr-text-sec)", maxWidth: 560 }}>
-            I turn R&D and materials science into products, revenue, and IP that holds.
+            Polymers brought me to Akron when I was 22. Fifteen years later, I'm back to help build the polymer innovation ecosystem here.
           </p>
 
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, lineHeight: 1.8, color: "var(--clr-text-muted)", marginTop: 16, maxWidth: 580 }}>
-            Polymer scientist. Innovation leader. Also a registered minister who has officiated four weddings. Both callings require understanding what people need.
+            Director of Innovation Portfolio at the Polymer Industry Cluster (Greater Akron Chamber), the EDA-designated Sustainable Polymers Tech Hub for Northeast Ohio. Also a registered minister who has officiated four weddings. Both callings require understanding what people need.
           </p>
 
           <div className="hero-buttons" style={{ marginTop: 40, display: "flex", gap: 20, flexWrap: "wrap" }}>
