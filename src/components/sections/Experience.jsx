@@ -50,7 +50,7 @@ export const ExperienceSection = () => (
           {AWARDS.map((award) => (
             <div key={award.title} className="credential-row">
               <span className="credential-year">{award.year}</span>
-              <span>{award.title} — {award.org}</span>
+              <span>{award.title} – {award.org}</span>
             </div>
           ))}
         </div>
@@ -64,7 +64,7 @@ export const ExperienceSection = () => (
           {PROF_DEV.map((item) => (
             <div key={item.title} className="credential-row">
               <span className="credential-year">{item.year}</span>
-              <span>{item.title} — {item.org}</span>
+              <span>{item.title} – {item.org}</span>
             </div>
           ))}
         </div>

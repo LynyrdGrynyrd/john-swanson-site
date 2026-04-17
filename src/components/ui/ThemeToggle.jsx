@@ -2,7 +2,7 @@
 export const ThemeToggle = ({ isDark, setIsDark }) => (
   <button
     onClick={() => setIsDark((state) => !state)}
-    title={isDark ? "sp² — graphite" : "sp³ — diamond"}
+    title={isDark ? "sp² · graphite" : "sp³ · diamond"}
     aria-label="Toggle hybridization theme"
     className="theme-toggle"
   >

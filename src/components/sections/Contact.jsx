@@ -18,7 +18,7 @@ export const ContactSection = () => {
             If you're building, funding, or partnering in polymers, composites, or advanced materials anywhere in Polymer Valley, I'd like to hear about it. Same goes for anyone working on digital tools for R&D.
           </p>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "var(--clr-text-muted)", lineHeight: 1.7, maxWidth: 500, margin: "0 auto 48px" }}>
-            <em>Ask me about {ASK_ME_ABOUT[0].toLowerCase()} — or {ASK_ME_ABOUT[1].toLowerCase()}.</em>
+            <em>Ask me about {ASK_ME_ABOUT[0].toLowerCase()}, or {ASK_ME_ABOUT[1].toLowerCase()}.</em>
           </p>
         </FadeIn>
 

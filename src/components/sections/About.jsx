@@ -17,6 +17,7 @@ export const AboutSection = ({ simpleMode, setSimpleMode }) => (
           <div>
             <p>Every role follows one pattern: I build things that didn't exist before. Platforms, pipelines, teams, processes. Then I make sure they ship. I work across the table from sales, manufacturing, executives, and external partners, and I'm as fluent in the lab as I am in the boardroom. I connect those worlds.</p>
             <p style={{ marginTop: 16 }}>I'm a polymer scientist by training, but the pattern is always the same: understand the real need, build the solution, make the business case, and drive it to revenue.</p>
+            <p style={{ marginTop: 16 }}>At the Polymer Industry Cluster now, I'm helping the team apply that same playbook at the ecosystem level instead of inside one company. Different scale, same work.</p>
           </div>
           <div>
             <p>At NeoGraf I inherited a four-person R&D team, grew it from four to eight at its peak. At Avient I designed LDP rotation assignments that added capacity at zero cost, and mentored every associate through real projects, not busywork. I care about structure: stage-gates, clear ownership, documented processes. Good systems let good scientists focus on science instead of fighting the organization.</p>
