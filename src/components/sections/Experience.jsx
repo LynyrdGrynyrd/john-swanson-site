@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { EXPERIENCE_ITEMS, AWARDS, PROF_DEV } from "../../data";
 import { FadeIn } from "../ui/FadeIn";
 import { SectionHeading, SectionLabel } from "../ui/SectionHeader";
@@ -16,59 +17,100 @@ function renderDesc(desc, descLinks) {
   );
 }
 
-export const ExperienceSection = () => (
-  <section id="experience" style={{ maxWidth: 800, margin: "0 auto", padding: "120px 32px" }}>
-    <FadeIn>
-      <SectionLabel>Experience</SectionLabel>
-      <SectionHeading>Where I've done the <em>work</em>.</SectionHeading>
-    </FadeIn>
+// Fills the timeline rail as you scroll and lights up each stop once it's passed.
+function useTimelineProgress() {
+  const ref = useRef(null);
 
-    <div style={{ marginTop: 24 }}>
-      {EXPERIENCE_ITEMS.map((item, index) => (
-        <FadeIn key={`${item.company}-${item.role}`} delay={index * 0.07}>
-          <div className="timeline-item">
-            <div className="timeline-company">{item.company}</div>
-            <div className="timeline-role">{item.role}</div>
-            <div className="timeline-date">{item.date}</div>
-            <div className="timeline-desc">
-              {item.labUrl && isSafeUrl(item.labUrl) ? (
-                <><a href={item.labUrl} target="_blank" rel="noopener noreferrer" style={linkStyle}>{item.labName}</a>. </>
-              ) : (
-                item.labUrl && <>{item.labName}. </>
-              )}
-              {renderDesc(item.desc, item.descLinks)}
+  useEffect(() => {
+    const timeline = ref.current;
+    if (!timeline) return;
+
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const anchor = window.innerHeight * 0.6;
+      const rect = timeline.getBoundingClientRect();
+      const progress = Math.min(Math.max((anchor - rect.top) / rect.height, 0), 1);
+      timeline.style.setProperty("--timeline-progress", progress.toFixed(4));
+      for (const item of timeline.querySelectorAll(".timeline-item")) {
+        item.toggleAttribute("data-reached", item.getBoundingClientRect().top + 10 < anchor);
+      }
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
+  }, []);
+
+  return ref;
+}
+
+export const ExperienceSection = () => {
+  const timelineRef = useTimelineProgress();
+
+  return (
+    <section id="experience" style={{ maxWidth: 800, margin: "0 auto", padding: "120px 32px" }}>
+      <FadeIn>
+        <SectionLabel>Experience</SectionLabel>
+        <SectionHeading>Where I've done the <em>work</em>.</SectionHeading>
+      </FadeIn>
+
+      <div className="timeline" ref={timelineRef} style={{ marginTop: 24 }}>
+        <div className="timeline-progress" aria-hidden="true" />
+        {EXPERIENCE_ITEMS.map((item, index) => (
+          <FadeIn key={`${item.company}-${item.role}`} delay={index * 0.07}>
+            <div className="timeline-item">
+              <div className="timeline-company">{item.company}</div>
+              <div className="timeline-role">{item.role}</div>
+              <div className="timeline-date">{item.date}</div>
+              <div className="timeline-desc">
+                {item.labUrl && isSafeUrl(item.labUrl) ? (
+                  <><a href={item.labUrl} target="_blank" rel="noopener noreferrer" style={linkStyle}>{item.labName}</a>. </>
+                ) : (
+                  item.labUrl && <>{item.labName}. </>
+                )}
+                {renderDesc(item.desc, item.descLinks)}
+              </div>
             </div>
+          </FadeIn>
+        ))}
+      </div>
+
+      <FadeIn delay={0.5}>
+        <div style={{ marginTop: 64 }}>
+          <div className="sub-label">Recognition</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 16 }}>
+            {AWARDS.map((award) => (
+              <div key={award.title} className="credential-row">
+                <span className="credential-year">{award.year}</span>
+                <span>{award.title} – {award.org}</span>
+              </div>
+            ))}
           </div>
-        </FadeIn>
-      ))}
-    </div>
-
-    <FadeIn delay={0.5}>
-      <div style={{ marginTop: 64 }}>
-        <div className="sub-label">Recognition</div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 16 }}>
-          {AWARDS.map((award) => (
-            <div key={award.title} className="credential-row">
-              <span className="credential-year">{award.year}</span>
-              <span>{award.title} – {award.org}</span>
-            </div>
-          ))}
         </div>
-      </div>
-    </FadeIn>
+      </FadeIn>
 
-    <FadeIn delay={0.55}>
-      <div style={{ marginTop: 40 }}>
-        <div className="sub-label">Professional Development</div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 16 }}>
-          {PROF_DEV.map((item) => (
-            <div key={item.title} className="credential-row">
-              <span className="credential-year">{item.year}</span>
-              <span>{item.title} – {item.org}</span>
-            </div>
-          ))}
+      <FadeIn delay={0.55}>
+        <div style={{ marginTop: 40 }}>
+          <div className="sub-label">Professional Development</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 16 }}>
+            {PROF_DEV.map((item) => (
+              <div key={item.title} className="credential-row">
+                <span className="credential-year">{item.year}</span>
+                <span>{item.title} – {item.org}</span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </FadeIn>
-  </section>
-);
+      </FadeIn>
+    </section>
+  );
+};
