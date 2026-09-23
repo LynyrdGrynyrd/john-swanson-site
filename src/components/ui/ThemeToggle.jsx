@@ -1,7 +1,7 @@
 
-export const ThemeToggle = ({ isDark, setIsDark }) => (
+export const ThemeToggle = ({ isDark, onToggle }) => (
   <button
-    onClick={() => setIsDark((state) => !state)}
+    onClick={onToggle}
     title={isDark ? "sp² · graphite" : "sp³ · diamond"}
     aria-label="Toggle hybridization theme"
     className="theme-toggle"

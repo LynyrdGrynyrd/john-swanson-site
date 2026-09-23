@@ -13,7 +13,7 @@ export const PhilosophySection = () => (
       <div className="philosophy-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 1 }}>
         {PHILOSOPHY_ITEMS.map((item, index) => (
           <FadeIn key={item.heading} delay={index * 0.1} style={{ height: "100%" }}>
-            <div className="philosophy-card">
+            <div className="philosophy-card spotlight">
               <div className="philosophy-num">{item.num}</div>
               <div className="philosophy-heading">{item.heading}</div>
               <div className="philosophy-text">{item.text}</div>

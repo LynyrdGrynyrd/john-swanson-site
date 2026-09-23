@@ -14,7 +14,7 @@ export const ImpactSection = () => (
       <div className="impact-grid">
         {IMPACT_METRICS.map((metric, index) => (
           <FadeIn key={metric.label} delay={index * 0.06} style={{ height: "100%" }}>
-            <div className="metric-card">
+            <div className="metric-card spotlight">
               <CountUpValue value={metric.value} />
               <div className="metric-label">{metric.label}</div>
             </div>

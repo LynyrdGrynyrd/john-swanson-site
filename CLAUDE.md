@@ -22,6 +22,13 @@ The nav generates section IDs by: `toLowerCase()` → replace spaces with `-` �
 - Source image lives at: `C:\Users\jswanson\OneDrive - NeoGraf Solutions, LLC\01_Projects\_Consulting\__Resume\website\HeadshotJohn.jpg`
 - Re-run `node scripts/process-images.mjs` if the source photo changes
 
+### Motion & effects
+- **Hero polymer field** (`src/components/ui/PolymerField.jsx`) — canvas of bead-spring polymer chains. Cursor pushes chains aside; clicking empty hero space sends a shockwave. Pauses when off-screen or the tab is hidden; draws a single static frame under `prefers-reduced-motion`.
+- **Theme toggle** uses the View Transitions API for a circular reveal from the button (instant fallback where unsupported). Choice persists in `localStorage` (`theme` key); helpers live in `src/theme.js`.
+- **Cursor spotlight** — add the `spotlight` class to any card; `useSpotlight()` in `App.jsx` feeds `--mx/--my` to CSS.
+- **Experience timeline** fills with copper as you scroll; `data-reached` lights each stop.
+- All CSS animations are neutralised by the global `prefers-reduced-motion` rule in `App.css`.
+
 ### Google Fonts
 Loaded via `<link>` tags in `index.html` (not CSS `@import`). Three families: Source Serif 4, DM Sans, JetBrains Mono.
 

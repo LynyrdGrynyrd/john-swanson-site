@@ -19,7 +19,7 @@ export const DigitalRDSection = () => (
     <div className="digital-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 1 }}>
       {DIGITAL_RD_ITEMS.map((item, index) => (
         <FadeIn key={item.label} delay={index * 0.08} style={{ height: "100%" }}>
-          <div className="digital-grid-card">
+          <div className="digital-grid-card spotlight">
             <div className="card-label" style={{ marginBottom: 12 }}>{item.label}</div>
             <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, lineHeight: 1.7, color: "var(--clr-text-sec)" }}>{item.desc}</div>
           </div>

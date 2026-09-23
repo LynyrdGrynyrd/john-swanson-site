@@ -12,6 +12,8 @@ export const themes = {
     '--clr-accent-hover': '#d4a57a',
     '--clr-accent-muted': 'rgba(196,149,106,0.27)',
     '--clr-accent-subtle': 'rgba(196,149,106,0.2)',
+    '--clr-accent-glow': 'rgba(196,149,106,0.14)',
+    '--clr-sheen': '#f6e1c8',
     '--clr-border': '#1f1d1a',
     '--clr-border-subtle': '#1a1917',
     '--clr-border-faint': '#141311',
@@ -36,6 +38,8 @@ export const themes = {
     '--clr-accent-hover': '#b07f45',
     '--clr-accent-muted': 'rgba(154,111,58,0.27)',
     '--clr-accent-subtle': 'rgba(154,111,58,0.2)',
+    '--clr-accent-glow': 'rgba(154,111,58,0.12)',
+    '--clr-sheen': '#e3b57a',
     '--clr-border': '#d8d3cc',
     '--clr-border-subtle': '#ddd9d2',
     '--clr-border-faint': '#e5e2dc',
@@ -47,4 +51,32 @@ export const themes = {
     '--topo-opacity': '0.06',
     '--topo-filter': 'none',
   }
+};
+
+const STORAGE_KEY = 'theme';
+
+export const getInitialIsDark = () => {
+  try {
+    return localStorage.getItem(STORAGE_KEY) !== 'light';
+  } catch {
+    return true;
+  }
+};
+
+export const saveTheme = (isDark) => {
+  try {
+    localStorage.setItem(STORAGE_KEY, isDark ? 'dark' : 'light');
+  } catch {
+    // Storage blocked (private mode, etc.): theme just won't persist.
+  }
+};
+
+export const applyTheme = (isDark) => {
+  const theme = isDark ? themes.dark : themes.light;
+  const root = document.documentElement;
+  for (const [key, value] of Object.entries(theme)) {
+    root.style.setProperty(key, value);
+  }
+  root.style.colorScheme = isDark ? 'dark' : 'light';
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme['--clr-bg']);
 };
