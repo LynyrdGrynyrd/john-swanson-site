@@ -3,17 +3,18 @@ import { EXPERIENCE_ITEMS, AWARDS, PROF_DEV } from "../../data";
 import { FadeIn } from "../ui/FadeIn";
 import { SectionHeading, SectionLabel } from "../ui/SectionHeader";
 import { isSafeUrl } from "../../utils/security";
+import { parseDesc } from "../../utils/textUtils";
 
 const linkStyle = { color: "var(--clr-accent)", textDecoration: "none", borderBottom: "1px solid transparent", transition: "border-color 0.2s" };
-const LINK_PATTERN = /\{(\w+)\}/;
 
 function renderDesc(desc, descLinks) {
-  if (!descLinks) return desc;
-  const parts = desc.split(LINK_PATTERN);
+  const parts = parseDesc(desc, descLinks, isSafeUrl);
+  if (parts.length === 1 && typeof parts[0] === 'string') return parts[0];
+
   return parts.map((part, i) =>
-    descLinks[part] && isSafeUrl(descLinks[part].url)
-      ? <a key={i} href={descLinks[part].url} target="_blank" rel="noopener noreferrer" style={linkStyle}>{descLinks[part].text}</a>
-      : (descLinks[part] ? descLinks[part].text : part)
+    typeof part === 'object' && part.type === 'link'
+      ? <a key={i} href={part.url} target="_blank" rel="noopener noreferrer" style={linkStyle}>{part.text}</a>
+      : part
   );
 }
 
